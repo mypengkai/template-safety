@@ -1,13 +1,9 @@
 <template>
   <div class="dashboard">
-    <yd-navbar :title="title">
-      <h2 slot="left" v-show="flag=flag">
-        <yd-navbar-back-icon></yd-navbar-back-icon>
-      </h2>
-      <h2 slot="right">
-        <slot></slot>
-      </h2>
-    </yd-navbar>
+    <headerTop :title="title">
+          <!-- <span slot="topLeft">返回</span>
+          <span slot="topRight">前进</span> -->
+    </headerTop>
     <div class="header">
       <!-- 轮播 -->
       <yd-slider pagination-color="#fff" style="height:2.3rem;">
@@ -209,8 +205,8 @@
   </div>
 </template>
 <script>
-import caky from "./components/caky.vue";
-import qCaty from "./components/qCaty.vue";
+import caky from "@/components/echarts/caky.vue";
+import qCaty from "@/components/echarts/qCaty.vue";
 import headerTop from "@/components/headerTop";
 import axios from "axios";
 import $ from "jquery";
@@ -369,6 +365,7 @@ export default {
 .dashboard {
   width: 100%;
   height: 100%;
+  margin-top:1rem;
   .header {
     background-color: rgb(255, 255, 255);
     padding: 0 0.2rem;
