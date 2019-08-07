@@ -26,12 +26,15 @@ export default {
 .headerTop {
   height: 1rem;
   width: 100%;
-  background: #fff;
+  //background: #fff;
   line-height: 1rem;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 999;
+  background-color: #85befe;
+  color: #fff;
+
   ul{
      overflow: hidden;
      text-align: center;
