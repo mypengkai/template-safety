@@ -35,8 +35,11 @@ export default {
   ul{
      overflow: hidden;
      text-align: center;
+     display: -webkit-flex;
+     display: flex;
+     justify-content:space-between;
      li{
-        float: left;
+        //float: left;
         &:first-child,&:last-child{
           width:15%;
           font-size: 0.2rem;

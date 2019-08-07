@@ -36,7 +36,6 @@ export default {
     };
   },
   created() {
-    
     //进入页面先获取存储的用户信息
     let loginInfo = localStorage.getItem("loginInfo");
     if (loginInfo) {

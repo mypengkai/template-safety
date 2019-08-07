@@ -1,8 +1,8 @@
 <template>
   <div class="dashboard">
     <headerTop :title="title">
-          <!-- <span slot="topLeft">返回</span>
-          <span slot="topRight">前进</span> -->
+      <!-- <span slot="topLeft">返回</span> -->
+      <!-- <span slot="topRight">前进</span> -->
     </headerTop>
     <div class="header">
       <!-- 轮播 -->
@@ -139,17 +139,17 @@
       </div>
     </div>
     <!-- 安全 -->
-    <div class="quality">
-      <div class="qualityTop">
+    <div class="safety">
+      <div class="safetyTop">
         <h4>
           <span class="icon-alianquanfanghu"></span>&nbsp;&nbsp;安全
         </h4>
       </div>
-      <div class="qualityConent">
-        <div class="qualityConentLeft">
+      <div class="safetyConent">
+        <div class="safetyConentLeft">
           <qCaty></qCaty>
         </div>
-        <div class="qualityConentRight">
+        <div class="safetyConentRight">
           <h3>
             <span></span>总计划
           </h3>
@@ -169,7 +169,7 @@
           </ul>
         </div>
       </div>
-      <div class="qualityFoot">
+      <div class="safetyFoot">
         <h3>
           <span></span>整改单
         </h3>
@@ -354,18 +354,13 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-/deep/.yd-navbar-center-box {
-  margin-left: 5%;
-  font-weight: 700;
-}
-
 .yd-slider {
   border-radius: 0.3rem;
 }
 .dashboard {
   width: 100%;
   height: 100%;
-  margin-top:1rem;
+  margin-top: 1rem;
   .header {
     background-color: rgb(255, 255, 255);
     padding: 0 0.2rem;
@@ -390,12 +385,8 @@ export default {
         &:nth-child(1) {
           font-size: 0.3rem;
         }
-        &:nth-child(2) {
-          font-size: 0.28rem;
-        }
-        &:nth-child(3) {
-          font-size: 0.28rem;
-        }
+        &:nth-child(2),
+        &:nth-child(3),
         &:nth-child(4) {
           font-size: 0.28rem;
         }
@@ -686,110 +677,6 @@ export default {
       }
     }
   }
-  .quality {
-    margin-top: 0.12rem;
-    background: #fff;
-    padding: 0.1rem 0.2rem;
-    overflow: hidden;
-    border-radius: 0.2rem;
-    .qualityTop {
-      overflow: hidden;
-      height: 0.6rem;
-      line-height: 0.6rem;
-      h4 {
-        float: left;
-        font-size: 14px;
-
-        font-weight: 400;
-        span {
-          color: white;
-          background: #6a6da9;
-          font-size: 0.3rem;
-          border-radius: 30%;
-        }
-      }
-      p {
-        float: right;
-      }
-    }
-    .qualityConent {
-      overflow: hidden;
-      .qualityConentLeft {
-        float: left;
-        width: 40%;
-      }
-      .qualityConentRight {
-        float: right;
-        width: 60%;
-        h3 {
-          font-size: 14px;
-          font-weight: 400;
-          margin-left: 1rem;
-          height: 0.6rem;
-          span {
-            display: inline-block;
-            width: 0.2rem;
-            height: 0.2rem;
-            border-radius: 50%;
-            background: red;
-            margin: 0 0.1rem;
-          }
-        }
-        ul {
-          margin-left: 1.5rem;
-          li {
-            // font-size: 0.24rem;
-            height: 0.45rem;
-            &:nth-child(1) {
-              span {
-                display: inline-block;
-                width: 0.16rem;
-                height: 0.16rem;
-                border-radius: 50%;
-                background: #b36d41;
-                margin: 0 0.1rem;
-              }
-            }
-            &:nth-child(2) {
-              span {
-                display: inline-block;
-                width: 0.16rem;
-                height: 0.16rem;
-                border-radius: 50%;
-                background: #4cd2df;
-                margin: 0 0.1rem;
-              }
-            }
-            &:nth-child(3) {
-              span {
-                display: inline-block;
-                width: 0.16rem;
-                height: 0.16rem;
-                border-radius: 50%;
-                background: #b4dd70;
-                margin: 0 0.1rem;
-              }
-            }
-          }
-        }
-      }
-    }
-    .qualityFoot {
-      h3 {
-        font-size: 14px;
-        font-weight: 400;
-        margin-top: 0.2rem;
-        span {
-          display: inline-block;
-          width: 0.2rem;
-          height: 0.2rem;
-          border-radius: 50%;
-          background: red;
-          margin: 0 0.1rem;
-        }
-      }
-    }
-  }
   .progressbar {
     ul {
       li {
@@ -797,7 +684,7 @@ export default {
         p {
           height: 0.6rem;
           line-height: 0.6rem;
-         
+
           &:nth-child(1) {
             width: 20%;
             float: left;
@@ -811,6 +698,5 @@ export default {
       }
     }
   }
-  
 }
 </style>

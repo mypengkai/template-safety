@@ -25,7 +25,7 @@ export default {
     return {
       active: 1,
       navList: [
-        { path: "/schedule", icon: "icon-aliicon--", title: "消息"},
+        { path: "/schedule", icon: "icon-aliicon--", title: "消息" },
         { path: "/dashboard", icon: "icon-aligongzuotai", title: "工作台" },
         {
           path: "/contacts",
@@ -40,29 +40,28 @@ export default {
       ]
     };
   },
-  updated() {         // 路由切换时选中对应的导航栏高亮
-    let test = window.location.hash; 
+  updated() {
+    // 路由切换时选中对应的导航栏高亮
+    let test = window.location.hash;
     //console.log(this.$router.options.routes)  获取所有路由文件
     if (test === "#/schedule") {
       this.active = 0;
-    }
-    if (test === "#/dashboard") {
+    } else if (test === "#/dashboard") {
       this.active = 1;
-    }
-    if (test === "#/contacts") {
+    } else if (test === "#/contacts") {
       this.active = 2;
-    }
-    if (test === "#/information ") {
+    } else if (test === "#/information ") {
       this.active = 3;
     }
   },
-  mounted() {        // 保存选中的高亮状态，避免刷新时状态丢失
-     this.active = sessionStorage.getItem("active");
+  mounted() {
+    // 保存选中的高亮状态，避免刷新时状态丢失
+    this.active = sessionStorage.getItem("active");
   },
   methods: {
     go(index) {
       this.active = index;
-      sessionStorage.setItem("active", this.active);      
+      sessionStorage.setItem("active", this.active);
     }
   }
 };
@@ -96,7 +95,6 @@ export default {
         font-size: 0.54rem;
       }
     }
-   
   }
   .selected {
     color: #248bfd;

@@ -6,19 +6,14 @@ import login from '@/views/login/index'
 //首页
 import home from "@/views/home/index"
 import dashboard from "@/views/home/dashboard/index"
-//联系人
+//组织机构
 import contacts from '@/views/home/contacts/index'
-
 //我（个人信息）
 import information from '@/views/home/information/index'
-//计划
+//消息
 import schedule from "@/views/home/schedule/index"
-
-// import authMenu from '@/views/quality/authMenu'
 Vue.use(Router)
-
 const router = new Router({
-
   routes: [
     //登录页
     {
@@ -57,7 +52,7 @@ const router = new Router({
       }
       ]
     },
-   
+
   ]
 })
 
