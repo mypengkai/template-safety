@@ -1,8 +1,8 @@
 <template>
   <div class="dashboard">
     <headerTop :title="title">
-      <!-- <span slot="topLeft">返回</span> -->
-      <!-- <span slot="topRight">前进</span> -->
+          <!-- <span slot="topLeft">返回</span> -->
+          <span slot="topRight"><i class="icon-aliarrow-right-"></i></span>
     </headerTop>
     <div class="header">
       <!-- 轮播 -->
