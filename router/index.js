@@ -12,6 +12,10 @@ import contacts from '@/views/home/contacts/index'
 import information from '@/views/home/information/index'
 //消息
 import schedule from "@/views/home/schedule/index"
+//安全主页
+import safetyMenu from "@/views/safety/safetyMenu"
+//安全自主检查
+import safetySelfCheck from "@/views/safety/safetySelfCheck"
 Vue.use(Router)
 const router = new Router({
   routes: [
@@ -44,15 +48,26 @@ const router = new Router({
         name: 'information',
         component: information
       },
-      //计划
+      //消息
       {
-        path: '/schedule',
+        path: 'schedule',
         name: 'schedule',
         component: schedule
       }
       ]
     },
+    //安全主页
+    {
+      path:'/safetyMenu',
+      name:'safetyMenu',
+      component:safetyMenu
+    },
 
+    {
+      path:'/safetySelfCheck',
+      name:'safetySelfCheck',
+      component:safetySelfCheck
+    }
   ]
 })
 

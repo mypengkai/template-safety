@@ -1,7 +1,7 @@
 <template>
   <div class="contacts">
     <headerTop :title="title" :flag="flag">
-      <span @click="routerGo"  v-if="isHow">确定</span>
+      <span @click="routerGo" v-if="isHow">确定</span>
     </headerTop>
     <div class="contation">
       <ul id="treeDemo" class="ztree"></ul>
@@ -19,14 +19,12 @@ export default {
     return {
       title: "组织机构",
       flag: false,
-      isHow:false,
+      isHow: false,
       nodeData: [],
-      departObj:'',
+      departObj: "",
       setting: {
         view: {
-          showLine: false,
-          
-
+          showLine: false
         },
         data: {
           key: {
@@ -44,17 +42,17 @@ export default {
       }
     };
   },
- beforeRouteEnter(to, from, next){
-	next(vm =>{
-    // console.log(from) // 上一页面的路由信息
-    // vm 指的是当前的vue实例
-    if(from.path =="/addPlan"||from.path=="/QaddPlan"){
-        vm.isHow = true
-    }else{
-        vm.isHow = false
-    }
-	})
-},
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      // console.log(from) // 上一页面的路由信息
+      // vm 指的是当前的vue实例
+      if (from.path == "/addPlan" || from.path == "/QaddPlan") {
+        vm.isHow = true;
+      } else {
+        vm.isHow = false;
+      }
+    });
+  },
   created() {
     //this.getListData();
   },
@@ -77,20 +75,20 @@ export default {
         }
       });
     },
-    nodeClick: function(event, treeId, treeNode) { 
-           console.log(treeNode)
-          //  if(this.isHow == true && treeNode.org_type != 5){          // org_type == 5 才是部门
-          //       this.$dialog.toast({
-          //            mes:'请选择部门',
-          //            timeout:1500
-          //       })
-          //       return false
-          //  }
-           this.departObj = treeNode
+    nodeClick: function(event, treeId, treeNode) {
+      console.log(treeNode);
+      //  if(this.isHow == true && treeNode.org_type != 5){          // org_type == 5 才是部门
+      //       this.$dialog.toast({
+      //            mes:'请选择部门',
+      //            timeout:1500
+      //       })
+      //       return false
+      //  }
+      this.departObj = treeNode;
     },
-    routerGo(){
-          this.$store.dispatch("setdepartAll",this.departObj);
-          this.$router.go(-1);
+    routerGo() {
+      this.$store.dispatch("setdepartAll", this.departObj);
+      this.$router.go(-1);
     }
   }
 };
@@ -106,11 +104,11 @@ export default {
 /deep/ul.ztree {
   margin-bottom: 1.2rem;
 }
-/deep/.ztree *{
+/deep/.ztree * {
   font-size: 18px !important;
 }
-/deep/.ztree li{
-  margin: .1rem 0;
+/deep/.ztree li {
+  margin: 0.1rem 0;
 }
 </style>
 

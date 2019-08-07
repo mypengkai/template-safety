@@ -277,7 +277,7 @@ export default {
 
     safetyPage() {
       // 安全页面跳转
-      this.$router.push({ path: "/safetymenu" });
+      this.$router.push({ path: "/safetyMenu" });
     },
     managerPage() {
       // 任务页面
