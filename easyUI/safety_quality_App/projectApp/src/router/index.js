@@ -14,6 +14,8 @@ import information from '@/views/home/information/index'
 import schedule from "@/views/home/schedule/index"
 //安全自主检查
 import safetySelfCheck from "@/views/safety/safetySelfCheck"
+//自检整改单下发
+import safetySelfzgxf from "@/views/safety/safetyzgxf"
 // 新增自主检查
 import safetySelfAdd from "@/views/safety/safetySelfAdd"
 Vue.use(Router)
@@ -62,6 +64,12 @@ const router = new Router({
       path:'/safetySelfCheck',
       name:'safetySelfCheck',
       component:safetySelfCheck
+    },
+    //自主整改下发
+    {
+      path:'/safetySelfzgxf',
+      name:'safetySelfzgxf',
+      component:safetySelfzgxf
     },
     // 新增自主检查
     {
