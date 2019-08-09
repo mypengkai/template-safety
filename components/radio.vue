@@ -16,14 +16,16 @@
 </template>
 <script>
 export default {
-  props:["value"],
+  props: ["value"],
   data() {
     return {
-        currentValue:this.value
+      currentValue: this.value
     };
   },
-  mounted(){
-       console.log(this.currentValue)
+  watch: {
+    value(val) {
+      this.currentValue = val;
+    }
   }
 };
 </script>
