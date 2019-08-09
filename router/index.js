@@ -18,6 +18,10 @@ import safetySelfCheck from "@/views/safety/safetySelfCheck"
 import safetySelfzgxf from "@/views/safety/safetyzgxf"
 // 新增自主检查
 import safetySelfAdd from "@/views/safety/safetySelfAdd"
+//整改
+import safetySelfYhzg from "@/views/safety/safetySelfYhzg"
+//复核
+import safetySelfZgfh from "@/views/safety/safetySelfZgfh"
 Vue.use(Router)
 const router = new Router({
   routes: [
@@ -76,6 +80,18 @@ const router = new Router({
       path:'/safetySelfAdd',
       name:'safetySelfAdd',
       component:safetySelfAdd
+    },
+    // 整改页面
+    {
+      path:'/safetySelfYhzg',
+      name:'safetySelfYhzg',
+      component:safetySelfYhzg
+    },
+    // 复核页面
+    {
+      path:'/safetySelfZgfh',
+      name:'safetySelfZgfh',
+      component:safetySelfZgfh
     }
   ]
 })
