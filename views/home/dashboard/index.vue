@@ -1,6 +1,11 @@
 <template>
   <div class="dashboard">
-    <headerTop :title="title"></headerTop>
+    <headerTop :title="title">
+      <!-- <span slot="topLeft">返回</span> -->
+      <span slot="topRight">
+        <i class="icon-aliarrow-right-"></i>
+      </span>
+    </headerTop>
     <div class="header">
       <!-- 轮播 -->
       <yd-slider pagination-color="#fff" style="height:2.3rem;">
@@ -75,65 +80,41 @@
     <!-- 质量 -->
     <div class="safety">
       <div class="safetyTop">
-        <h4>
-          <span class="icon-alicaozuozhiliang"></span>&nbsp;&nbsp;质量
-        </h4>
-      </div>
-      <div class="safetyConent">
-        <div class="safetyConentLeft">
-          <caky></caky>
-        </div>
-        <div class="safetyConentRight">
-          <h3>
-            <span></span>总计划
-          </h3>
-          <ul>
-            <li>
-              <span></span>
-              未开始({{qualityList.wkscount}})
-            </li>
-            <!-- <li>
-              <span></span>
-              进行中({{qualityList.jxzcount}})
-            </li>-->
-            <li>
-              <span></span>
-              已完成({{qualityList.ywccount}})
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="safetyFoot">
-        <h3>
-          <span></span>整改单
+        <h3 style="float: left;">
+          <span class="icon-alicaozuozhiliang"></span>&nbsp;&nbsp;待办事项
         </h3>
-        <div class="progressbar">
-          <ul>
-            <li>
-              <p>进行中({{qualityList.zgjxzcount}})</p>
-              <p>
-                <yd-progressbar
-                  type="line"
-                  :progress="qualityjxzjd"
-                  trail-width="4"
-                  trail-color="#57b6fe"
-                ></yd-progressbar>
-              </p>
-            </li>
-            <li>
-              <p>逾期({{qualityList.yuqicount}})</p>
-              <p>
-                <yd-progressbar
-                  type="line"
-                  :progress="qualityyuqijd"
-                  trail-width="4"
-                  trail-color="#FE5D51"
-                ></yd-progressbar>
-              </p>
-            </li>
-          </ul>
-        </div>
+        <h3 style="float: right;">全部代办()</h3>
       </div>
+
+      <yd-cell-item style="padding-left:0;">
+        <span slot="left">
+          安全整改
+          <span style="color:blue">000887</span>
+        </span>
+        <span slot="right" style="padding-right:0;">
+          <span
+            style="background:#FEAC4D;color:white;padding:3px;border-radius:10px;border-bottom-left-radius:0px;"
+          >待复检</span>
+        </span>
+      </yd-cell-item>
+      <p style="font-size:.25rem;padding:.1rem 0;">
+        <span style="color:#ccc;">项目名称:</span>
+        <span>武汉到黄石高速公路</span>
+      </p>
+      <p style="font-size:.25rem;padding:.1rem 0;">
+        <span style="color:#ccc;">项目名称:</span>
+        <span>武汉到黄石高速公路</span>
+      </p>
+      <p style="font-size:.25rem;padding:.1rem 0;">
+        <span style="color:#ccc;">项目名称:</span>
+        <span>武汉到黄石高速公路</span>
+      </p>
+      <p style="font-size:.25rem;padding:.1rem 0;">
+        <span style="color:#ccc;">项目名称:</span>
+        <span>武汉到黄石高速公路</span>
+      </p>
+      <button>查看详情</button>
+      <i></i>
     </div>
     <!-- 安全 -->
     <div class="safety">
@@ -361,8 +342,10 @@ export default {
   .header {
     background-color: rgb(255, 255, 255);
     padding: 0 0.2rem;
+    padding-top: 0.2rem;
     border-bottom-left-radius: 0.2rem;
     border-bottom-right-radius: 0.2rem;
+    margin-top: 0.2rem;
     /deep/.yd-slider-pagination-item-active {
       border-radius: 100px;
     }
@@ -572,24 +555,36 @@ export default {
     }
   }
   .safety {
+    position: relative;
     margin-top: 0.12rem;
     background: #fff;
     padding: 0.1rem 0.2rem;
     overflow: hidden;
     border-radius: 0.2rem;
+    button {
+      width: 2rem;
+      height: 0.6rem;
+      border: 1px solid skyblue;
+      border-radius: 20px;
+      margin-left: 35%;
+      color: skyblue;
+      margin-top: 0.2rem;
+    }
+    i {
+      display: inline-block;
+      width: .2rem;
+      height: 2px;
+      background: blue;
+      margin-left: 47%;
+    }
     .safetyTop {
       overflow: hidden;
       height: 0.6rem;
       line-height: 0.6rem;
-      h4 {
-        float: left;
-        font-size: 14px;
-        font-weight: 400;
-        span {
-          color: white;
-          font-size: 0.3rem;
-          background: goldenrod;
-          border-radius: 30%;
+      h3 {
+        &:nth-child(1) {
+          font-size: 0.28rem;
+          font-weight: 600;
         }
       }
       p {

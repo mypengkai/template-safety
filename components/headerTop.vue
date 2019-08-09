@@ -26,7 +26,6 @@ export default {
 .headerTop {
   height: 1rem;
   width: 100%;
-  //background: #fff;
   line-height: 1rem;
   position: fixed;
   top: 0;
