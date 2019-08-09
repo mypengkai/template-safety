@@ -1,7 +1,7 @@
 <template>
   <div class="att_main">
     <div class="att_num_tip">
-      <span style="margin-left: 5px;text-align: left;">上传附件</span>
+      <span style="margin-left: 5px;text-align: left;">上传附件:</span>
       <span
         style="text-align: right;float: right;margin-right: 5px;"
       >{{selectedMediaNum}}/{{mediaLength}}</span>
