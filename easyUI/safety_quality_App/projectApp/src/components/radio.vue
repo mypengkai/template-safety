@@ -1,6 +1,6 @@
 <template>
   <div class="radio">
-    <yd-radio-group v-model="value" color="#2020ff" size="12">
+    <yd-radio-group v-model="currentValue" color="#2020ff" size="12">
       <p>
         <yd-radio val="0">
           <span style="font-size: 0.2rem;">安全</span>
@@ -19,14 +19,11 @@ export default {
   props:["value"],
   data() {
     return {
-        currentValue:''
+        currentValue:this.value
     };
   },
-  watch:{
-      value:function(val){
-           console.log(val)
-           this.currentValue = val
-      }
+  mounted(){
+       console.log(this.currentValue)
   }
 };
 </script>
