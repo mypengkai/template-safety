@@ -29,17 +29,25 @@
             <resultCopy v-for="(item,index) in array" :key="index" ref="childUpload"></resultCopy>
           </div>-->
           <!-- ================================================================================== -->
-          <div ref="mychild">
+          <div ref="mychild" class="resultCopy">
             <div class="childrenConent" v-for="(item,index) in array" :key="index">
-              <ol>
-                <li>1</li>
-                <li>作业指导书，安全家书作业指导书，安全家书作业指导书，安全家书作业指导书，安全家书作业指导书，安全家书作业指导书，安全家书</li>
-                <li>3级</li>
-                <li>
-                  <radio :value="selfCheckProcess.radio"></radio>
-                </li>
-                <div class="del" @click="deleteItem()">删除</div>
-              </ol>
+              <div class="rowConent">
+                <ol
+                  class="clearfix"
+                  :class="{move:candelete.id==item.id}"
+                  @touchstart="touchStart(item,index)"
+                  @touchend="touchEnd(item,index)"
+                >
+                  <li>{{index+1}}</li>
+                  <li>{{item.spConent}}</li>
+                  <li>{{item.type}}</li>
+                  <li>
+                    <radio :value="conentObj.radio"></radio>
+                  </li>
+                </ol>
+                <!-- v-if="ifFlag" -->
+                <div class="del" @click="deleteItem(index)" v-if="ifFlag && checkId===item.id">删除</div>
+              </div>
               <div class="AttachBox">
                 <!-- 文件附件 -->
                 <Attach
@@ -86,7 +94,8 @@ export default {
   data() {
     return {
       title: "新增安全自主检查",
-      array: 1,
+      ifFlag: false,
+      checkId:'',     // 选中项的id
       clientNum: {}, // 记录开始滑动（x1）,结束滑动（x2）的鼠标指针的位置
       candelete: {}, // 滑动的item
       delProgressList: [],
@@ -94,25 +103,76 @@ export default {
         files: [],
         type: "SafetyPatrol" // 安全
       },
-     selfCheckProcess: {
+      conentObj: {
         files: "", // 文件
         spConent: "", // 检查内容
         type: "", // 隐患等级
         radio: "" // 状态（安全，有隐患）
-      }
+      },
+      array: [
+        {
+          id: 1,
+          spConent: "作业指导书，安全家书作业指导书",
+          type: "1级"
+        },
+        {
+          id: 2,
+          spConent: "作业指导书，安全家书作业指导书",
+          type: "2级"
+        },
+        {
+          id: 3,
+          spConent: "作业指导书，安全家书作业指导书",
+          type: "3级"
+        }
+      ]
     };
   },
-  mounted(){
-      console.log(this.$refs.mychild.children)
+  mounted() {
+    console.log(this.$refs.mychild.children);
+    console.log(this.$refs.del);
   },
   methods: {
     routerBack() {
       this.$router.go(-1);
     },
     //点击添加检查
-    AddCheck() {
-      this.array++;
+    AddCheck() {},
+    //========================================
+    deleteItem(index) {
+      this.array.splice(index, 1);
+      // splice方法是删除数组某条数据，或者向某个位置添加数据
+    },
+    touchStart(item) {
+      let touchs = event.changedTouches[0];
+      // 记录开始滑动的鼠标位置
+      this.clientNum.x1 = touchs.pageX;
+      this.candelete = {};
+    },
+    touchEnd(item,index) {
+      let touchs = event.changedTouches[0];
+      // 记录结束滑动的鼠标位置
+      this.clientNum.x2 = touchs.pageX;
+      this.candelete = {};
+      // 判断滑动距离大于50，判定为滑动成功，否则失败
+      if (
+        this.clientNum.x2 < this.clientNum.x1 &&
+        Math.abs(this.clientNum.x1) - Math.abs(this.clientNum.x2) > 50
+      ) {
+        this.ifFlag = true;
+        this.checkId = item.id
+        event.preventDefault();
+        this.candelete = item;
+      } else if (
+        this.clientNum.x2 > this.clientNum.x1 &&
+        Math.abs(this.clientNum.x2) - Math.abs(this.clientNum.x1) > 10
+      ) {
+        this.ifFlag = false;
+        event.preventDefault();
+        this.candelete = {};
+      }
     }
+    //==============================================
   }
 };
 </script>
@@ -169,10 +229,17 @@ export default {
             }
           }
         }
+        .resultCopy {
+          overflow-x: hidden;
+        }
         .childrenConent {
           border-top: 1px solid #ccc;
+          .rowConent {
+            position: relative;
+            transform: translateX(0);
+            transition: all 0.3s; /*滑动效果更生动*/
+          }
           ol {
-            overflow: hidden;
             li {
               float: left;
               &:nth-child(1) {
@@ -202,18 +269,21 @@ export default {
           .AttachBox {
             margin-top: 0.2rem;
           }
-
           .del {
             position: absolute;
             top: 0;
-            right: -1px;
+            right: 0;
             z-index: 3;
             width: 60px;
-            height: 100%;
+            height: 1rem;
+            line-height: 1rem;
             text-align: center;
             color: #fff;
             background-color: #ff5b45;
-            transform: translateX(60px); /*默认x轴位移60px，使其隐藏*/
+            //transform: translateX(60px); /*默认x轴位移60px，使其隐藏*/
+          }
+          .move {
+            transform: translateX(-60px); /*滑动后x轴位移-60px,使其可见*/
           }
         }
       }
