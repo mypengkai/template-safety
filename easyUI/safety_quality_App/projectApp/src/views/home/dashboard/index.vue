@@ -1,9 +1,6 @@
 <template>
   <div class="dashboard">
-    <headerTop :title="title">
-          <!-- <span slot="topLeft">返回</span> -->
-          <span slot="topRight"><i class="icon-aliarrow-right-"></i></span>
-    </headerTop>
+    <headerTop :title="title"></headerTop>
     <div class="header">
       <!-- 轮播 -->
       <yd-slider pagination-color="#fff" style="height:2.3rem;">
@@ -38,7 +35,7 @@
         </li>
         <li @click="safetyPage">
           <p class="icon-alianquanfanghu"></p>
-          <span style="font-size:10px">安全</span>
+          <span style="font-size:10px">安全巡检</span>
         </li>
         <!-- <li>
           <p class="icon-alicebianlanxunjianjilu"></p>
@@ -277,7 +274,7 @@ export default {
 
     safetyPage() {
       // 安全页面跳转
-      this.$router.push({ path: "/safetyMenu" });
+      this.$router.push({ path: "/safetySelfCheck" });
     },
     managerPage() {
       // 任务页面

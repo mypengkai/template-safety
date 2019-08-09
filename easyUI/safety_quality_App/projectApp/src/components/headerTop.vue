@@ -45,7 +45,7 @@ export default {
         //float: left;
         &:first-child,&:last-child{
           width:15%;
-          font-size: 0.2rem;
+          font-size: 0.3rem;
         }
         &:nth-child(2){
            width:70%;
