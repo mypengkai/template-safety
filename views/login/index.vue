@@ -4,7 +4,7 @@
       <span>
         <img src="@/assets/img/shtoone.png" alt />
       </span>
-      <h6>质量安全巡查系统</h6>
+      <h6>安全巡检系统</h6>
     </div>
     <div class="content">
       <p>
