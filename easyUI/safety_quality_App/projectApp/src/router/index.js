@@ -22,6 +22,8 @@ import safetySelfAdd from "@/views/safety/safetySelfAdd"
 import safetySelfYhzg from "@/views/safety/safetySelfYhzg"
 //复核
 import safetySelfZgfh from "@/views/safety/safetySelfZgfh"
+// 整改明细页面
+import safetyDetailSee from "@/views/safety/safetyDetailSee"
 Vue.use(Router)
 const router = new Router({
   routes: [
@@ -92,6 +94,12 @@ const router = new Router({
       path:'/safetySelfZgfh',
       name:'safetySelfZgfh',
       component:safetySelfZgfh
+    },
+    // 整改明细页面
+    {
+      path:'/safetyDetailSee',
+      name:"safetyDetailSee",
+      component:safetyDetailSee
     }
   ]
 })
