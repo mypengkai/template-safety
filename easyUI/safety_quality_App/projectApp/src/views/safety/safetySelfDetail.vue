@@ -37,7 +37,7 @@
       <p style="color:white;">123</p>
       <ul>
         <li style="border-bottom: 1px dashed #ccc;">
-          <span>安全隐患:</span>&nbsp;&nbsp;&nbsp;
+          <span>安全隐患&nbsp;<i style="background:#ffc300;padding:.02rem;">(111级)</i>:</span>&nbsp;&nbsp;&nbsp;
           <span>作业指导书,安全技术交底编制,发放不及时,完整性,准确性,可行性等不符合管理要求</span>
         </li>
         <li style="border-bottom: 1px dashed #ccc;">
@@ -85,22 +85,18 @@
           <span>已完成整改</span>
         </li>
         <!-- 文件附件 -->
-        <Attach
-          :attachList="fileList.files"
-          :delAttachList="delProgressList"
-          :readonly="false"
-          :sourceType="3"
-          style="margin-top:.2rem;"
-        ></Attach>
-
+        <li><span>附件:</span></li>
+        <img src="../../assets/logo.png" alt="">
+        <img src="../../assets/logo.png" alt="">
+        
         <span class="checkPerson">复核人</span>
       </ul>
     </div>
-        <div class="zgList">
+    <div class="zgList">
       <p style="color:white;">123</p>
       <ul>
         <li style="border-bottom: 1px dashed #ccc;">
-          <span>安全隐患:</span>&nbsp;&nbsp;&nbsp;
+          <span>安全隐患&nbsp;<i style="background:#ffc300;padding:.02rem;">(111级)</i>:</span>&nbsp;&nbsp;&nbsp;
           <span>作业指导书,安全技术交底编制,发放不及时,完整性,准确性,可行性等不符合管理要求</span>
         </li>
         <li style="border-bottom: 1px dashed #ccc;">
@@ -148,14 +144,10 @@
           <span>已完成整改</span>
         </li>
         <!-- 文件附件 -->
-        <Attach
-          :attachList="fileList.files"
-          :delAttachList="delProgressList"
-          :readonly="false"
-          :sourceType="3"
-          style="margin-top:.2rem;"
-        ></Attach>
-
+        <li><span>附件:</span></li>
+        <img src="../../assets/logo.png" alt="">
+        <img src="../../assets/logo.png" alt="">
+        
         <span class="checkPerson">复核人</span>
       </ul>
     </div>
@@ -225,13 +217,13 @@ export default {
       background-color: #fff;
       width: 100%;
       overflow: hidden;
-      padding-left: .2rem;
+      padding-left: 0.2rem;
       li {
         display: flex;
         padding: 0.1rem;
         padding-right: 0.3rem;
         align-items: center; //子元素垂直居中
-        
+
         &:nth-child(7) {
           display: flex;
         }
@@ -266,11 +258,15 @@ export default {
         bottom: 0.7rem;
         transform: rotate(-45deg);
       }
+      img{
+          width: 34%;
+          margin-left: .2rem;
+      }
     }
   }
   .hasComplete {
     background-color: #d43030;
-    width: 1.5rem;
+    // width: 1.5rem;
     color: white;
     padding: 0.1rem;
     border-radius: 0.2rem;
