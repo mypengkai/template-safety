@@ -53,24 +53,23 @@
           <li style="height:1rem;">
             <p>指定整改人:</p>
             <p>
-              <button style="width:1.8rem;height:.3rem;background:#2A82E4;color:white;">选择整改人</button>
+              <button style="padding:.1rem;background:#2A82E4;color:white;">选择整改人</button>
             </p>
           </li>
         </ul>
       </div>
-      <h3>
-        
+      <!-- <h3> -->
         <yd-cell-group>
           <yd-cell-item>
-            <span slot="left"><i class="icon-alitouxiang"></i>&nbsp;&nbsp;通知人</span>
+            <span slot="left">
+              <i class="icon-alitouxiang"></i>&nbsp;&nbsp;通知人
+            </span>
             <span slot="right">右边内容一</span>
           </yd-cell-item>
-
         </yd-cell-group>
-      </h3>
-       <yd-button size="large" type="primary" style="background:#2A82E4">保存并下发</yd-button>
+      <!-- </h3> -->
+      <yd-button size="large" type="primary" style="background:#2A82E4">保存并下发</yd-button>
     </div>
-    
   </div>
 </template>
 <script>
@@ -88,22 +87,21 @@ export default {
 </script>
 <style lang="less" scoped>
 .content {
-  
-  padding: 0.2rem 0.1rem;
+  padding: 0.2rem 0;
   padding-top: 1rem;
   h3 {
     padding-left: 0.4rem;
-    font-size: .28rem;
+    font-size: 0.28rem;
     font-weight: 600;
     color: black;
-    input {
-    }
+    margin: .2rem 0;
   }
   .information {
-    margin: 0.1rem 0;
+    margin: 0.1rem 0.1rem;
     border: 1px solid #ccc;
     border-radius: 0.1rem;
     padding-left: 0.7rem;
+
     p {
       color: black;
     }
@@ -123,7 +121,7 @@ export default {
         text-align: center;
         background: #ffc300;
         position: absolute;
-        left: 0.1rem;
+        // left: 0.1rem;
         justify-content: center; //子元素水平居中
         align-items: center; //子元素垂直居中
         display: -webkit-flex;
@@ -150,10 +148,10 @@ export default {
           right: 0.3rem;
           background-color: #ffc300;
           border-radius: 0.1rem;
-          padding: .01rem;
+          padding: 0.01rem;
         }
       }
-      &:last-child{
+      &:last-child {
         border-bottom: none;
       }
     }

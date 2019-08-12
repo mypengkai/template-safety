@@ -37,8 +37,9 @@
       <p style="color:white;">123</p>
       <ul>
         <li style="border-bottom: 1px dashed #ccc;">
-          <span>安全隐患:</span>&nbsp;&nbsp;&nbsp;
-          <span>作业指导书,安全技术交底编制,发放不及时,完整性,准确性,可行性等不符合管理要求</span>
+          <span>安全隐患&nbsp;<i style="background:#ffc300;padding:.02rem;">(111级)</i>:</span>&nbsp;&nbsp;&nbsp;
+          <span>作业指导书,安全技术交底编制,发放不及时,完整性,准确性,可行性等不符合管理要求作业指导书,安全技术交底编制,发放不及时,完整性,准确性,可行性等不符合管理要求</span>
+          <button>111级</button>
         </li>
         <li style="border-bottom: 1px dashed #ccc;">
           <span>整改要求:</span>&nbsp;&nbsp;&nbsp;
@@ -91,8 +92,8 @@
       <p style="color:white;">123</p>
       <ul>
         <li style="border-bottom: 1px dashed #ccc;">
-          <span>安全隐患:</span>&nbsp;&nbsp;&nbsp;
-          <span>作业指导书,安全技术交底编制,发放不及时,完整性,准确性,可行性等不符合管理要求</span>
+          <span>安全隐患&nbsp;<i style="background:#ffc300;padding:.02rem;">(111级)</i>:</span>&nbsp;&nbsp;&nbsp;
+          <span>作业指导书,安全技术交底编制,发放不及时,完整性,准确性,可行性等不符合管理要求123</span>
         </li>
         <li style="border-bottom: 1px dashed #ccc;">
           <span>整改要求:</span>&nbsp;&nbsp;&nbsp;
@@ -236,11 +237,12 @@ export default {
           display: inline-block;
 
           &:nth-child(1) {
-            flex: 0 0 30%;
+            flex: 0 0 28%;
             text-align: center;
           }
           &:nth-child(2) {
-            flex: 0 0 70%;
+            flex: 0 0 72%;
+            padding: .1rem;
           }
         }
         &:nth-child(8) {
@@ -252,6 +254,7 @@ export default {
         padding: 0.2rem;
         border-radius: 0.2rem;
         margin-left: 0.1rem;
+        width: 6.2rem;
       }
     }
   }

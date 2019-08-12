@@ -37,7 +37,7 @@
       <p style="color:white;">1231</p>
       <ul>
         <li style="border-bottom: 1px dashed #ccc;">
-          <span>安全隐患:</span>&nbsp;&nbsp;&nbsp;
+          <span>安全隐患&nbsp;<i style="background:#ffc300;padding:.02rem;">(111级)</i>:</span>&nbsp;&nbsp;&nbsp;
           <span>作业指导书,安全技术交底编制,发放不及时,完整性,准确性,可行性等不符合管理要求</span>
         </li>
         <li style="border-bottom: 1px dashed #ccc;">
@@ -73,7 +73,7 @@
       <p style="color:white;">1231</p>
       <ul>
         <li style="border-bottom: 1px dashed #ccc;">
-          <span>安全隐患:</span>&nbsp;&nbsp;&nbsp;
+          <span>安全隐患&nbsp;<i style="background:#ffc300;padding:.02rem;">(111级)</i>:</span>&nbsp;&nbsp;&nbsp;
           <span>作业指导书,安全技术交底编制,发放不及时,完整性,准确性,可行性等不符合管理要求</span>
         </li>
         <li style="border-bottom: 1px dashed #ccc;">
