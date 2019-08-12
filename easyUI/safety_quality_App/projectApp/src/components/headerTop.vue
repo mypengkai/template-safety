@@ -31,7 +31,7 @@ export default {
   top: 0;
   left: 0;
   z-index: 999;
-  background-color: #85befe;
+  background-color: #2A82E4;
   color: #fff;
 
   ul{

@@ -22,6 +22,8 @@ import safetySelfAdd from "@/views/safety/safetySelfAdd"
 import safetySelfYhzg from "@/views/safety/safetySelfYhzg"
 //复核
 import safetySelfZgfh from "@/views/safety/safetySelfZgfh"
+//过程查看
+import safetySelfDetail from "@/views/safety/safetySelfDetail"
 // 整改明细页面
 import safetyDetailSee from "@/views/safety/safetyDetailSee"
 Vue.use(Router)
@@ -94,6 +96,12 @@ const router = new Router({
       path:'/safetySelfZgfh',
       name:'safetySelfZgfh',
       component:safetySelfZgfh
+    },
+    //过程查看
+    {
+      path:'/safetySelfDetail',
+      name:'safetySelfDetail',
+      component:safetySelfDetail
     },
     // 整改明细页面
     {
