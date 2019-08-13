@@ -25,12 +25,16 @@
             <li>巡检结果</li>
           </ul>
           <!-- 动态组件 -->
-          <!-- <div ref="mychild">
-            <resultCopy ref="childUpload" :array="getConent" :currentIndex="index" v-for="(item,index) in newArray" :key="index"></resultCopy>
-          </div> -->
+          <!-- :currentIndex="index" -->
+          <!-- v-for="(item,index) in newArray" :key="index" -->
+
+          <div ref="mychild" class="comChild">
+             <resultCopy ref="childUpload"></resultCopy>
+          </div>
+
           <!-- ================================================================================== -->
-          <div ref="mychild" class="resultCopy">
-            <div class="childrenConent" v-for="(item,index) in array" :key="index">
+          <!-- <div ref="mychild" class="resultCopy">
+            <div class="childrenConent" v-for="(item,index) in this.dangerItems" :key="index">
               <div class="rowConent">
                 <ol
                   class="clearfix"
@@ -56,7 +60,7 @@
                 ></Attach>
               </div>
             </div>
-          </div>
+          </div>-->
           <!-- ================================================================================ -->
           <div class="iconButton" @click="AddCheck">
             <i class="icon-alixinzeng"></i>
@@ -81,6 +85,8 @@ import headerTop from "@/components/headerTop.vue";
 import resultCopy from "@/components/resultCopy.vue";
 import Attach from "@/components/Attach.vue";
 import radio from "@/components/radio.vue";
+import Vue from "vue";
+import { mapGetters } from "vuex";
 export default {
   name: "safetySelfAdd",
   components: {
@@ -93,7 +99,7 @@ export default {
     return {
       title: "自主检查",
       ifFlag: false,
-      checkId:'',     // 选中项的id
+      checkId: "", // 选中项的id
       clientNum: {}, // 记录开始滑动（x1）,结束滑动（x2）的鼠标指针的位置
       candelete: {}, // 滑动的item
       delProgressList: [],
@@ -102,12 +108,12 @@ export default {
         type: "SafetyPatrol" // 安全
       },
       conentObj: {
-        files: '', // 文件
+        files: "", // 文件
         spConent: "", // 检查内容
         type: "", // 隐患等级
-        radio: '' // 状态（安全，有隐患）
+        radio: "" // 状态（安全，有隐患）
       },
-      getConent:[],
+
       array: [
         {
           id: 1,
@@ -125,11 +131,19 @@ export default {
           type: "3级"
         }
       ],
-      newArray:0
+      newArray: 0
     };
   },
-  updated() {
-    console.log(this.$refs.mychild.children);
+  computed: {
+    ...mapGetters(["dangerItems"])
+  },
+  updated(){
+      console.log(this.$refs.childUpload,'upload')
+      console.log(this.$refs.mychild.children, "ref");
+  },
+  mounted() {
+    //console.log(this.$refs.mychild.children, "ref");
+    //console.log(this.$refs.childUpload,'upload')
   },
   methods: {
     routerBack() {
@@ -137,9 +151,25 @@ export default {
     },
     //点击添加检查
     AddCheck() {
-       this.$router.push({path:"/danger"})
-      //  this.newArray++
-      //  this.getConent = [this.array[0]]
+     
+      //this.newArray++;
+     var Profile = Vue.extend(resultCopy)
+     console.log(Profile)
+     var component = new Profile().$mount()
+     document.querySelector(".comChild").appendChild(component.$el);
+     this.$router.push({ path: "/danger" });
+
+    //  var Profile = Vue.extend(result);
+    //   // 创建 Profile 实例，并挂载到一个元素上。
+    //   var component = new Profile().$mount();
+    //   document.getElementById("mark").appendChild(component.$el);
+    //   //   var num = document.getElementById(`${this.mark}`).children.length;
+
+
+
+     //var myChild = document.querySelector(".myChild")
+      // 创建 Profile 实例，并挂载到一个元素上。
+      //new Profile().$mount(myChild);
     },
     deleteItem(index) {
       this.array.splice(index, 1);
@@ -151,10 +181,10 @@ export default {
       this.clientNum.x1 = touchs.pageX;
       this.candelete = {};
     },
-    getValue(data){
-         console.log(data)
+    getValue(data) {
+      console.log(data);
     },
-    touchEnd(item,index) {
+    touchEnd(item, index) {
       let touchs = event.changedTouches[0];
       // 记录结束滑动的鼠标位置
       this.clientNum.x2 = touchs.pageX;
@@ -165,7 +195,7 @@ export default {
         Math.abs(this.clientNum.x1) - Math.abs(this.clientNum.x2) > 50
       ) {
         this.ifFlag = true;
-        this.checkId = item.id
+        this.checkId = item.id;
         event.preventDefault();
         this.candelete = item;
       } else if (
@@ -178,9 +208,7 @@ export default {
       }
     },
     // 保存
-    addInspection(){
-           
-    }
+    addInspection() {}
   }
 };
 </script>

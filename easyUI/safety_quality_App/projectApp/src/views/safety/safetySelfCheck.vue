@@ -85,7 +85,7 @@ export default {
       this.$router.push({ path: "/safetySelfAdd" });
     },
     safetyDetail(){
-       this.$router.push({path:'/safetySelfDetail'})
+       this.$router.push({path:'/safetyzgxf'})
     }
   }
 };

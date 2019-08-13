@@ -15,7 +15,7 @@ import schedule from "@/views/home/schedule/index"
 //安全自主检查
 import safetySelfCheck from "@/views/safety/safetySelfCheck"
 //自检整改单下发
-import safetySelfzgxf from "@/views/safety/safetyzgxf"
+import safetyzgxf from "@/views/safety/safetyzgxf"
 // 新增自主检查
 import safetySelfAdd from "@/views/safety/safetySelfAdd"
 //整改
@@ -81,9 +81,9 @@ const router = new Router({
     },
     //自主整改下发
     {
-      path:'/safetySelfzgxf',
-      name:'safetySelfzgxf',
-      component:safetySelfzgxf
+      path:'/safetyzgxf',
+      name:'safetyzgxf',
+      component:safetyzgxf
     },
     // 新增自主检查
     {
