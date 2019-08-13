@@ -24,7 +24,7 @@
 </template>
 
 <script>
-// import { getToken ,initGetui} from "@/api/request.js";
+import { getToken } from "@/api/request.js";
 // import { messagePush } from "../../assets/plus/push";
 export default {
   data() {
@@ -61,34 +61,29 @@ export default {
       }
       //将最新的用户信息存储到本地
       // localStorage.setItem("loginInfo", JSON.stringify(this.from));
-      // getToken(this.from)
-      //   .then(res => {
-      //     if (res.success == 0) {
-      //       let token = res.obj.token;
-      //       localStorage.setItem("token", token);
-      //       localStorage.setItem("departname", res.obj.user.depart.departname); // 部门名称
-      //       localStorage.setItem("departId", res.obj.user.depart.id); // 部门id
-      //       localStorage.setItem("username", res.obj.user.realname);
-      //       localStorage.setItem("userId", res.obj.user.id);
-      //       //this.registerGetui();
+      getToken(this.from)
+        .then(res => {
+          console.log(res.success);
+          if (res.success == 0) {
+            let token = res.obj.token;
+            localStorage.setItem("token", token);
             this.$router.push({ path: "/" });
-
-      //     } else {
-      //       this.$dialog.toast({
-      //         mes: res.msg,
-      //         timeout: 1500
-      //       });
-      //       return false;
-      //     }
-      //   })
-      //   .catch(err => {
-      //     this.$dialog.toast({
-      //       mes: "网络连接异常",
-      //       timeout: 1500
-      //     });
-      //     return false;
-      //   });
-    },
+          } else {
+            this.$dislog.toast({
+              mes: res.msg,
+              timeout: 2000
+            });
+            return false;
+          }
+        })
+        .catch(err => {
+          this.$dialog.toast({
+            mes: "网络连接异常",
+            timeout: 1500
+          });
+          return false;
+        });
+    }
     //个推
     // registerGetui() {
     //   messagePush("getClientId", null, null, null, res => {
@@ -103,11 +98,10 @@ export default {
     //         phoneType: res.phoneType
     //       }
     //     ).then(res=>{
-          
+
     //     });
     //   });
     // }
-
   }
 };
 </script>
