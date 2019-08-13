@@ -10,10 +10,6 @@
         <span slot="left" class="font-span">账号</span>
         <span slot="right">{{form.username}}</span>
       </yd-cell-item>
-      <!-- <yd-cell-item>
-        <span slot="left" class="font-span">性别</span>
-        <span slot="right">{{form.sex}}</span>
-      </yd-cell-item> -->
       <yd-cell-item>
         <span slot="left" class="font-span">手机</span>
         <span slot="right">{{form.mobilePhone}}</span>

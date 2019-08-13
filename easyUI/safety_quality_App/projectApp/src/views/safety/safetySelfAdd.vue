@@ -28,12 +28,12 @@
           <!-- :currentIndex="index" -->
           <!-- v-for="(item,index) in newArray" :key="index" -->
 
-          <div ref="mychild" class="comChild">
+          <!-- <div ref="mychild" class="comChild">
              <resultCopy ref="childUpload"></resultCopy>
-          </div>
+          </div>-->
 
           <!-- ================================================================================== -->
-          <!-- <div ref="mychild" class="resultCopy">
+          <div ref="mychild" class="resultCopy">
             <div class="childrenConent" v-for="(item,index) in this.dangerItems" :key="index">
               <div class="rowConent">
                 <ol
@@ -60,7 +60,7 @@
                 ></Attach>
               </div>
             </div>
-          </div>-->
+          </div>
           <!-- ================================================================================ -->
           <div class="iconButton" @click="AddCheck">
             <i class="icon-alixinzeng"></i>
@@ -87,6 +87,7 @@ import Attach from "@/components/Attach.vue";
 import radio from "@/components/radio.vue";
 import Vue from "vue";
 import { mapGetters } from "vuex";
+import { addSafety } from "@/api/request.js";
 export default {
   name: "safetySelfAdd",
   components: {
@@ -107,43 +108,31 @@ export default {
         files: [],
         type: "SafetyPatrol" // 安全
       },
-      conentObj: {
-        files: "", // 文件
-        spConent: "", // 检查内容
-        type: "", // 隐患等级
-        radio: "" // 状态（安全，有隐患）
-      },
-
-      array: [
-        {
-          id: 1,
-          spConent: "作业指导书，安全家书作业指导书",
-          type: "1级"
-        },
-        {
-          id: 2,
-          spConent: "作业指导书，安全家书作业指导书",
-          type: "2级"
-        },
-        {
-          id: 3,
-          spConent: "作业指导书，安全家书作业指导书",
-          type: "3级"
-        }
-      ],
+      formData:{
+          departId:'',   // 部门id
+          projectId:'',  // 分部分项id
+          spCheckUserId:'',  // 检查人id
+          spNotifier:'',     // 通知人id
+          NewResultVo:[      // list数据
+              {
+                sphdid:'',   // 隐患id
+                spContent:'', // 隐患名称
+                hdGrade:'',   // 隐患等级
+                sprState:'',  // 状态（0安全，1有隐患）
+                fileId:'',    // 文件成功返回id
+              }
+          ]
+      } ,
+     
       newArray: 0
     };
   },
   computed: {
     ...mapGetters(["dangerItems"])
   },
-  updated(){
-      console.log(this.$refs.childUpload,'upload')
-      console.log(this.$refs.mychild.children, "ref");
-  },
+  updated() {},
   mounted() {
     //console.log(this.$refs.mychild.children, "ref");
-    //console.log(this.$refs.childUpload,'upload')
   },
   methods: {
     routerBack() {
@@ -151,25 +140,13 @@ export default {
     },
     //点击添加检查
     AddCheck() {
-     
+      this.$router.push({ path: "/danger" });
+
       //this.newArray++;
-     var Profile = Vue.extend(resultCopy)
-     console.log(Profile)
-     var component = new Profile().$mount()
-     document.querySelector(".comChild").appendChild(component.$el);
-     this.$router.push({ path: "/danger" });
-
-    //  var Profile = Vue.extend(result);
-    //   // 创建 Profile 实例，并挂载到一个元素上。
-    //   var component = new Profile().$mount();
-    //   document.getElementById("mark").appendChild(component.$el);
-    //   //   var num = document.getElementById(`${this.mark}`).children.length;
-
-
-
-     //var myChild = document.querySelector(".myChild")
-      // 创建 Profile 实例，并挂载到一个元素上。
-      //new Profile().$mount(myChild);
+      //  var Profile = Vue.extend(resultCopy)
+      //  console.log(Profile)
+      //  var component = new Profile().$mount()
+      //  document.querySelector(".comChild").appendChild(component.$el);
     },
     deleteItem(index) {
       this.array.splice(index, 1);

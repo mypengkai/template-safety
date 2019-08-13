@@ -1,16 +1,15 @@
-const argument={
-     state:{
-         dangerItems:{},     // 隐患条目
-     },
-     mutations:{
-         getDangerItems:(state,data)=>{
-              state.dangerItems = data
-         }
-     },
-    //  actions: {
-    //     setDangerItems:({commit},data)=>{
-    //         commit('getDangerItems',data)
-    //     },
-    // }
+const argument = {
+    state: {
+        updateTip: true,     //提示版本更新
+        dangerItems: {},     // 隐患条目
+    },
+    mutations: {
+        changeUpdateTip: (state, updateTip) => {
+            state.updateTip = updateTip
+        },
+        getDangerItems: (state, data) => {
+            state.dangerItems = data
+        }
+    },
 }
 export default argument

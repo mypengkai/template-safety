@@ -24,7 +24,7 @@
         <li>整改数量/整改完成数量(2/3)</li>
       </ul>
 
-       <ul>
+      <ul>
         <li>1</li>
         <li>
           <span>巡检名称：AQXJ20190808_001</span>
@@ -42,7 +42,7 @@
         <li>整改数量/整改完成数量(2/3)</li>
       </ul>
 
-       <ul>
+      <ul>
         <li>1</li>
         <li>
           <span>巡检名称：AQXJ20190808_001</span>
@@ -65,6 +65,7 @@
 <script>
 import headerTop from "@/components/headerTop.vue";
 import search from "@/components/search.vue";
+import { safetySelfList } from "@/api/request.js";
 export default {
   name: "safetySelfCheck",
   components: {
@@ -74,8 +75,19 @@ export default {
   data() {
     return {
       title: "自主查询",
-      formList: []
+      formList: [],
+      formData: {
+        offset: 1, // 开始页
+        limit: 10, // 每页数量
+        spBeginDate: "", // 开始时间
+        spEndDate: "", // 结束时间
+        spxjname: "", // 巡检名称
+        sprRectificationState: "" // 状态（-1：整改待发送 0：待整改 1：待复核 2：通过 3：不通过）
+      }
     };
+  },
+  created() {
+    this.getInit();
   },
   methods: {
     routerBack() {
@@ -84,8 +96,14 @@ export default {
     addSafetySelf() {
       this.$router.push({ path: "/safetySelfAdd" });
     },
-    safetyDetail(){
-       this.$router.push({path:'/safetyzgxf'})
+    safetyDetail() {
+      this.$router.push({ path: "/safetyzgxf" });
+    },
+    //初始化数据
+    getInit() {
+      safetySelfList(this.formData).then(res => {
+        console.log(res);
+      });
     }
   }
 };
@@ -93,6 +111,8 @@ export default {
 <style lang="less" scoped>
 .safetySelfCheck {
   padding-top: 1rem;
+  background: #fff;
+  height: 100%;
   .safetySelfConent {
     margin-top: 1rem;
     padding: 0.2rem;
@@ -171,8 +191,8 @@ export default {
             border-radius: 3px;
           }
         }
-        &:last-child{
-            color:#f26522;
+        &:last-child {
+          color: #f26522;
         }
       }
     }

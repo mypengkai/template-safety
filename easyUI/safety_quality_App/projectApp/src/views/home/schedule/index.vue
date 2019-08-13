@@ -1,6 +1,5 @@
 <template>
   <div class="schedule">
-    <!-- <h2>消息列表</h2> -->
     <headerTop :title="title"></headerTop>
     <ul>
       <li v-for="(item,index) in msgList" :key="index" @click="skip(item.type,item.receiverid)" :class="{complete:index==active}">
