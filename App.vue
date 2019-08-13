@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <keep-alive :include="['saferess','safeplan','rectify','ress','planRess','safezj']">
+    <keep-alive :include="['safetySelfAdd']">
       <router-view v-if="routerAlive" />
     </keep-alive>
   </div>
@@ -22,17 +22,6 @@ export default {
   },
   created() {},
   methods: {
-    // inputOnblur() {
-    //   $("input,textarea").on("blur", function() {
-    //     $("html,body").animate(
-    //       { scrollTop: document.documentElement.clientHeight },
-    //       500
-    //     );
-    //   });
-    //   $("select").on("change", function() {
-    //     window.scroll(0, document.body.scrollHeight);
-    //   });
-    // },
     reload() {
       this.routerAlive = false;
       this.$nextTick(function() {

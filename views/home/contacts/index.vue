@@ -1,7 +1,7 @@
 <template>
   <div class="contacts">
-    <headerTop :title="title" :flag="flag">
-      <span @click="routerGo" v-if="isHow">确定</span>
+    <headerTop :title="title">
+      <span slot="topRight" class="padd" @click="routerGo" v-if="isHow">确定</span>
     </headerTop>
     <div class="contation">
       <ul id="treeDemo" class="ztree"></ul>
@@ -18,7 +18,6 @@ export default {
   data() {
     return {
       title: "组织机构",
-      flag: false,
       isHow: false,
       nodeData: [],
       departObj: "",
@@ -77,13 +76,7 @@ export default {
     },
     nodeClick: function(event, treeId, treeNode) {
       console.log(treeNode);
-      //  if(this.isHow == true && treeNode.org_type != 5){          // org_type == 5 才是部门
-      //       this.$dialog.toast({
-      //            mes:'请选择部门',
-      //            timeout:1500
-      //       })
-      //       return false
-      //  }
+    
       this.departObj = treeNode;
     },
     routerGo() {
@@ -100,6 +93,7 @@ export default {
   width: 100%;
   height: 100%;
   padding-top: 1rem;
+ 
 }
 /deep/ul.ztree {
   margin-bottom: 1.2rem;

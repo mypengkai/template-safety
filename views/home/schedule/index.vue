@@ -1,6 +1,7 @@
 <template>
   <div class="schedule">
-    <h2>消息列表</h2>
+    <!-- <h2>消息列表</h2> -->
+    <headerTop :title="title"></headerTop>
     <ul>
       <li v-for="(item,index) in msgList" :key="index" @click="skip(item.type,item.receiverid)" :class="{complete:index==active}">
         <p>
@@ -13,9 +14,12 @@
 </template>
 <script>
 //import { pushmessage } from "@/api/request.js";
+import headerTop from "@/components/headerTop.vue"
 export default {
+  components:{headerTop},
   data() {
     return {
+      title:'消息列表',
       msgList: [],
       active:-1,
     };
@@ -60,23 +64,9 @@ export default {
 <style lang="less" scoped>
 
 .schedule {
-  background-color: #f5f5f5 !important;
+  padding-top: 1rem;
   height: 100%;
-  padding-bottom: 1.3rem;
-  position: relative;
-  h2 {
-    text-align: center;
-    z-index: 99;
-    height: 1rem;
-    width: 100%;
-    line-height: 1rem;
-    font-size: 0.32rem;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 0.2rem;
-    position: fixed;
-    color: white;
-    background-color: rgb(43, 121, 237);
-  }
+  background: #fff;
   ul {
     padding: 1.2rem 0.2rem 0 0.2rem;
     li {

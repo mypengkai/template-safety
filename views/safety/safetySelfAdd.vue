@@ -5,7 +5,7 @@
     </headerTop>
     <div class="addConent">
       <div class="addTop">
-        <p class="icon-alibubble-rounded-">基础信息</p>
+        <p class="icon-aliwocanyude">&nbsp;&nbsp;基础信息</p>
         <ul>
           <li>巡检名称：AQJC20190808-001</li>
           <li>所属部门：安质部</li>
@@ -16,7 +16,7 @@
         </ul>
       </div>
       <div class="addFoot">
-        <p class="icon-alibubble-rounded-">巡检内容</p>
+        <p class="icon-alishapes-">&nbsp;&nbsp;巡检内容</p>
         <div class="conentList">
           <ul>
             <li>序号</li>
@@ -26,8 +26,8 @@
           </ul>
           <!-- 动态组件 -->
           <!-- <div ref="mychild">
-            <resultCopy v-for="(item,index) in array" :key="index" ref="childUpload"></resultCopy>
-          </div>-->
+            <resultCopy ref="childUpload" :array="getConent" :currentIndex="index" v-for="(item,index) in newArray" :key="index"></resultCopy>
+          </div> -->
           <!-- ================================================================================== -->
           <div ref="mychild" class="resultCopy">
             <div class="childrenConent" v-for="(item,index) in array" :key="index">
@@ -35,21 +35,19 @@
                 <ol
                   class="clearfix"
                   :class="{move:candelete.id==item.id}"
-                  @touchstart="touchStart(item,index)"
-                  @touchend="touchEnd(item,index)"
+                  @touchstart="touchStart(item)"
+                  @touchend="touchEnd(item)"
                 >
                   <li>{{index+1}}</li>
                   <li>{{item.spConent}}</li>
                   <li>{{item.type}}</li>
                   <li>
-                    <radio :value="conentObj.radio"></radio>
+                    <radio @setValue="getValue"></radio>
                   </li>
                 </ol>
-                <!-- v-if="ifFlag" -->
                 <div class="del" @click="deleteItem(index)" v-if="ifFlag && checkId===item.id">删除</div>
               </div>
               <div class="AttachBox">
-                <!-- 文件附件 -->
                 <Attach
                   :attachList="fileList.files"
                   :delAttachList="delProgressList"
@@ -68,13 +66,13 @@
     </div>
     <div class="addCoentFoot">
       <yd-cell-group>
-        <yd-cell-item arrow>
-          <yd-icon slot="icon" name="order" size=".42rem"></yd-icon>
+        <yd-cell-item arrow type="link" href="/setCopy">
+          <yd-icon slot="icon" name="ucenter" size=".42rem"></yd-icon>
           <span slot="left">通知人</span>
           <span slot="right">请选择</span>
         </yd-cell-item>
       </yd-cell-group>
-      <yd-button size="large" type="primary">保存</yd-button>
+      <yd-button size="large" type="primary" @click="addInspection">保存</yd-button>
     </div>
   </div>
 </template>
@@ -93,7 +91,7 @@ export default {
   },
   data() {
     return {
-      title: "新增安全自主检查",
+      title: "自主检查",
       ifFlag: false,
       checkId:'',     // 选中项的id
       clientNum: {}, // 记录开始滑动（x1）,结束滑动（x2）的鼠标指针的位置
@@ -104,11 +102,12 @@ export default {
         type: "SafetyPatrol" // 安全
       },
       conentObj: {
-        files: "", // 文件
+        files: '', // 文件
         spConent: "", // 检查内容
         type: "", // 隐患等级
-        radio: "" // 状态（安全，有隐患）
+        radio: '' // 状态（安全，有隐患）
       },
+      getConent:[],
       array: [
         {
           id: 1,
@@ -125,20 +124,23 @@ export default {
           spConent: "作业指导书，安全家书作业指导书",
           type: "3级"
         }
-      ]
+      ],
+      newArray:0
     };
   },
-  mounted() {
+  updated() {
     console.log(this.$refs.mychild.children);
-    console.log(this.$refs.del);
   },
   methods: {
     routerBack() {
       this.$router.go(-1);
     },
     //点击添加检查
-    AddCheck() {},
-    //========================================
+    AddCheck() {
+       this.$router.push({path:"/danger"})
+      //  this.newArray++
+      //  this.getConent = [this.array[0]]
+    },
     deleteItem(index) {
       this.array.splice(index, 1);
       // splice方法是删除数组某条数据，或者向某个位置添加数据
@@ -148,6 +150,9 @@ export default {
       // 记录开始滑动的鼠标位置
       this.clientNum.x1 = touchs.pageX;
       this.candelete = {};
+    },
+    getValue(data){
+         console.log(data)
     },
     touchEnd(item,index) {
       let touchs = event.changedTouches[0];
@@ -171,8 +176,11 @@ export default {
         event.preventDefault();
         this.candelete = {};
       }
+    },
+    // 保存
+    addInspection(){
+           
     }
-    //==============================================
   }
 };
 </script>

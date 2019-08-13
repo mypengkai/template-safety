@@ -26,6 +26,12 @@ import safetySelfZgfh from "@/views/safety/safetySelfZgfh"
 import safetySelfDetail from "@/views/safety/safetySelfDetail"
 // 整改明细页面
 import safetyDetailSee from "@/views/safety/safetyDetailSee"
+//隐患
+import danger from "@/views/common/danger"
+//整改人
+import rectify from "@/views/common/rectify"
+// 抄送人
+import setCopy from "@/views/common/setCopy"
 Vue.use(Router)
 const router = new Router({
   routes: [
@@ -108,6 +114,24 @@ const router = new Router({
       path:'/safetyDetailSee',
       name:"safetyDetailSee",
       component:safetyDetailSee
+    },
+    //隐患条目页面
+    {
+      path:"/danger",
+      name:"danger",
+      component:danger
+    },
+    //整改人
+    {
+      path:'/rectify',
+      name:"rectify",
+      component:rectify
+    },
+    //抄送人
+    {
+      path:"/setCopy",
+      name:'setCopy',
+      component:setCopy
     }
   ]
 })

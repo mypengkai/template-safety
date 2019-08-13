@@ -5,7 +5,7 @@
     </headerTop>
     <div class="detailSeeConent">
       <div class="detailTop">
-        <p class="icon-alibubble-rounded-">基础信息</p>
+        <p class="icon-aliwocanyude">&nbsp;&nbsp;基础信息</p>
         <ul>
           <li>巡检名称：AQJC20190808-001</li>
           <li>所属部门：安质部</li>
@@ -18,7 +18,7 @@
         </ul>
       </div>
       <div class="detailFoot">
-        <p class="icon-alibubble-rounded-">整改内容</p>
+        <p class="icon-alishapes-">&nbsp;&nbsp;整改内容</p>
         <div class="datailSeeBox">
           <h3>1</h3>
           <ul>
@@ -112,7 +112,7 @@ export default {
   components: { headerTop },
   data() {
     return {
-      title: "整改详细信息"
+      title: "自检详情"
     };
   },
   methods: {

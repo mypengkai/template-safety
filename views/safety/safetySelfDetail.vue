@@ -1,6 +1,8 @@
 <template>
   <div class="content">
-    <headerTop :title="title"></headerTop>
+    <headerTop :title="title">
+           <span slot="topLeft" class="icon-aliarrow-left- iconBack" @click="routerBack"></span>
+    </headerTop>
     <h3>
       <i class="icon-aliwocanyude"></i>&nbsp;&nbsp;基础信息
     </h3>
@@ -178,6 +180,11 @@ export default {
       },
       delProgressList: []
     };
+  },
+  methods:{
+      routerBack(){
+          this.$router.go(-1)
+      }
   }
 };
 </script>
