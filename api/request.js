@@ -4,8 +4,8 @@ import router from '@/router'
 
 // Vue.prototype.fileURL = 'http://114.55.94.198:8084/SafetyQualityPatrol/img/server/'
 // axios.defaults.baseURL = 'http://114.55.94.198:8084/SafetyQualityPatrol/rest' // 线上  
-// // Vue.prototype.fileURL = 'http://192.168.10.42:8080/CATDPS/img/server/'
-// // axios.defaults.baseURL = 'http://192.168.10.42:8080/CATDPS/rest' // 任健'
+Vue.prototype.fileURL = 'http://192.168.10.42:8080/CATDPS/img/server/'
+axios.defaults.baseURL = 'http://192.168.10.42:8080/CATDPS/rest' // 任健'
 // Vue.prototype.axios = axios
 // // 请求拦截
 // // axios.defaults.headers.get['content-type'] = 'application/json;charset=UTF-8'
