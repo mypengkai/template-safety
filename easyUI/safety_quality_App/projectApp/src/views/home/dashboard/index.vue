@@ -2,9 +2,9 @@
   <div class="dashboard">
     <headerTop :title="title">
       <!-- <span slot="topLeft">返回</span> -->
-      <span slot="topRight">
+      <!-- <span slot="topRight">
         <i class="icon-aliarrow-right-"></i>
-      </span>
+      </span> -->
     </headerTop>
     <div class="header">
       <!-- 轮播 -->
@@ -353,7 +353,6 @@ export default {
       border-radius: 0.3rem;
     }
     img {
-      height: 120px;
       border-radius: 0.3rem;
     }
     .weather {

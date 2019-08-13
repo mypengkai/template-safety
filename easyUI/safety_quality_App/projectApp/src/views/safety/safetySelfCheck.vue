@@ -5,7 +5,7 @@
       <span slot="topRight" class="icon-alixinzeng iconBack" @click="addSafetySelf"></span>
     </headerTop>
     <search></search>
-    <div class="safetySelfConent">
+    <div class="safetySelfConent" @click="safetyDetail">
       <ul>
         <li>1</li>
         <li>
@@ -73,7 +73,7 @@ export default {
   },
   data() {
     return {
-      title: "安全自主检查",
+      title: "自主查询",
       formList: []
     };
   },
@@ -83,6 +83,9 @@ export default {
     },
     addSafetySelf() {
       this.$router.push({ path: "/safetySelfAdd" });
+    },
+    safetyDetail(){
+       this.$router.push({path:'/safetySelfDetail'})
     }
   }
 };
