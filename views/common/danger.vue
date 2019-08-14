@@ -5,62 +5,79 @@
       <span slot="topRight" class="padd" @click="routerGo">确定</span>
     </headerTop>
     <div class="dangerConent">
-      <ul>
-        <li v-for="(item,index) in array" :key="index" @click="checkTitle(item)">{{item.spConent}}</li>
-      </ul>
+      <!-- <div style="width:100%;"> -->
+      <ul id="treeDemo" class="ztree"></ul>
+      <!-- </div> -->
     </div>
   </div>
 </template>
 <script>
 import headerTop from "@/components/headerTop";
+import { getDanger } from "@/api/request.js";
 export default {
   components: { headerTop },
-  name:"danger",
+  name: "danger",
   data() {
     return {
       title: "隐患条目",
-      arr:[],
-      array: [
-        {
-          id: 1,
-          spConent: "作业指导书，安全家书作业指导书1",
-          type: "1级"
+      setting: {
+        view: {
+          showLine: false,
+          showIcon: false,
+          selectedMulti: true
         },
-        {
-          id: 2,
-          spConent: "作业指导书，安全家书作业指导书2",
-          type: "2级"
+        check: {
+          enable: true,
+          chkStyle: "radio",
+          radioType: "all"
         },
-        {
-          id: 3,
-          spConent: "作业指导书，安全家书作业指导书3",
-          type: "3级"
+        data: {
+          key: {
+            name: "hdName"
+          },
+          simpleData: {
+            enable: true,
+            idKey: "hdCode",
+            pIdKey: "hdParentCode",
+            rootPId: null
+          }
         },
-         {
-          id: 4,
-          spConent: "作业指导书，安全家书作业指导书4",
-          type: "4级"
-        },
-        {
-          id: 5,
-          spConent: "作业指导书，安全家书作业指导书5",
-          type: "5级"
+        callback: {
+          onClick: this.nodeClick
         }
-      ]
+      },
+      array: [] // 选择的隐患项
     };
+  },
+  created() {
+    this.getDangerInit();
   },
   methods: {
     goBack() {
       this.$router.go(-1);
     },
     routerGo() {
-      this.$store.commit("getDangerItems",this.arr)
+      this.$store.commit("getDangerItems", this.array);
       this.$router.go(-1);
     },
-    checkTitle(item){
-        //this.arr = [item];
-        this.arr.push(item)
-        console.log(this.arr)
+    // 初始化隐患
+    getDangerInit() {
+      getDanger().then(res => {
+        $.fn.zTree.init($("#treeDemo"), this.setting, res.rows);
+      });
+    },
+    nodeClick: function(event, treeId, treeNode) {
+      var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+      treeObj.checkNode(treeNode, !treeNode.checked, true);
+      // console.log(treeNode)
+      if (treeNode.children.length > 0) {
+        this.$dialog.toast({
+          mes: "请选择最下级隐患条目",
+          timeout: 2000
+        });
+        return false;
+      }
+      this.array.push(treeNode)
     }
   }
 };
@@ -70,5 +87,8 @@ export default {
   padding-top: 1rem;
   background: #fff;
   height: 100%;
+  .dangerConent {
+    width: 100%;
+  }
 }
 </style>

@@ -43,8 +43,8 @@
                   @touchend="touchEnd(item)"
                 >
                   <li>{{index+1}}</li>
-                  <li>{{item.spConent}}</li>
-                  <li>{{item.type}}</li>
+                  <li>{{item.hdName}}</li>
+                  <li>{{item.hdGrade}}</li>
                   <li>
                     <radio @setValue="getValue"></radio>
                   </li>

@@ -6,7 +6,7 @@ import router from '@/router'
 // axios.defaults.baseURL = 'http://114.55.94.198:8084/SafetyQualityPatrol/rest' // 线上  
 Vue.prototype.fileURL = 'http://192.168.10.42:8080/CATDPS/img/server/'
 axios.defaults.baseURL = 'http://192.168.10.42:8080/CATDPS/rest' // 任健'
-// Vue.prototype.axios = axios
+Vue.prototype.axios = axios
 // // 请求拦截
 // // axios.defaults.headers.get['content-type'] = 'application/json;charset=UTF-8'
 axios.interceptors.request.use(config => {
@@ -85,4 +85,8 @@ export const safetySelfList = (params) => {
 //自检新增
 export const addSafety = (params) => {
 	return axios.post("/NewSafetyPatrolController/add", params).then(res => res.data)
+}
+// 安全隐患库
+export const getDanger =()=>{
+	return axios.get("/Sq_jc_HiddenDangerController/getListTree1").then(res=>res.data)
 }
