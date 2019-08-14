@@ -1,5 +1,5 @@
 <template>
-  <div class="danger">
+  <div style="background:#fff;height:100vh">
     <headerTop :title="title">
       <span slot="topLeft" class="icon-aliarrow-left- iconBack" @click="goBack"></span>
       <span slot="topRight" class="padd" @click="routerGo">确定</span>
@@ -51,7 +51,9 @@ export default {
     this.getDangerInit();
   },
   methods: {
-    goBack() {
+    routerGo() {
+      //将选中的条目名称与ID存到VUEX
+      this.$store.commit('getDangerItems',this.DataObj)
       this.$router.go(-1);
     },
     routerGo() {
@@ -81,12 +83,13 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.danger {
-  padding-top: 1rem;
-  background: #fff;
-  height: 100%;
+/deep/.yd-back-icon {
+  color: white !important;
   .dangerConent {
     width: 100%;
   }
+}
+/deep/.yd-navbar-center-title {
+  color: white !important;
 }
 </style>

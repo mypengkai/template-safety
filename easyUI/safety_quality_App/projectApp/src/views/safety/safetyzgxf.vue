@@ -1,6 +1,8 @@
 <template>
   <div>
-    <headerTop :title="title"></headerTop>
+    <headerTop :title="title">
+      <span slot="topLeft" class="icon-aliarrow-left- iconBack" @click="routerBack"></span>
+    </headerTop>
     <div class="content">
       <h3>
         <i class="icon-aliwocanyude"></i>&nbsp;&nbsp;基础信息
@@ -38,9 +40,11 @@
         <ul>
           <li>1</li>
           <li>
-            <p>安全隐患</p>
+            <p>
+              安全隐患&nbsp;
+              <i style="background:#ffc300;padding:.02rem;">(111级)</i>
+            </p>
             <p>作业指导书,安全技术交底编制,发放不及时,完整性,准确性,可行性等不符合管理要求</p>
-            <span>111级</span>
           </li>
           <li>
             <p>整改要求</p>
@@ -59,14 +63,14 @@
         </ul>
       </div>
       <!-- <h3> -->
-        <yd-cell-group>
-          <yd-cell-item>
-            <span slot="left">
-              <i class="icon-alitouxiang"></i>&nbsp;&nbsp;通知人
-            </span>
-            <span slot="right">右边内容一</span>
-          </yd-cell-item>
-        </yd-cell-group>
+      <yd-cell-group>
+        <yd-cell-item>
+          <span slot="left">
+            <i class="icon-alitouxiang"></i>&nbsp;&nbsp;通知人
+          </span>
+          <span slot="right">右边内容一</span>
+        </yd-cell-item>
+      </yd-cell-group>
       <!-- </h3> -->
       <yd-button size="large" type="primary" style="background:#2A82E4">保存并下发</yd-button>
     </div>
@@ -74,14 +78,31 @@
 </template>
 <script>
 import headerTop from "@/components/headerTop";
+import { CheckSelfListDetail } from "@/api/request.js";
 export default {
   components: {
     headerTop
   },
   data() {
     return {
-      title: "自检整改单下发"
+      title: "自检整改单下发",
+      id:this.$route.query.id //列表页传递过来的参数
     };
+  },
+  created(){
+    this.getData()
+  },
+  methods: {
+    //页面回退
+    routerBack() {
+      this.$router.go(-1);
+    },
+    //获取页面数据
+    getData(){
+      CheckSelfListDetail({id:this.id}).then(res=>{
+        console.log(res)
+      })
+    }
   }
 };
 </script>
@@ -94,7 +115,7 @@ export default {
     font-size: 0.28rem;
     font-weight: 600;
     color: black;
-    margin: .2rem 0;
+    margin: 0.2rem 0;
   }
   .information {
     margin: 0.1rem 0.1rem;
@@ -129,15 +150,15 @@ export default {
       }
       &:not(:first-child) {
         margin-left: 1rem;
-        padding: 0.1rem 0.4rem;
+        padding: 0.1rem 0.2rem;
         align-items: center;
         display: -webkit-flex;
         border-bottom: 1px dashed #ccc;
         p:first-child {
-          flex: 0 0 30%;
+          flex: 0 0 32%;
         }
         p:last-child {
-          flex: 0 0 70%;
+          flex: 0 0 68%;
         }
       }
       &:nth-child(2) {
