@@ -5,9 +5,7 @@
       <span slot="topRight" class="padd" @click="routerGo">确定</span>
     </headerTop>
     <div class="dangerConent">
-      <!-- <div style="width:100%;"> -->
       <ul id="treeDemo" class="ztree"></ul>
-      <!-- </div> -->
     </div>
   </div>
 </template>
