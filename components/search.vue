@@ -20,15 +20,7 @@ export default {
   methods: {
     // 筛选按钮
     filtercheck() {
-      if (this.title == "安全计划检查" || this.title == "安全自主检查") {
-        this.$router.push({ path: "/safetyfilter" });
-      }
-      if (this.title == "安全计划" || this.title == "待我检查") {
-        this.$router.push({ path: "/safetyjihuaFilter" });
-      }
-      if (this.title == "安全整改") {
-        this.$router.push({ path: "/safetyplanFliter" });
-      }
+      this.$router.push({ path: "/filter" });
     },
     submitHandler(value) {
       this.$emit("search", value);
@@ -49,7 +41,7 @@ export default {
   width: 100%;
   position: fixed;
   z-index: 99;
-  overflow: hidden;
+  //overflow: hidden;
 }
 .shaixuan {
   float: right;
