@@ -32,6 +32,8 @@ import danger from "@/views/common/danger"
 import rectify from "@/views/common/rectify"
 // 抄送人
 import setCopy from "@/views/common/setCopy"
+//自检筛选
+import filter from "@/views/common/filter"
 Vue.use(Router)
 const router = new Router({
   routes: [
@@ -52,7 +54,7 @@ const router = new Router({
         name: 'dashboard',
         component: dashboard
       },
-      //联系人
+      //组织机构
       {
         path: 'contacts',
         name: 'contacts',
@@ -72,66 +74,72 @@ const router = new Router({
       }
       ]
     },
-   
+
     // 安全自主检查列表
     {
-      path:'/safetySelfCheck',
-      name:'safetySelfCheck',
-      component:safetySelfCheck
+      path: '/safetySelfCheck',
+      name: 'safetySelfCheck',
+      component: safetySelfCheck
     },
     //自主整改下发
     {
-      path:'/safetyzgxf',
-      name:'safetyzgxf',
-      component:safetyzgxf
+      path: '/safetyzgxf',
+      name: 'safetyzgxf',
+      component: safetyzgxf
     },
     // 新增自主检查
     {
-      path:'/safetySelfAdd',
-      name:'safetySelfAdd',
-      component:safetySelfAdd
+      path: '/safetySelfAdd',
+      name: 'safetySelfAdd',
+      component: safetySelfAdd
     },
     // 整改页面
     {
-      path:'/safetySelfYhzg',
-      name:'safetySelfYhzg',
-      component:safetySelfYhzg
+      path: '/safetySelfYhzg',
+      name: 'safetySelfYhzg',
+      component: safetySelfYhzg
     },
     // 复核页面
     {
-      path:'/safetySelfZgfh',
-      name:'safetySelfZgfh',
-      component:safetySelfZgfh
+      path: '/safetySelfZgfh',
+      name: 'safetySelfZgfh',
+      component: safetySelfZgfh
     },
     //过程查看
     {
-      path:'/safetySelfDetail',
-      name:'safetySelfDetail',
-      component:safetySelfDetail
+      path: '/safetySelfDetail',
+      name: 'safetySelfDetail',
+      component: safetySelfDetail
     },
     // 整改明细页面
     {
-      path:'/safetyDetailSee',
-      name:"safetyDetailSee",
-      component:safetyDetailSee
+      path: '/safetyDetailSee',
+      name: "safetyDetailSee",
+      component: safetyDetailSee
     },
     //隐患条目页面
     {
-      path:"/danger",
-      name:"danger",
-      component:danger
+      path: "/danger",
+      name: "danger",
+      component: danger
     },
     //整改人
     {
-      path:'/rectify',
-      name:"rectify",
-      component:rectify
+      path: '/rectify',
+      name: "rectify",
+      component: rectify
     },
     //抄送人
     {
-      path:"/setCopy",
-      name:'setCopy',
-      component:setCopy
+      path: "/setCopy",
+      name: 'setCopy',
+      component: setCopy
+    },
+    //自检筛选
+    {
+      path: '/filter',
+      name: "filter",
+      component: filter
     }
   ]
 })

@@ -43,17 +43,17 @@ Vue.use(VueHtml5Plus);
 // Vue.use(vueztree)
 Vue.config.productionTip = false
 //路由 拦截
-// router.beforeEach((to, from, next) => {
-//   let token = localStorage.getItem("token")
-//   if (token) {
-//     next()
-//   }
-//   else if (to.path != "/login") {
-//     next({ path: '/login' })
-//   } else {
-//     next()
-//   }
-// })
+router.beforeEach((to, from, next) => {
+  let token = localStorage.getItem("token")
+  if (token) {
+    next()
+  }
+  else if (to.path != "/login") {
+    next({ path: '/login' })
+  } else {
+    next()
+  }
+})
 
 // 时间全局过滤
 Vue.filter('dateformat', function (dataStr, pattern = 'YYYY-MM-DD') {

@@ -7,7 +7,6 @@
 </template>
 
 <script>
-// import $ from "jquery";
 export default {
   name: "App",
   provide() {
@@ -20,7 +19,6 @@ export default {
       routerAlive: true
     };
   },
-  created() {},
   methods: {
     reload() {
       this.routerAlive = false;
@@ -34,5 +32,6 @@ export default {
 <style>
 #app {
   height: 100%;
+  background: #efeff4;
 }
 </style>

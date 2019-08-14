@@ -63,7 +63,7 @@ export default {
       // localStorage.setItem("loginInfo", JSON.stringify(this.from));
       getToken(this.from)
         .then(res => {
-          console.log(res.success);
+          // console.log(res.success);
           if (res.success == 0) {
             let token = res.obj.token;
             localStorage.setItem("token", token);
