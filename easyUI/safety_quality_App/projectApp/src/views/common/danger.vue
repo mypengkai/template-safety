@@ -51,9 +51,7 @@ export default {
     this.getDangerInit();
   },
   methods: {
-    routerGo() {
-      //将选中的条目名称与ID存到VUEX
-      this.$store.commit('getDangerItems',this.DataObj)
+    goBack() {
       this.$router.go(-1);
     },
     routerGo() {

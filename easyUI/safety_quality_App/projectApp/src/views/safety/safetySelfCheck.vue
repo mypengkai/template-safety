@@ -124,9 +124,12 @@ export default {
     // 搜索(从第一页开始搜)
     searchCheck(data) {
       this.formData.spxjname = data;
-      this.formData.offset = 1;
+      this.formData.offset = 0;
       this.getInit();
     }
+  },
+  beforeDestroy(){
+       this.$store.commit("getFilterData",'')
   }
 };
 </script>
