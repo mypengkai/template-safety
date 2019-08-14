@@ -43,6 +43,7 @@ axios.interceptors.response.use(function (response) {
 	// 对响应错误做点什么
 	return Promise.reject(error);
 });
+
 // //可用于跨域请求
 export const xhrrequest = (method, url, params, callback) => {
 	var xhr = null;
@@ -74,6 +75,12 @@ export const xhrrequest = (method, url, params, callback) => {
 	xhr.open(method ? method : "GET", url);
 	xhr.send(JSON.stringify(params));
 }
+
+//查看安全检查列表详情
+export const CheckSelfListDetail=(data)=>{
+ return axios.post(`/NewSafetyPatrolController/searchOne`,data).then(res=>res.data)
+}
+
 //获登录token
 export const getToken = (params) => {
 	return axios.get(`/tokens?username=${params.username}&password=${params.password}`).then(res => res.data)
@@ -82,11 +89,11 @@ export const getToken = (params) => {
 export const safetySelfList = (params) => {
 	return axios.post("/NewSafetyPatrolController/searchList", params).then(res => res.data)
 }
-//自检新增
+//自检新增安全检查
 export const addSafety = (params) => {
 	return axios.post("/NewSafetyPatrolController/add", params).then(res => res.data)
 }
-// 安全隐患库
-export const getDanger =()=>{
-	return axios.get("/Sq_jc_HiddenDangerController/getListTree1").then(res=>res.data)
+//安全隐患条目
+export const getDanger=()=>{
+	return axios.get(`/Sq_jc_HiddenDangerController/getListTree1`).then(res=>res.data)
 }

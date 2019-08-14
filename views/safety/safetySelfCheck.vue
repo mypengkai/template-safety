@@ -7,7 +7,7 @@
     <search @search="searchCheck"></search>
     <div class="safetySelfConent">
       <scroller :on-refresh="refresh" :on-infinite="infinite" ref="myscroller">
-        <ul v-for="(item,index) in formList" :key="index" @click="safetyDetail">
+        <ul v-for="(item,index) in formList" :key="index" @click="safetyDetail(item.id)">
           <li>{{index+1}}</li>
           <li>
             <span>巡检名称：{{item.spxjname}}</span>
@@ -72,8 +72,8 @@ export default {
     addSafetySelf() {
       this.$router.push({ path: "/safetySelfAdd" });
     },
-    safetyDetail() {
-      this.$router.push({ path: "/safetyzgxf" });
+    safetyDetail(id) {
+      this.$router.push({ path: "/safetyzgxf" ,query:{id:id}});
     },
     //初始化数据
     getInit() {
@@ -174,7 +174,7 @@ export default {
           display: flex;
           justify-content: space-between;
           span:first-child {
-            color: #2b25eb;
+            color: #5B9FEA;
             font-weight: bold;
           }
           span:last-child {
@@ -183,7 +183,7 @@ export default {
             margin-top: 0.2rem;
             line-height: 0.5rem;
             text-align: center;
-            background: #ffc20e;
+            background: #FF8D1A;
             color: #fff;
             -webkit-border-radius: 6px;
             -moz-border-radius: 6px;
@@ -192,7 +192,7 @@ export default {
         }
         &:nth-child(7) {
           span:first-child {
-            color: #2b25eb;
+            color: #5B9FEA;
             font-weight: bold;
           }
           span:nth-child(2) {
@@ -215,7 +215,7 @@ export default {
           }
         }
         &:last-child {
-          color: #f26522;
+          color: #FFB365;
         }
       }
     }

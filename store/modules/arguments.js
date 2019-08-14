@@ -15,5 +15,6 @@ const argument = {
             state.filterData = data
         }
     },
+    
 }
 export default argument
