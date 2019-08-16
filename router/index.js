@@ -14,6 +14,10 @@ import information from '@/views/home/information/index'
 import schedule from "@/views/home/schedule/index"
 //安全自主检查
 import safetySelfCheck from "@/views/safety/safetySelfCheck"
+//整改列表
+import safetySelfZG from "@/views/safety/safetySelfZG"
+//复核列表
+import safetySelfFH from "@/views/safety/safetySelfFH"
 //自检整改单下发
 import safetyzgxf from "@/views/safety/safetyzgxf"
 // 新增自主检查
@@ -34,6 +38,7 @@ import filter from "@/views/common/filter"
 import CheckPerson from "@/views/common/CheckPerson"
 //联系人列表
 import notifier from "@/views/common/notifier"
+
 Vue.use(Router)
 const router = new Router({
   routes: [
@@ -81,6 +86,18 @@ const router = new Router({
       name: 'safetySelfCheck',
       component: safetySelfCheck
     },
+    //整改列表
+    {
+      path: '/safetySelfZG',
+      name: 'safetySelfZG',
+      component: safetySelfZG
+    },
+    //复核列表
+    {
+      path: '/safetySelfFH',
+      name: 'safetySelfFH',
+      component: safetySelfFH
+    },
     //自主整改下发
     {
       path: '/safetyzgxf',
@@ -93,13 +110,13 @@ const router = new Router({
       name: 'safetySelfAdd',
       component: safetySelfAdd
     },
-    // 整改页面
+    // 下发整改页面
     {
       path: '/safetySelfYhzg',
       name: 'safetySelfYhzg',
       component: safetySelfYhzg
     },
-    // 复核页面
+    // 下发复核页面
     {
       path: '/safetySelfZgfh',
       name: 'safetySelfZgfh',

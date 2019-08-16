@@ -1,6 +1,6 @@
 <template>
   <div class="zglist">
-    <ul v-for="(item,index) in itData" :key="index">
+    <ul class="zgul" v-for="(item,index) in itData" :key="index">
       <li>{{xuhao+1}}</li>
       <li>
         <p>
@@ -26,26 +26,46 @@
           ></yd-datetime>
         </yd-cell-item>
       </yd-cell-group>
-      <yd-cell-group style="margin-left:.8rem;font-size:12px;margin-bottom:0;">
-        <yd-cell-item arrow type="link" href="CheckPerson">
+      <yd-cell-group style="margin-left:.8rem;font-size:12px;margin-bottom:0;" @click.native="show4 = true">
+        <yd-cell-item arrow  close-on-masker="true">
           <span slot="left" style="padding-left:.2rem;">选择整改人:</span>
-          <span slot="right">{{CheckPerson.Personname}}</span>
+          <span slot="right">{{params.srUserName}}</span>
         </yd-cell-item>
       </yd-cell-group>
     </ul>
+
+    <yd-popup v-model="show4" position="right">
+      <!-- <yd-button type="danger" style="margin: 30px;" @click.native="show4 = false">Close Right Popup</yd-button> -->
+      <div class="contation">
+        <ul>
+          <li
+            v-for="(item,index) in nodeData"
+            :key="index"
+            :class="{selected:index == active}"
+            @click="checkPreson(item,index)"
+          >{{item.realname}}</li>
+        </ul>
+      </div>
+    </yd-popup>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
+import { getPerson } from "@/api/request.js";
 export default {
-  props: ["itData", "BasicData","xuhao"],
-  computed: {
-    ...mapGetters(["CheckPerson", "notifier"])
-  },
+  props: ["itData", "BasicData", "xuhao"],
+
   data() {
     return {
+      show4: false,
+      nodeData: [], //树列表数据
+      active: null,
+      formData: {
+        limit: "1000",
+        offset: "0"
+      },
       params: {
-        id:'', //整改内容ID
+        id: "", //整改内容ID
         srUserId: "", //整改人ID
         srUserName: "", //整改人名称
         srFinishDate: "", //要求完成时间
@@ -54,19 +74,31 @@ export default {
       }
     };
   },
+  methods: {
+    getInit() {
+      getPerson(this.formData).then(res => {
+        if (res.success == 0) {
+          this.nodeData = res.rows;
+        }
+      });
+    },
+    checkPreson(item, index) {
+      this.active = index;
+      this.params.srUserName = item.realname;
+      this.params.srUserId = item.id;
+      // this.show4=false
+    }
+  },
   created() {
-    this.params.id=this.itData.id
-    this.params.srUserId = this.CheckPerson.Personid;
-    this.params.srUserName = this.CheckPerson.Personname;
+    this.getInit();
+    this.params.id = this.itData[0].id;
     this.params.qpCreatePerson = localStorage.getItem("username");
     this.params.spCreatePersonId = localStorage.getItem("userId");
-  },
-
-  
+  }
 };
 </script>
 <style lang="less" scoped>
-ul {
+.zgul {
   position: relative;
   background: #fff;
   behavior: url(/PIE.htc);
@@ -115,6 +147,18 @@ ul {
       border-bottom: none;
     }
   }
+}
+.contation {
+  padding: 0.2rem;
+  ul {
+    li {
+      padding: 0.1rem 0;
+      font-size: 0.36rem;
+    }
+  }
+}
+.selected {
+  color: #5959ff;
 }
 /deep/.yd-cell-left {
   font-size: 12px;
