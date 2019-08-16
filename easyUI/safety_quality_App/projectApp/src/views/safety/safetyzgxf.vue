@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="safetyZgxf">
     <headerTop :title="title">
       <span slot="topLeft" class="icon-aliarrow-left- iconBack" @click="routerBack"></span>
     </headerTop>
@@ -129,22 +129,25 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.safetyZgxf { 
+  background-color: #f5f5f5;
+  padding-top: 1rem;
+}
 .content {
   padding: 0.2rem 0;
-  padding-top: 1rem;
   h3 {
     padding-left: 0.4rem;
     font-size: 0.28rem;
     font-weight: 600;
     color: black;
-    margin: 0.2rem 0;
+    line-height: 0.6rem;
   }
   .information {
     margin: 0.1rem 0.1rem;
     border: 1px solid #ccc;
     border-radius: 0.1rem;
     padding-left: 0.7rem;
-
+    background: #fff;
     p {
       color: black;
       padding: 0.1rem 0;

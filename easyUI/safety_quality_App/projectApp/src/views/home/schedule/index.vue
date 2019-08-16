@@ -2,7 +2,12 @@
   <div class="schedule">
     <headerTop :title="title"></headerTop>
     <ul>
-      <li v-for="(item,index) in msgList" :key="index" @click="skip(item.type,item.receiverid)" :class="{complete:index==active}">
+      <li
+        v-for="(item,index) in msgList"
+        :key="index"
+        @click="skip(item.type,item.receiverid)"
+        :class="{complete:index==active}"
+      >
         <p>
           <i class="icon-alixiaoxi"></i>
         </p>
@@ -13,22 +18,22 @@
 </template>
 <script>
 //import { pushmessage } from "@/api/request.js";
-import headerTop from "@/components/headerTop.vue"
+import headerTop from "@/components/headerTop.vue";
 export default {
-  components:{headerTop},
+  components: { headerTop },
   data() {
     return {
-      title:'消息列表',
+      title: "消息列表",
       msgList: [],
-      active:-1,
+      active: -1
     };
   },
   created() {
     //this.getMessage();
   },
   methods: {
-    dothis(index){
-     this.active=index
+    dothis(index) {
+      this.active = index;
     },
     getMessage() {
       pushmessage().then(res => {
@@ -61,7 +66,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-
 .schedule {
   padding-top: 1rem;
   height: 100%;
@@ -85,17 +89,17 @@ export default {
         text-align: center;
         color: #2b79ed;
       }
-      span{
+      span {
         position: absolute;
         left: 10%;
         top: 50%;
         transform: translateY(-50%);
-        padding: 0 .2rem;
+        padding: 0 0.2rem;
       }
     }
   }
 }
-.complete{
+.complete {
   background-color: #45b97c !important;
 }
 </style>

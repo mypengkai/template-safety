@@ -12,6 +12,8 @@ import contacts from '@/views/home/contacts/index'
 import information from '@/views/home/information/index'
 //消息
 import schedule from "@/views/home/schedule/index"
+//安全主页面
+import safetyMenu from "@/views/safety/safetyMenu"
 //安全自主检查
 import safetySelfCheck from "@/views/safety/safetySelfCheck"
 //整改列表
@@ -79,7 +81,11 @@ const router = new Router({
       }
       ]
     },
-
+    {
+      path:"/safetyMenu",
+      name:"safetyMenu",
+      component:safetyMenu
+    },
     // 安全自主检查列表
     {
       path: '/safetySelfCheck',

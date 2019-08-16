@@ -16,21 +16,15 @@
 </template>
 <script>
 export default {
-  props: ["currentIndex"],
   data() {
     return {
       value: ""
     };
   },
-  mounted() {
-      this.$nextTick(()=>{
-            //console.log(this.currentIndex);
-      })
-  },
   watch: {
     value: function(val) {
-      this.$emit("setValue", val,this.currentIndex);
-    },
+      this.$emit("setValue", val);
+    }
   }
 };
 </script>

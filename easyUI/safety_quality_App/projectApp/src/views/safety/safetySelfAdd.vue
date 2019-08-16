@@ -8,10 +8,10 @@
         <p class="icon-aliwocanyude">&nbsp;&nbsp;基础信息</p>
         <ul>
           <!-- <li>巡检名称：AQJC20190808-001</li> -->
-          <li>所属部门：安质部</li>
-          <li>巡检位置：大桥</li>
-          <!-- <li>检查性质：自检</li> -->
-          <li>检查人：韩信</li>
+          <li>所属部门: {{userinfo.departname}}</li>
+          <li>巡检位置：{{userinfo.projectName}}</li>
+          <li>检查性质：自检</li>
+          <li>检查人：{{userinfo.realname}}</li>
           <!-- <li>检查时间：2019-08-08 10:10:20</li> -->
         </ul>
       </div>
@@ -31,6 +31,7 @@
               ref="childUpload"
               :currentIndex="index"
               :formData="[item]"
+              @del="delItem"
               v-for="(item,index) in dangerItems"
               :key="index"
             ></resultCopy>
@@ -81,10 +82,11 @@
     </div>
     <div class="addCoentFoot">
       <yd-cell-group>
-        <yd-cell-item arrow type="link" href="/setCopy">
+        <yd-cell-item arrow type="link" href="/notifier">
           <yd-icon slot="icon" name="ucenter" size=".42rem"></yd-icon>
           <span slot="left">通知人</span>
-          <span slot="right">请选择</span>
+          <span slot="right" v-if="!this.notifier">请选择</span>
+          <span slot="right" v-if="this.notifier">{{notifierPersons}}</span>
         </yd-cell-item>
       </yd-cell-group>
       <yd-button size="large" type="primary" @click.native="addInspection">保存</yd-button>
@@ -96,9 +98,8 @@ import headerTop from "@/components/headerTop.vue";
 import resultCopy from "@/components/resultCopy.vue";
 import Attach from "@/components/Attach.vue";
 import radio from "@/components/radio.vue";
-import Vue from "vue";
 import { mapGetters } from "vuex";
-import { addSafety, safetyAddResult } from "@/api/request.js";
+import { addSafety } from "@/api/request.js";
 export default {
   name: "safetySelfAdd",
   components: {
@@ -110,12 +111,12 @@ export default {
   data() {
     return {
       title: "自主检查",
-      ifFlag: false,
-      newArray: 0,
+      userinfo: {},  // 用户信息
       checkId: "", // 选中项的id
       clientNum: {}, // 记录开始滑动（x1）,结束滑动（x2）的鼠标指针的位置
       candelete: {}, // 滑动的item
       delProgressList: [],
+      notifierPersons: "", // 通知人
       fileList: {
         files: [],
         type: "SafetyPatrol" // 安全
@@ -125,90 +126,37 @@ export default {
         projectId: "", // 分部分项id
         spCheckUserId: "", // 检查人id
         spNotifier: "", // 通知人id
-        NewResultVo: []  // list数据
+        result: [] // list数据
       }
     };
   },
   computed: {
-    ...mapGetters(["dangerItems"])
+    ...mapGetters(["dangerItems", "notifier"])
   },
   updated() {
-    console.log(this.$refs.mychild.children, "ref");
-    //console.log(this.$refs.radio0)
+    this.notifierPersons = this.notifier.array.join(",");
+  },
+  created() {
+    let user = localStorage.getItem("userinfo");
+    this.userinfo = JSON.parse(user);
   },
   mounted() {
     this.$nextTick(() => {});
   },
+
   methods: {
     routerBack() {
       this.$router.go(-1);
     },
-    //文件上传
-    // upload() {
-    //   let formData = new FormData();
-    //   formData.append("type", this.fileList.type);
-    //   if (this.fileList.files.length > 0) {
-    //     for (let key in this.fileList.files) {
-    //       formData.append("file", this.fileList.files[key].file);
-    //     }
-    //   }
-    //   safetyAddResult(formData).then(res => {
-    //     if (res.success == 0) {
-    //       alert(JSON.stringify(res.obj));
-    //       this.form.NewResultVo[0].fileId = res.obj;
-    //       alert(JSON.stringify(this.form.NewResultVo[0].fileId));
-    //       this.$dialog.toast({
-    //         mes: "上传成功",
-    //         timeout: 2000
-    //       });
-    //     } else {
-    //       this.$dialog.toast({
-    //         mes: res.msg,
-    //         timeout: 2000
-    //       });
-    //     }
-    //   });
-    // },
+    delItem(data) {
+       this.dangerItems.splice(data,1);
+    },
     //点击添加检查
     AddCheck() {
       this.$router.push({ path: "/danger" });
     },
     // 子组件传递的数据
     getValue(data, currentIndex) {},
-
-    // deleteItem(index) {
-    //   this.dangerItems.splice(index, 1);
-    //   // splice方法是删除数组某条数据，或者向某个位置添加数据
-    // },
-    // touchStart(item) {
-    //   let touchs = event.changedTouches[0];
-    //   // 记录开始滑动的鼠标位置
-    //   this.clientNum.x1 = touchs.pageX;
-    //   this.candelete = {};
-    // },
-    // touchEnd(item) {
-    //   let touchs = event.changedTouches[0];
-    //   // 记录结束滑动的鼠标位置
-    //   this.clientNum.x2 = touchs.pageX;
-    //   this.candelete = {};
-    //   // 判断滑动距离大于50，判定为滑动成功，否则失败
-    //   if (
-    //     this.clientNum.x2 < this.clientNum.x1 &&
-    //     Math.abs(this.clientNum.x1) - Math.abs(this.clientNum.x2) > 50
-    //   ) {
-    //     this.ifFlag = true;
-    //     this.checkId = item.id;
-    //     event.preventDefault();
-    //     this.candelete = item;
-    //   } else if (
-    //     this.clientNum.x2 > this.clientNum.x1 &&
-    //     Math.abs(this.clientNum.x2) - Math.abs(this.clientNum.x1) > 10
-    //   ) {
-    //     this.ifFlag = false;
-    //     event.preventDefault();
-    //     this.candelete = {};
-    //   }
-    // },
     // 保存
     async addInspection() {
       if (this.$refs.childUpload.length > 0) {
@@ -219,6 +167,37 @@ export default {
       } else {
         await this.$refs.childUpload.upResult();
       }
+      let list = [];
+      if (this.$refs.mychild.children.length > 0) {
+        // 获取组件数据（每一个组件数据都是一组obj）
+        let arr = this.$refs.mychild.children;
+        for (var i = 0; i < arr.length; i++) {
+          list.push(arr[i].__vue__.conentObj);
+        }
+      }
+      this.form.result = list;
+      this.form.departId = this.userinfo.departid;
+      this.form.projectId = this.userinfo.projectId;
+      this.form.spCheckUserId = this.userinfo.id;
+      this.form.spNotifier = this.notifier.arrayId.join(",");
+
+      addSafety(this.form).then(res => {
+        if (res.success == 0) {
+          this.$dialog.toast({
+            mes: "新增成功",
+            timeout: 2000
+          });
+          // 清楚vuex 数据以及输入框数据
+          this.$store.commit("getDangerItems",'');  // 隐患
+          this.$store.commit("setNotifier",'');     // 通知人
+          this.$router.push({ path: "/safetySelfCheck" }); // 计划检查
+        } else {
+          this.$dialog.toast({
+            mes: res.msg,
+            timeout: 2000
+          });
+        }
+      });
     }
   }
 };

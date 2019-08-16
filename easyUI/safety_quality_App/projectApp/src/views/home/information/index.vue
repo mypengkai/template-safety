@@ -2,29 +2,29 @@
   <div class="information">
     <headerTop :title="title"></headerTop>
     <yd-cell-group>
-       <yd-cell-item>
+      <yd-cell-item>
         <span slot="left" class="font-span">姓名</span>
-        <span slot="right"></span>
+        <span slot="right">{{userinfo.realname}}</span>
       </yd-cell-item>
-       <yd-cell-item>
+      <yd-cell-item>
         <span slot="left" class="font-span">账号</span>
-        <span slot="right">{{form.username}}</span>
+        <span slot="right">{{userinfo.username}}</span>
       </yd-cell-item>
       <yd-cell-item>
         <span slot="left" class="font-span">手机</span>
-        <span slot="right">{{form.mobilePhone}}</span>
+        <span slot="right">{{userinfo.mobilePhone}}</span>
       </yd-cell-item>
       <yd-cell-item>
-        <span slot="left" class="font-span">公司</span>
-        <span slot="right">{{form.departfullname}}</span>
+        <span slot="left" class="font-span">邮箱</span>
+        <span slot="right">{{userinfo.email}}</span>
       </yd-cell-item>
       <yd-cell-item>
         <span slot="left" class="font-span">部门</span>
-        <span slot="right">{{form.departname}}</span>
+        <span slot="right">{{userinfo.departname}}</span>
       </yd-cell-item>
       <yd-cell-item>
-        <span slot="left" class="font-span">职务</span>
-        <span slot="right"></span>
+        <span slot="left" class="font-span">分部分项</span>
+        <span slot="right">{{userinfo.projectName}}</span>
       </yd-cell-item>
       <yd-cell-item @click.native="version">
         <span slot="left">检查更新</span>
@@ -36,8 +36,8 @@
 </template>
 <script>
 import headerTop from "@/components/headerTop";
-//import { userXX } from "@/api/request.js";
 import { checkVersion } from "@/api/pgrApi.js";
+import { mapGetters } from "vuex";
 export default {
   components: {
     headerTop
@@ -46,11 +46,12 @@ export default {
     return {
       title: "个人信息",
       currentVersion: "1.0",
-      form: {}
+      userinfo: {}
     };
   },
   created() {
-    //this.getuser();
+    let user = localStorage.getItem("userinfo");
+    this.userinfo = JSON.parse(user);
     if (this.$store.state.argument.updateTip) {
       checkVersion();
     }
@@ -63,14 +64,7 @@ export default {
   methods: {
     goBack() {
       this.$router.push({ path: "/login" });
-      localStorage.removeItem("token")
-    },
-    getuser() {
-      userXX().then(res => {
-        if (res.success == 0) {
-          this.form = res.rows[0];
-        } 
-      });
+      localStorage.removeItem("token");
     },
     version() {
       checkVersion(() => {
