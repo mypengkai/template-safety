@@ -24,7 +24,8 @@
 </template>
 
 <script>
-import { getToken } from "@/api/request.js";
+import { getToken, getUserobj } from "@/api/request.js";
+
 // import { messagePush } from "../../assets/plus/push";
 export default {
   data() {
@@ -60,13 +61,13 @@ export default {
         return false;
       }
       //将最新的用户信息存储到本地
-      // localStorage.setItem("loginInfo", JSON.stringify(this.from));
+      localStorage.setItem("loginInfo", JSON.stringify(this.from));
       getToken(this.from)
         .then(res => {
-          // console.log(res.success);
           if (res.success == 0) {
             let token = res.obj.token;
             localStorage.setItem("token", token);
+            this.getuser();
             this.$router.push({ path: "/" });
           } else {
             this.$dislog.toast({
@@ -77,12 +78,16 @@ export default {
           }
         })
         .catch(err => {
-          this.$dialog.toast({
-            mes: "网络连接异常",
-            timeout: 1500
-          });
-          return false;
+           console.log(err);
         });
+    },
+    // 获取用户信息
+    getuser() {
+      getUserobj().then(res => {
+        if (res.success == 0) {
+          localStorage.setItem("userinfo", JSON.stringify(res.obj));
+        }
+      });
     }
     //个推
     // registerGetui() {

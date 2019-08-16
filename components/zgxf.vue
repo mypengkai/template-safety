@@ -13,6 +13,11 @@
         <p>整改要求:</p>
         <p>{{item.ZGmethod}}</p>
       </li>
+       <li>
+        <p>检查状态:</p>
+        <p v-if="item.sprState == 0" style="color:#45b97c">安全</p>
+        <p v-if="item.sprState == 1" style="color:#ed1941">有隐患</p>
+      </li>
       <yd-cell-group
         style="margin-left:.8rem;font-size:12px;border-bottom: 1px dashed #ccc;margin-bottom:0;"
       >

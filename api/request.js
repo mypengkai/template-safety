@@ -2,12 +2,12 @@ import Vue from 'vue'
 import axios from 'axios'
 import router from '@/router'
 //import { Toast } from 'vue-ydui/dist/lib.rem/dialog';
- //Vue.prototype.fileURL = 'http://192.168.1.134:8080/SafetyQualityPatrol/img/server/'
- //axios.defaults.baseURL = 'http://192.168.1.134:8080/SafetyQuality/rest' // 徐浩  
- 
+//Vue.prototype.fileURL = 'http://192.168.1.134:8080/SafetyQualityPatrol/img/server/'
+//axios.defaults.baseURL = 'http://192.168.1.134:8080/SafetyQuality/rest' // 徐浩  
+
 Vue.prototype.fileURL = 'http://192.168.10.42:8080/CATDPS/img/server/'
-//axios.defaults.baseURL = 'http://192.168.10.42:8080/CATDPS/rest' // 任健'
-axios.defaults.baseURL = 'http://192.168.1.134:8080/SafetyQuality/rest' // 徐浩'
+axios.defaults.baseURL = 'http://192.168.10.42:8080/CATDPS/rest' // 任健'
+
 Vue.prototype.axios = axios
 // // 请求拦截
 // // axios.defaults.headers.get['content-type'] = 'application/json;charset=UTF-8'
@@ -91,6 +91,10 @@ export const getToken = (params) => {
 export const safetySelfList = (params) => {
 	return axios.post("/NewSafetyPatrolController/searchList", params).then(res => res.data)
 }
+//（文件上传）
+export const safetyAddResult = (params) => {
+	return axios.post("/safetyPatrol/pictureUpload", params).then(res => res.data)
+}
 //自检新增安全检查
 export const addSafety = (params) => {
 	return axios.post("/NewSafetyPatrolController/add", params).then(res => res.data)
@@ -102,12 +106,16 @@ export const getDanger = () => {
 //获取联系人列表
 export const getPerson = (data) => {
 	return axios.get(`/main/user?offset=${data.offset}&limit=${data.limit}`).then(res => res.data)
-  }
-//整改列表
-export const rectifyList=(data)=>{
-	return axios.post(`/reSafetyRectification/listst/`,data).then(res=>res.data)
 }
-//自检整改单下发
-export const DownCheck=(data)=>{
-	return axios.post(`/SafetyRectification/appointRectification`,data).then(res=>res.data)
+//整改列表
+export const rectifyList = (data) => {
+	return axios.post(`/reSafetyRectification/listst/`, data).then(res => res.data)
+}
+// 自检整改单下发
+export const DownCheck = (data) => {
+	return axios.post(`/SafetyRectification/appointRectification`, data).then(res => res.data)
+}
+// 获取用户信息
+export const getUserobj = () => {
+	return axios.get("/main/getUserMessage", { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(res => res.data)
 }

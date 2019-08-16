@@ -141,7 +141,7 @@ export default {
   background-color: #efeff4;
   .safetySelfConent {
     margin:0.2rem;
-    margin-top: 1.2rem;
+    margin-top: 1.6rem;
     position: relative;
     height: 100%;
     ul {
@@ -180,6 +180,7 @@ export default {
           span:first-child {
             color: #5B9FEA;
             font-weight: bold;
+            overflow: hidden;
           }
           span:last-child {
             width: 1.2rem;

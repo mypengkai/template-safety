@@ -15,7 +15,7 @@
             <radio @setValue="getValue"></radio>
           </li>
         </ol>
-        <div class="del" @click="deleteItem(index)" v-if="ifFlag && checkId==item.id">删除</div>
+        <div class="del" @click="deleteItem(currentIndex)" v-if="ifFlag && checkId==item.id">删除</div>
       </div>
       <div class="AttachBox">
         <Attach
@@ -32,6 +32,7 @@
 import Attach from "@/components/Attach.vue";
 import radio from "@/components/radio.vue";
 import { mapGetters } from "vuex";
+import {safetyAddResult} from "@/api/request.js"
 export default {
   props: ["currentIndex", "formData"],
   components: { Attach, radio },
@@ -46,7 +47,6 @@ export default {
         files: [],
         type: "SafetyPatrol" // 安全
       },
-      dangerList: [],
       conentObj: {
         sphdid: "", // 隐患id
         spContent: "", // 隐患名称
@@ -64,8 +64,6 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      console.log(this.formData, "formData");
-      console.log(this.dangerItems, "22");
       this.dangerItems.forEach(element => {
         this.conentObj.sphdid = element.id;
         this.conentObj.spContent = element.hdName;
@@ -75,9 +73,9 @@ export default {
   },
 
   methods: {
-    deleteItem(index) {
-      this.formData.splice(index, 1);
-      // splice方法是删除数组某条数据，或者向某个位置添加数据
+    deleteItem(currentIndex) {
+      //触发父组件时间删除数据
+      this.$emit("del",currentIndex);
     },
     touchStart(item) {
       let touchs = event.changedTouches[0];
