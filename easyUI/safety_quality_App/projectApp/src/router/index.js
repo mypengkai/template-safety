@@ -28,16 +28,12 @@ import safetySelfDetail from "@/views/safety/safetySelfDetail"
 import safetyDetailSee from "@/views/safety/safetyDetailSee"
 //隐患
 import danger from "@/views/common/danger"
-//整改人
-import rectify from "@/views/common/rectify"
-// 抄送人
-import setCopy from "@/views/common/setCopy"
 //自检筛选
 import filter from "@/views/common/filter"
 //联系人列表
-import CheckPerson from "@/views/safety/CheckPerson"
+import CheckPerson from "@/views/common/CheckPerson"
 //联系人列表
-import notifier from "@/views/safety/notifier"
+import notifier from "@/views/common/notifier"
 Vue.use(Router)
 const router = new Router({
   routes: [
@@ -126,18 +122,6 @@ const router = new Router({
       path: "/danger",
       name: "danger",
       component: danger
-    },
-    //整改人
-    {
-      path: '/rectify',
-      name: "rectify",
-      component: rectify
-    },
-    //抄送人
-    {
-      path: "/setCopy",
-      name: 'setCopy',
-      component: setCopy
     },
     //自检筛选
     {

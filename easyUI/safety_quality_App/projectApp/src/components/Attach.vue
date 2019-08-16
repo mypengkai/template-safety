@@ -244,7 +244,7 @@ export default {
 }
 .att_con {
   overflow: hidden;
-  //padding-top: 15px;
+  padding-top: 15px;
 }
 .att_num_tip {
   line-height: 18px;
@@ -259,7 +259,6 @@ export default {
   text-align: center;
   position: relative;
   margin: 0 8px 15px 8px;
-  //margin: 0 8px ;
   border-radius: 5px;
 }
 .att_img {

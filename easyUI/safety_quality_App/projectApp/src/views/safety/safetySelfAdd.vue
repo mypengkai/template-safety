@@ -7,12 +7,12 @@
       <div class="addTop">
         <p class="icon-aliwocanyude">&nbsp;&nbsp;基础信息</p>
         <ul>
-          <li>巡检名称：AQJC20190808-001</li>
+          <!-- <li>巡检名称：AQJC20190808-001</li> -->
           <li>所属部门：安质部</li>
           <li>巡检位置：大桥</li>
-          <li>检查性质：自检</li>
+          <!-- <li>检查性质：自检</li> -->
           <li>检查人：韩信</li>
-          <li>检查时间：2019-08-08 10:10:20</li>
+          <!-- <li>检查时间：2019-08-08 10:10:20</li> -->
         </ul>
       </div>
       <div class="addFoot">
@@ -25,15 +25,19 @@
             <li>巡检结果</li>
           </ul>
           <!-- 动态组件 -->
-          <!-- :currentIndex="index" -->
-          <!-- v-for="(item,index) in newArray" :key="index" -->
 
-          <!-- <div ref="mychild" class="comChild">
-             <resultCopy ref="childUpload"></resultCopy>
-          </div>-->
+          <div ref="mychild" class="comChild">
+            <resultCopy
+              ref="childUpload"
+              :currentIndex="index"
+              :formData="[item]"
+              v-for="(item,index) in dangerItems"
+              :key="index"
+            ></resultCopy>
+          </div>
 
           <!-- ================================================================================== -->
-          <div ref="mychild" class="resultCopy">
+          <!-- <div ref="mychild" class="resultCopy">
             <div class="childrenConent" v-for="(item,index) in this.dangerItems" :key="index">
               <div class="rowConent">
                 <ol
@@ -46,13 +50,20 @@
                   <li>{{item.hdName}}</li>
                   <li>{{item.hdGrade}}</li>
                   <li>
-                    <radio @setValue="getValue"></radio>
+                    <radio
+                      @setValue="getValue"
+                      :currentIndex="index"
+                      :id="`radio[${index}]`"
+                      :ref="`radio[${index}]`"
+                    ></radio>
                   </li>
                 </ol>
                 <div class="del" @click="deleteItem(index)" v-if="ifFlag && checkId===item.id">删除</div>
               </div>
               <div class="AttachBox">
                 <Attach
+                  :id="`upload[${index}]`"
+                  :ref="`upload[${index}]`"
                   :attachList="fileList.files"
                   :delAttachList="delProgressList"
                   :readonly="false"
@@ -60,9 +71,9 @@
                 ></Attach>
               </div>
             </div>
-          </div>
+          </div>-->
           <!-- ================================================================================ -->
-          <div class="iconButton" @click="AddCheck">
+          <div class="iconButton" @click="AddCheck()">
             <i class="icon-alixinzeng"></i>
           </div>
         </div>
@@ -76,7 +87,7 @@
           <span slot="right">请选择</span>
         </yd-cell-item>
       </yd-cell-group>
-      <yd-button size="large" type="primary" @click="addInspection">保存</yd-button>
+      <yd-button size="large" type="primary" @click.native="addInspection">保存</yd-button>
     </div>
   </div>
 </template>
@@ -87,7 +98,7 @@ import Attach from "@/components/Attach.vue";
 import radio from "@/components/radio.vue";
 import Vue from "vue";
 import { mapGetters } from "vuex";
-import { addSafety } from "@/api/request.js";
+import { addSafety, safetyAddResult } from "@/api/request.js";
 export default {
   name: "safetySelfAdd",
   components: {
@@ -100,6 +111,7 @@ export default {
     return {
       title: "自主检查",
       ifFlag: false,
+      newArray: 0,
       checkId: "", // 选中项的id
       clientNum: {}, // 记录开始滑动（x1）,结束滑动（x2）的鼠标指针的位置
       candelete: {}, // 滑动的item
@@ -108,84 +120,106 @@ export default {
         files: [],
         type: "SafetyPatrol" // 安全
       },
-      formData:{
-          departId:'',   // 部门id
-          projectId:'',  // 分部分项id
-          spCheckUserId:'',  // 检查人id
-          spNotifier:'',     // 通知人id
-          NewResultVo:[      // list数据
-              {
-                sphdid:'',   // 隐患id
-                spContent:'', // 隐患名称
-                hdGrade:'',   // 隐患等级
-                sprState:'',  // 状态（0安全，1有隐患）
-                fileId:'',    // 文件成功返回id
-              }
-          ]
-      } ,
-     
-      newArray: 0
+      form: {
+        departId: "", // 部门id
+        projectId: "", // 分部分项id
+        spCheckUserId: "", // 检查人id
+        spNotifier: "", // 通知人id
+        NewResultVo: []  // list数据
+      }
     };
   },
   computed: {
     ...mapGetters(["dangerItems"])
   },
-  updated() {},
+  updated() {
+    console.log(this.$refs.mychild.children, "ref");
+    //console.log(this.$refs.radio0)
+  },
   mounted() {
-    //console.log(this.$refs.mychild.children, "ref");
+    this.$nextTick(() => {});
   },
   methods: {
     routerBack() {
       this.$router.go(-1);
     },
+    //文件上传
+    // upload() {
+    //   let formData = new FormData();
+    //   formData.append("type", this.fileList.type);
+    //   if (this.fileList.files.length > 0) {
+    //     for (let key in this.fileList.files) {
+    //       formData.append("file", this.fileList.files[key].file);
+    //     }
+    //   }
+    //   safetyAddResult(formData).then(res => {
+    //     if (res.success == 0) {
+    //       alert(JSON.stringify(res.obj));
+    //       this.form.NewResultVo[0].fileId = res.obj;
+    //       alert(JSON.stringify(this.form.NewResultVo[0].fileId));
+    //       this.$dialog.toast({
+    //         mes: "上传成功",
+    //         timeout: 2000
+    //       });
+    //     } else {
+    //       this.$dialog.toast({
+    //         mes: res.msg,
+    //         timeout: 2000
+    //       });
+    //     }
+    //   });
+    // },
     //点击添加检查
     AddCheck() {
       this.$router.push({ path: "/danger" });
+    },
+    // 子组件传递的数据
+    getValue(data, currentIndex) {},
 
-      //this.newArray++;
-      //  var Profile = Vue.extend(resultCopy)
-      //  console.log(Profile)
-      //  var component = new Profile().$mount()
-      //  document.querySelector(".comChild").appendChild(component.$el);
-    },
-    deleteItem(index) {
-      this.array.splice(index, 1);
-      // splice方法是删除数组某条数据，或者向某个位置添加数据
-    },
-    touchStart(item) {
-      let touchs = event.changedTouches[0];
-      // 记录开始滑动的鼠标位置
-      this.clientNum.x1 = touchs.pageX;
-      this.candelete = {};
-    },
-    getValue(data) {
-      console.log(data);
-    },
-    touchEnd(item, index) {
-      let touchs = event.changedTouches[0];
-      // 记录结束滑动的鼠标位置
-      this.clientNum.x2 = touchs.pageX;
-      this.candelete = {};
-      // 判断滑动距离大于50，判定为滑动成功，否则失败
-      if (
-        this.clientNum.x2 < this.clientNum.x1 &&
-        Math.abs(this.clientNum.x1) - Math.abs(this.clientNum.x2) > 50
-      ) {
-        this.ifFlag = true;
-        this.checkId = item.id;
-        event.preventDefault();
-        this.candelete = item;
-      } else if (
-        this.clientNum.x2 > this.clientNum.x1 &&
-        Math.abs(this.clientNum.x2) - Math.abs(this.clientNum.x1) > 10
-      ) {
-        this.ifFlag = false;
-        event.preventDefault();
-        this.candelete = {};
-      }
-    },
+    // deleteItem(index) {
+    //   this.dangerItems.splice(index, 1);
+    //   // splice方法是删除数组某条数据，或者向某个位置添加数据
+    // },
+    // touchStart(item) {
+    //   let touchs = event.changedTouches[0];
+    //   // 记录开始滑动的鼠标位置
+    //   this.clientNum.x1 = touchs.pageX;
+    //   this.candelete = {};
+    // },
+    // touchEnd(item) {
+    //   let touchs = event.changedTouches[0];
+    //   // 记录结束滑动的鼠标位置
+    //   this.clientNum.x2 = touchs.pageX;
+    //   this.candelete = {};
+    //   // 判断滑动距离大于50，判定为滑动成功，否则失败
+    //   if (
+    //     this.clientNum.x2 < this.clientNum.x1 &&
+    //     Math.abs(this.clientNum.x1) - Math.abs(this.clientNum.x2) > 50
+    //   ) {
+    //     this.ifFlag = true;
+    //     this.checkId = item.id;
+    //     event.preventDefault();
+    //     this.candelete = item;
+    //   } else if (
+    //     this.clientNum.x2 > this.clientNum.x1 &&
+    //     Math.abs(this.clientNum.x2) - Math.abs(this.clientNum.x1) > 10
+    //   ) {
+    //     this.ifFlag = false;
+    //     event.preventDefault();
+    //     this.candelete = {};
+    //   }
+    // },
     // 保存
-    addInspection() {}
+    async addInspection() {
+      if (this.$refs.childUpload.length > 0) {
+        // 判断新增组件length
+        for (let i = 0; i < this.$refs.childUpload.length; i++) {
+          await this.$refs.childUpload[i].upResult(); // 同步调用子组件文件上传方法
+        }
+      } else {
+        await this.$refs.childUpload.upResult();
+      }
+    }
   }
 };
 </script>
