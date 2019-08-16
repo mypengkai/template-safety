@@ -44,7 +44,7 @@ export default {
           onClick: this.nodeClick
         }
       },
-      array: [] // 选择的隐患项
+      array:[] // 选择的隐患项
     };
   },
   created() {
@@ -67,7 +67,6 @@ export default {
     nodeClick: function(event, treeId, treeNode) {
       var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
       treeObj.checkNode(treeNode, !treeNode.checked, true);
-      // console.log(treeNode)
       if (treeNode.children.length > 0) {
         this.$dialog.toast({
           mes: "请选择最下级隐患条目",
@@ -75,7 +74,7 @@ export default {
         });
         return false;
       }
-      this.array.push(treeNode)
+      this.array.push(treeNode);
     }
   }
 };
