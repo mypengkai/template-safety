@@ -5,7 +5,8 @@ import router from '@/router'
 // Vue.prototype.fileURL = 'http://114.55.94.198:8084/SafetyQualityPatrol/img/server/'
 // axios.defaults.baseURL = 'http://114.55.94.198:8084/SafetyQualityPatrol/rest' // 线上  
 Vue.prototype.fileURL = 'http://192.168.10.42:8080/CATDPS/img/server/'
-axios.defaults.baseURL = 'http://192.168.10.42:8080/CATDPS/rest' // 任健'
+// axios.defaults.baseURL = 'http://192.168.10.42:8080/CATDPS/rest' // 任健'
+axios.defaults.baseURL = 'http://192.168.1.134:8080/SafetyQuality/rest' // 徐浩'
 Vue.prototype.axios = axios
 // // 请求拦截
 // // axios.defaults.headers.get['content-type'] = 'application/json;charset=UTF-8'
@@ -96,4 +97,16 @@ export const addSafety = (params) => {
 //安全隐患条目
 export const getDanger=()=>{
 	return axios.get(`/Sq_jc_HiddenDangerController/getListTree1`).then(res=>res.data)
+}
+//获取联系人列表
+export const getPerson = (data) => {
+	return axios.get(`/main/user?offset=${data.offset}&limit=${data.limit}`).then(res => res.data)
+  }
+//整改列表
+export const rectifyList=(data)=>{
+	return axios.post(`/reSafetyRectification/listst/`,data).then(res=>res.data)
+}
+//自检整改单下发
+export const DownCheck=(data)=>{
+	return axios.post(`/SafetyRectification/appointRectification`,data).then(res=>res.data)
 }

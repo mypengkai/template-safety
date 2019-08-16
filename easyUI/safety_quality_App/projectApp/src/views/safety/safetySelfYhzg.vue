@@ -118,6 +118,7 @@
 <script>
 import headerTop from "@/components/headerTop";
 import Attach from "@/components/Attach.vue";
+import { rectifyList } from "@/api/request.js";
 export default {
   components: {
     headerTop,
@@ -130,8 +131,25 @@ export default {
         files: [],
         type: "SafetyPatrol" // 安全
       },
+      params:{
+        offset:1,
+        limit:2,
+        orgcode:'',
+        spBeginDate:'',
+        spEndDate:'',
+        rectificationState:'',
+        isOverdue:''
+      },
       delProgressList: []
     };
+  },
+  methods:{
+    getData(){
+      rectifyList()
+    }
+  },
+  created(){
+
   }
 };
 </script>

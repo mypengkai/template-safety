@@ -1,5 +1,5 @@
 <template>
-  <div style="background:#fff;height:100vh">
+  <div style="background:#fff;height:100vh;padding-top:1.2rem;">
     <headerTop :title="title">
       <span slot="topLeft" class="icon-aliarrow-left- iconBack" @click="goBack"></span>
       <span slot="topRight" class="padd" @click="routerGo">确定</span>
