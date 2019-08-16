@@ -6,7 +6,7 @@ import router from '@/router'
  //axios.defaults.baseURL = 'http://192.168.1.134:8080/SafetyQuality/rest' // 徐浩  
  
 Vue.prototype.fileURL = 'http://192.168.10.42:8080/CATDPS/img/server/'
-// axios.defaults.baseURL = 'http://192.168.10.42:8080/CATDPS/rest' // 任健'
+//axios.defaults.baseURL = 'http://192.168.10.42:8080/CATDPS/rest' // 任健'
 axios.defaults.baseURL = 'http://192.168.1.134:8080/SafetyQuality/rest' // 徐浩'
 Vue.prototype.axios = axios
 // // 请求拦截
