@@ -91,7 +91,6 @@ export default {
       title: "自检整改单下发",
       datetime7: "",
       id: "", //列表页传递过来的参数
-
       BasicData: {}, //基础信息内容
       CheckContent: [], //整改内容
       paramsArr: []
@@ -112,7 +111,7 @@ export default {
         this.BasicData = res.obj;
 
         this.CheckContent = res.rows;
-        console.log(this.BasicData);
+    
       });
     },
     DownCheck() {

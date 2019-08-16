@@ -11,9 +11,8 @@
           <li>{{index+1}}</li>
           <li>
             <span>巡检名称：{{item.spxjname}}</span>
-            <span v-if="item.RectificationState =='-1'" style="background:#464547">未发整改</span>
-            <span v-if="item.RectificationState =='0'" style="background:#45b97c">通过</span>
-            <span v-if="item.RectificationState =='1'" style="background:##f26522">整改中</span>
+            <span style="background:#464547">待整改</span>
+
           </li>
           <li>所属部门：{{item.departname}}</li>
           <li>巡检性质：{{item.ipName}}</li>
@@ -43,7 +42,7 @@ export default {
   },
   data() {
     return {
-      title: "自主查询",
+      title: "整改查询",
       formList: [],
       formData: {
         offset: 0, // 开始页
@@ -51,7 +50,7 @@ export default {
         spCreateDateTime: "", // 创建时间
         spxjname: "", // 巡检名称
         sprRectificationState: "", // 状态（-1：整改待发送 0：待整改 1：待复核 2：通过 3：不通过）
-        isCheck:2
+        isCheck:1
       },
       noDate: false
     };
@@ -74,7 +73,7 @@ export default {
       this.$router.push({ path: "/safetySelfAdd" });
     },
     safetyDetail(id) {
-      this.$router.push({ path: "/safetyzgxf" ,query:{id:id}});
+      this.$router.push({ path: "/safetySelfYhzg" ,query:{id:id}});
     },
     //初始化数据
     getInit() {

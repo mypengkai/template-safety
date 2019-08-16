@@ -7,27 +7,27 @@
     <ul class="information">
       <li>
         <span>巡检名称:</span>&nbsp;&nbsp;&nbsp;
-        <span>AQXJ20190807_001</span>
+        <span>{{BasicData.spxjname}}</span>
       </li>
       <li>
         <span>所属部门:</span>&nbsp;&nbsp;&nbsp;
-        <span>安质部</span>
+        <span>{{BasicData.departname}}</span>
       </li>
       <li>
         <span>巡检位置:</span>&nbsp;&nbsp;&nbsp;
-        <span>花果山隧道洞口</span>
+        <span>{{BasicData.projectName}}</span>
       </li>
       <li>
         <span>检查性质:</span>&nbsp;&nbsp;&nbsp;
-        <span>AQXJ20190807_001</span>
+        <span>自检</span>
       </li>
       <li>
         <span>检查人:</span>&nbsp;&nbsp;&nbsp;
-        <span>AQXJ20190807_001</span>
+        <span>{{BasicData.spCheckUserName}}</span>
       </li>
       <li>
         <span>检查时间:</span>&nbsp;&nbsp;&nbsp;
-        <span>AQXJ20190807_001</span>
+        <span>{{BasicData.spCreateDateTime}}</span>
       </li>
     </ul>
     <h3>
@@ -37,7 +37,10 @@
       <p style="color:white;">1231</p>
       <ul>
         <li style="border-bottom: 1px dashed #ccc;">
-          <span>安全隐患&nbsp;<i style="background:#ffc300;padding:.02rem;">(111级)</i>:</span>&nbsp;&nbsp;&nbsp;
+          <span>
+            安全隐患&nbsp;
+            <i style="background:#ffc300;padding:.02rem;">(111级)</i>:
+          </span>&nbsp;&nbsp;&nbsp;
           <span>作业指导书,安全技术交底编制,发放不及时,完整性,准确性,可行性等不符合管理要求</span>
         </li>
         <li style="border-bottom: 1px dashed #ccc;">
@@ -73,7 +76,10 @@
       <p style="color:white;">1231</p>
       <ul>
         <li style="border-bottom: 1px dashed #ccc;">
-          <span>安全隐患&nbsp;<i style="background:#ffc300;padding:.02rem;">(111级)</i>:</span>&nbsp;&nbsp;&nbsp;
+          <span>
+            安全隐患&nbsp;
+            <i style="background:#ffc300;padding:.02rem;">(111级)</i>:
+          </span>&nbsp;&nbsp;&nbsp;
           <span>作业指导书,安全技术交底编制,发放不及时,完整性,准确性,可行性等不符合管理要求</span>
         </li>
         <li style="border-bottom: 1px dashed #ccc;">
@@ -118,7 +124,8 @@
 <script>
 import headerTop from "@/components/headerTop";
 import Attach from "@/components/Attach.vue";
-import { rectifyList } from "@/api/request.js";
+
+import { CheckSelfListDetail } from "@/api/request.js";
 export default {
   components: {
     headerTop,
@@ -131,25 +138,32 @@ export default {
         files: [],
         type: "SafetyPatrol" // 安全
       },
-      params:{
-        offset:1,
-        limit:2,
-        orgcode:'',
-        spBeginDate:'',
-        spEndDate:'',
-        rectificationState:'',
-        isOverdue:''
+      id: "", //整改列表页携带过来的ID
+      BasicData:"",
+      CheckContent:"",
+      params: {
+        offset: 1,
+        limit: 2,
+        orgcode: "",
+        spBeginDate: "",
+        spEndDate: "",
+        rectificationState: "",
+        isOverdue: ""
       },
       delProgressList: []
     };
   },
-  methods:{
-    getData(){
-      rectifyList()
+  methods: {
+    getData() {
+      CheckSelfListDetail({ id: this.id }).then(res => {
+        this.BasicData = res.obj;
+        this.CheckContent = res.rows;
+      });
     }
   },
-  created(){
-
+  created() {
+    this.id = this.$route.query.id;
+    this.getData();
   }
 };
 </script>
@@ -187,7 +201,7 @@ export default {
     ul {
       background-color: #fff;
       width: 100%;
-      padding-left: .2rem;
+      padding-left: 0.2rem;
       li {
         display: flex;
         padding: 0.1rem;
@@ -238,7 +252,7 @@ export default {
     }
   }
   .zgList2 {
-    background-color: #A6A6A6;
+    background-color: #a6a6a6;
     display: flex;
     align-items: center;
     margin-top: 0.2rem;
@@ -252,7 +266,7 @@ export default {
     ul {
       background-color: #fff;
       width: 100%;
-       padding-left: .2rem;
+      padding-left: 0.2rem;
       li {
         display: flex;
         padding: 0.1rem;
