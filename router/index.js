@@ -34,6 +34,10 @@ import rectify from "@/views/common/rectify"
 import setCopy from "@/views/common/setCopy"
 //自检筛选
 import filter from "@/views/common/filter"
+//联系人列表
+import CheckPerson from "@/views/safety/CheckPerson"
+//联系人列表
+import notifier from "@/views/safety/notifier"
 Vue.use(Router)
 const router = new Router({
   routes: [
@@ -140,7 +144,19 @@ const router = new Router({
       path: '/filter',
       name: "filter",
       component: filter
-    }
+    },
+    //联系人页面
+    {
+      path: '/CheckPerson',
+      name: "CheckPerson",
+      component: CheckPerson
+    },
+    //通知人页面
+    {
+      path: '/notifier',
+      name: "notifier",
+      component: notifier
+    },
   ]
 })
 

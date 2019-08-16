@@ -10,87 +10,96 @@
       <div class="information">
         <p>
           <span>巡检名称:</span>
-          <span>天不下雨天不刮风天上有太阳</span>
+          <span>{{BasicData.spxjname}}</span>
         </p>
         <p>
-          <span>巡检名称:</span>
-          <span>天不下雨天不刮风天上有太阳</span>
+          <span>所属部门:</span>
+          <span>{{BasicData.departname}}</span>
         </p>
         <p>
-          <span>巡检名称:</span>
-          <span>天不下雨天不刮风天上有太阳</span>
+          <span>巡检位置:</span>
+          <span>{{BasicData.projectName}}</span>
         </p>
         <p>
-          <span>巡检名称:</span>
-          <span>天不下雨天不刮风天上有太阳</span>
+          <span>检查性质:</span>
+          <span>{{BasicData.ipName}}</span>
         </p>
         <p>
-          <span>巡检名称:</span>
-          <span>天不下雨天不刮风天上有太阳</span>
+          <span>检查人:</span>
+          <span>{{BasicData.spCheckUserName}}</span>
         </p>
         <p>
-          <span>巡检名称:</span>
-          <span>天不下雨天不刮风天上有太阳</span>
+          <span>检查时间:</span>
+          <span>{{BasicData.spCreateDateTime}}</span>
         </p>
       </div>
       <h3>
         <i class="icon-alishapes-"></i>&nbsp;&nbsp;整改内容
       </h3>
-      <div class="zglist">
-        <ul>
-          <li>1</li>
-          <li>
-            <p>
-              安全隐患&nbsp;
-              <i style="background:#ffc300;padding:.02rem;">(111级)</i>
-            </p>
-            <p>作业指导书,安全技术交底编制,发放不及时,完整性,准确性,可行性等不符合管理要求</p>
-          </li>
-          <li>
-            <p>整改要求</p>
-            <p>作业指导书,安全技术交底编制,发放不及时,完整性,准确性,可行性等不符合管理要求作业指导书,安全技术交底编制,发放不及时,完整性,准确性,可行性等不符合管理要求作业指导书,安全技术交底编制,发放不及时,完整性,准确性,可行性等不符合管理要求</p>
-          </li>
-          <li>
-            <p>整改完成时间</p>
-            <p>作业指导书,安全技术交底编制,发放不及时,完整性,准确性,可行性等不符合管理要求</p>
-          </li>
-          <li style="height:1rem;">
-            <p>指定整改人:</p>
-            <p>
-              <button style="padding:.1rem;background:#2A82E4;color:white;">选择整改人</button>
-            </p>
-          </li>
-        </ul>
+
+      <div ref="mychild" id="mychild">
+        <zgxf
+          v-for="(item,index) in CheckContent"
+          :key="index"
+          :itData="[item]"
+          :xuhao="index"
+          :BasicData="BasicData"
+          ref="childUpload"
+        ></zgxf>
       </div>
+
       <!-- <h3> -->
       <yd-cell-group>
         <yd-cell-item>
-          <span slot="left">
+          <span slot="left" style="padding-left:.3rem;">
             <i class="icon-alitouxiang"></i>&nbsp;&nbsp;通知人
           </span>
-          <span slot="right">右边内容一</span>
+          <span slot="right">
+            <p
+              v-for="(item,index) in (BasicData.spNotifierName||'').split(',')"
+              :key="index"
+              style="text-align:left;padding-left:.4rem"
+            >{{++index+':'+item}}</p>
+          </span>
         </yd-cell-item>
       </yd-cell-group>
       <!-- </h3> -->
-      <yd-button size="large" type="primary" style="background:#2A82E4">保存并下发</yd-button>
+      <yd-button
+        size="large"
+        type="primary"
+        style="background:#2A82E4"
+        @click.native="DownCheck"
+      >保存并下发</yd-button>
     </div>
   </div>
 </template>
 <script>
 import headerTop from "@/components/headerTop";
-import { CheckSelfListDetail } from "@/api/request.js";
+import zgxf from "@/components/zgxf";
+import { CheckSelfListDetail, DownCheck } from "@/api/request.js";
+import { mapGetters } from "vuex";
 export default {
   components: {
-    headerTop
+    headerTop,
+    zgxf
+  },
+  computed: {
+    ...mapGetters(["CheckPerson", "notifier"])
   },
   data() {
     return {
       title: "自检整改单下发",
-      id:this.$route.query.id //列表页传递过来的参数
+      datetime7: "",
+      id: "", //列表页传递过来的参数
+
+      BasicData: {}, //基础信息内容
+      CheckContent: [], //整改内容
+      paramsArr: []
     };
   },
-  created(){
-    this.getData()
+  created() {
+    this.id = this.$route.query.id;
+    this.getData();
   },
   methods: {
     //页面回退
@@ -98,10 +107,24 @@ export default {
       this.$router.go(-1);
     },
     //获取页面数据
-    getData(){
-      CheckSelfListDetail({id:this.id}).then(res=>{
-        console.log(res)
-      })
+    getData() {
+      CheckSelfListDetail({ id: this.id }).then(res => {
+        this.BasicData = res.obj;
+
+        this.CheckContent = res.rows;
+        console.log(this.BasicData);
+      });
+    },
+    DownCheck() {
+      let arr = this.$refs.mychild.children;
+
+      for (let i = 0; i < arr.length; i++) {
+        this.paramsArr.push(arr[i].__vue__.params);
+      }
+
+      DownCheck(this.paramsArr).then(res => {
+        console.log(res);
+      });
     }
   }
 };
@@ -125,9 +148,9 @@ export default {
 
     p {
       color: black;
+      padding: 0.1rem 0;
     }
   }
-
   ul {
     position: relative;
     background: #fff;
@@ -154,6 +177,7 @@ export default {
         align-items: center;
         display: -webkit-flex;
         border-bottom: 1px dashed #ccc;
+
         p:first-child {
           flex: 0 0 32%;
         }
@@ -176,6 +200,16 @@ export default {
         border-bottom: none;
       }
     }
+  }
+  /deep/.yd-cell-left {
+    font-size: 12px;
+  }
+  /deep/.yd-cell-right {
+    font-size: 12px;
+    // padding-left: 2.2rem;
+  }
+  /deep/.yd-cell:after {
+    height: 0;
   }
 }
 </style>
