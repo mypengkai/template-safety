@@ -40,8 +40,8 @@
       <ul>
         <li style="border-bottom: 1px dashed #ccc;">
           <span>
-            安全隐患&nbsp;
-            <i style="background:#ffc300;padding:.02rem;">{{"("+item.hdGrade+")"}}</i>:
+            隐患&nbsp;
+            <i style="color:#ffc300;padding:.02rem;">{{"("+item.hdGrade+")"}}</i>:
           </span>&nbsp;&nbsp;&nbsp;
           <span>{{item.spContent}}</span>
         </li>
@@ -68,7 +68,7 @@
           :readonly="false"
           :sourceType="3"
         ></Attach>
-        <yd-button size="large" type="primary">保存并提交</yd-button>
+        <yd-button size="large" type="primary" @click="submit">保存并提交</yd-button>
       </ul>
     </div>
 
@@ -134,6 +134,7 @@ export default {
         this.CheckContent = res.rows;
       });
     },
+    //保存
     submit() {
       submitResult().then(res => {});
     }

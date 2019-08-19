@@ -39,8 +39,7 @@
         <yd-cell-item arrow>
           <span slot="left" style="padding-left:.2rem;">整改完成时间：</span>
           <yd-datetime
-            start-date="2012-03-16 15:13"
-            end-date="2029-10-21 22:21"
+            start-date="2019-03-16 15:13"
             v-model="params.srFinishDate"
             slot="right"
           ></yd-datetime>

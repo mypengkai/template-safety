@@ -188,7 +188,6 @@ export default {
             margin-top: 0.2rem;
             line-height: 0.5rem;
             text-align: center;
-            background: #FF8D1A;
             color: #fff;
             -webkit-border-radius: 6px;
             -moz-border-radius: 6px;

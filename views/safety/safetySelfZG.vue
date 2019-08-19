@@ -11,19 +11,24 @@
           <li>{{index+1}}</li>
           <li>
             <span>巡检名称：{{item.spxjname}}</span>
-            <span style="background:#464547">待整改</span>
-
+            <span v-if="item.safe ==0" style="background:#ffc20e">待整改</span>
+            <span v-if="item.safe ==1" style="background:#f26522">待复核</span>
+            <span v-if="item.safe ==2" style="background:#45b97c">通过</span>
+            <span v-if="item.safe ==3" style="background:#ed1941">未通过</span>
           </li>
           <li>所属部门：{{item.departname}}</li>
-          <li>巡检性质：{{item.ipName}}</li>
+          <li>巡检位置：{{item.projectName}}</li>
           <li>检查人：{{item.spCheckUserName}}</li>
-          <li>检查时间：{{item.spCreateDateTime}}</li>
+          <li>创建时间：{{item.spCreateDateTime}}</li>
           <li>
-            <span>检查总数：{{item.checkCount}}</span>
-            <span>安全：{{item.safetyCount}}项</span>
-            <span>有隐患：{{item.hiddenCount}}项</span>
+            <span>整改数量:{{item.done}}</span>
+            <span>待整改:{{item.undone}}项</span>
+            <span>待复核:{{item.uncheck}}项</span>
           </li>
-          <li>整改数量/整改完成数量({{item.RectificationCount}}/{{item.passCount}})</li>
+          <li>是否逾期：
+              <span style="background:#ed1941;color:#fff;padding:0.1rem 0.3rem;border-radius:0.1rem;">逾期</span>
+          </li>
+          <li>未完成数量/已完成数量({{item.done}}/{{item.passCount}})</li>
         </ul>
       </scroller>
     </div>
@@ -32,7 +37,7 @@
 <script>
 import headerTop from "@/components/headerTop.vue";
 import search from "@/components/search.vue";
-import { safetySelfList } from "@/api/request.js";
+import { getZGlist } from "@/api/request.js";
 import { mapGetters } from "vuex";
 export default {
   name: "safetySelfCheck",
@@ -47,10 +52,10 @@ export default {
       formData: {
         offset: 0, // 开始页
         limit: 10, // 每页数量
-        spCreateDateTime: "", // 创建时间
-        spxjname: "", // 巡检名称
-        sprRectificationState: "", // 状态（-1：整改待发送 0：待整改 1：待复核 2：通过 3：不通过）
-        isCheck:1
+        spBeginDate: "", // 开始时间
+        spEndDate: "", // 结束时间
+        isOverdue: "", // 逾期 状态
+        rectificationState: "" // 整改状态（0待整改1待复检2通过3未通过）
       },
       noDate: false
     };
@@ -73,15 +78,15 @@ export default {
       this.$router.push({ path: "/safetySelfAdd" });
     },
     safetyDetail(id) {
-      this.$router.push({ path: "/safetySelfYhzg" ,query:{id:id}});
+      this.$router.push({ path: "/safetySelfYhzg", query: { id: id } });
     },
     //初始化数据
     getInit() {
       let that = this;
-      safetySelfList(this.formData).then(res => {
+      getZGlist(this.formData).then(res => {
         console.log(res);
         if (res.success == 0) {
-          if (that.formData.offset == 1) {
+          if (that.formData.offset == 0) {
             that.formList = res.rows;
           } else {
             that.formList = that.formList.concat(res.rows);
@@ -99,7 +104,7 @@ export default {
     },
     // 下拉刷新
     refresh() {
-      this.formData.offset = 1; //重置页数刷新每次页数都是第一页
+      this.formData.offset = 0; //重置页数刷新每次页数都是第一页
       this.noDate = false; //重置数据判断
       setTimeout(
         function() {
@@ -128,8 +133,8 @@ export default {
       this.getInit();
     }
   },
-  beforeDestroy(){
-       this.$store.commit("getFilterData",'')
+  beforeDestroy() {
+    this.$store.commit("getFilterData", "");
   }
 };
 </script>
@@ -139,7 +144,7 @@ export default {
   height: 100%;
   background-color: #efeff4;
   .safetySelfConent {
-    margin:0.2rem;
+    margin: 0.2rem;
     margin-top: 1.2rem;
     position: relative;
     height: 100%;
@@ -177,8 +182,9 @@ export default {
           display: flex;
           justify-content: space-between;
           span:first-child {
-            color: #5B9FEA;
+            color: #5b9fea ;
             font-weight: bold;
+            overflow: hidden;
           }
           span:last-child {
             width: 1.2rem;
@@ -186,7 +192,6 @@ export default {
             margin-top: 0.2rem;
             line-height: 0.5rem;
             text-align: center;
-            background: #FF8D1A;
             color: #fff;
             -webkit-border-radius: 6px;
             -moz-border-radius: 6px;
@@ -195,11 +200,11 @@ export default {
         }
         &:nth-child(7) {
           span:first-child {
-            color: #5B9FEA;
+            color: #5b9fea;
             font-weight: bold;
           }
           span:nth-child(2) {
-            background: #45b97c;
+            background: #ffc20e;
             color: #fff;
             margin-left: 0.4rem;
             padding: 0.1rem;
@@ -208,7 +213,7 @@ export default {
             border-radius: 3px;
           }
           span:last-child {
-            background: #ed1941;
+            background: #f26522;
             color: #fff;
             margin-left: 0.4rem;
             padding: 0.1rem;
@@ -218,7 +223,7 @@ export default {
           }
         }
         &:last-child {
-          color: #FFB365;
+          color: #FF8D1A;
         }
       }
     }
