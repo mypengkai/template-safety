@@ -1,6 +1,8 @@
 <template>
   <div class="content">
-    <headerTop :title="title"></headerTop>
+    <headerTop :title="title">
+      <span slot="topLeft" class="icon-aliarrow-left- iconBack" @click="routerBack"></span>
+    </headerTop>
     <h3>
       <i class="icon-aliwocanyude"></i>&nbsp;&nbsp;基础信息
     </h3>
@@ -33,34 +35,31 @@
     <h3>
       <i class="icon-alishapes-"></i>&nbsp;&nbsp;整改内容
     </h3>
-    <div class="zgList">
-      <p style="color:white;">1231</p>
+    <div class="zgList" v-for="(item,index) in CheckContent" :key="index">
+      <p style="color:white;">{{++index}}</p>
       <ul>
         <li style="border-bottom: 1px dashed #ccc;">
           <span>
             安全隐患&nbsp;
-            <i style="background:#ffc300;padding:.02rem;">(111级)</i>:
+            <i style="background:#ffc300;padding:.02rem;">{{"("+item.hdGrade+")"}}</i>:
           </span>&nbsp;&nbsp;&nbsp;
-          <span>作业指导书,安全技术交底编制,发放不及时,完整性,准确性,可行性等不符合管理要求</span>
+          <span>{{item.spContent}}</span>
         </li>
         <li style="border-bottom: 1px dashed #ccc;">
           <span>整改要求:</span>&nbsp;&nbsp;&nbsp;
-          <span>
-            作业指导书,安全技术交底编制,发放不及时,完整性,准确性,可行性等不符合管理要求作业指导
-            书,安全技术交底编制,发放不及时,完整性,准确性,可行性等不符合管理要求
-          </span>
+          <span>{{item.srContent}}</span>
         </li>
         <li style="height:1.5rem;border-bottom: 1px dashed #ccc;">
           <span>整改结果:</span>&nbsp;&nbsp;&nbsp;
-          <span style="color:#71ACED">已完成整改</span>
+          <span style="color:#71ACED">{{item.Reply.replayContent}}</span>
         </li>
         <li>
           <span>整改完成时间:</span>&nbsp;&nbsp;&nbsp;
-          <span>2019-9-10</span>
+          <span>{{item.Reply.replayDateTime}}</span>
         </li>
         <li style="margin-bottom:.2rem;">
           <span style="text-align:left;padding-left:.3rem;">整改人:</span>&nbsp;&nbsp;&nbsp;
-          <span>你大爷</span>
+          <span>{{item.Reply.replayUserName}}</span>
         </li>
         <!-- 文件附件 -->
         <Attach
@@ -72,45 +71,7 @@
         <yd-button size="large" type="primary">保存并提交</yd-button>
       </ul>
     </div>
-    <div class="zgList2">
-      <p style="color:white;">1231</p>
-      <ul>
-        <li style="border-bottom: 1px dashed #ccc;">
-          <span>
-            安全隐患&nbsp;
-            <i style="background:#ffc300;padding:.02rem;">(111级)</i>:
-          </span>&nbsp;&nbsp;&nbsp;
-          <span>作业指导书,安全技术交底编制,发放不及时,完整性,准确性,可行性等不符合管理要求</span>
-        </li>
-        <li style="border-bottom: 1px dashed #ccc;">
-          <span>整改要求:</span>&nbsp;&nbsp;&nbsp;
-          <span>
-            作业指导书,安全技术交底编制,发放不及时,完整性,准确性,可行性等不符合管理要求作业指导
-            书,安全技术交底编制,发放不及时,完整性,准确性,可行性等不符合管理要求
-          </span>
-        </li>
-        <li style="height:1.5rem;border-bottom: 1px dashed #ccc;">
-          <span>整改结果:</span>&nbsp;&nbsp;&nbsp;
-          <span style="color:#71ACED">已完成整改</span>
-        </li>
-        <li>
-          <span>整改完成时间:</span>&nbsp;&nbsp;&nbsp;
-          <span>2019-9-10</span>
-        </li>
-        <li style="margin-bottom:.2rem;">
-          <span style="text-align:left;padding-left:.3rem;">整改人:</span>&nbsp;&nbsp;&nbsp;
-          <span>你大爷</span>
-        </li>
-        <!-- 文件附件 -->
-        <Attach
-          :attachList="fileList.files"
-          :delAttachList="delProgressList"
-          :readonly="false"
-          :sourceType="3"
-        ></Attach>
-        <yd-button size="large" type="primary">保存并提交</yd-button>
-      </ul>
-    </div>
+
     <yd-cell-group>
       <yd-cell-item>
         <span slot="left">
@@ -125,7 +86,7 @@
 import headerTop from "@/components/headerTop";
 import Attach from "@/components/Attach.vue";
 
-import { CheckSelfListDetail } from "@/api/request.js";
+import { selfCheck, submitResult } from "@/api/request.js";
 export default {
   components: {
     headerTop,
@@ -139,8 +100,8 @@ export default {
         type: "SafetyPatrol" // 安全
       },
       id: "", //整改列表页携带过来的ID
-      BasicData:"",
-      CheckContent:"",
+      BasicData: "",
+      CheckContent: "",
       params: {
         offset: 1,
         limit: 2,
@@ -150,15 +111,31 @@ export default {
         rectificationState: "",
         isOverdue: ""
       },
+      subParams: {
+        id: "", //安全巡检id
+        replayUserId: "", //回复人员id
+        replayUserName: "", //恢复人员name
+        srId: "", //整改内容id
+        replayType: "", //回复类型
+        replayState: "", //回复状态
+        replayContent: "", //回复内容
+        filesId: "" //上传文件id
+      },
       delProgressList: []
     };
   },
   methods: {
+    routerBack() {
+      this.$router.go(-1);
+    },
     getData() {
-      CheckSelfListDetail({ id: this.id }).then(res => {
-        this.BasicData = res.obj;
+      selfCheck({ id: this.id }).then(res => {
+        this.BasicData = res.attributes;
         this.CheckContent = res.rows;
       });
+    },
+    submit() {
+      submitResult().then(res => {});
     }
   },
   created() {
