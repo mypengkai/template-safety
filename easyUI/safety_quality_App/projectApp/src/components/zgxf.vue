@@ -32,7 +32,8 @@
           </h6>
         </div>
       </li>
-      <yd-cell-group  v-if="item.sprState == 1"
+      <yd-cell-group
+        v-if="item.sprState == 1"
         style="margin-left:.8rem;font-size:12px;border-bottom: 1px dashed #ccc;margin-bottom:0;"
       >
         <yd-cell-item arrow>
@@ -45,7 +46,8 @@
           ></yd-datetime>
         </yd-cell-item>
       </yd-cell-group>
-      <yd-cell-group v-if="item.sprState == 1"
+      <yd-cell-group
+        v-if="item.sprState == 1"
         style="margin-left:.8rem;font-size:12px;margin-bottom:0;"
         @click.native="show4 = true"
       >
@@ -55,7 +57,6 @@
         </yd-cell-item>
       </yd-cell-group>
     </ul>
-
     <yd-popup v-model="show4" position="right">
       <div class="contation">
         <ul>
@@ -85,6 +86,7 @@ export default {
         limit: "1000",
         offset: "0"
       },
+      CheckState: "", //父组件根据此属性来判别是否需要下发整改
       params: {
         id: "", //整改内容ID
         srUserId: "", //整改人ID
@@ -110,10 +112,12 @@ export default {
     }
   },
   created() {
+    this.CheckState = this.itData[0].sprState;
     this.getInit();
+    let userinfo = localStorage.getItem("userinfo");
     this.params.id = this.itData[0].id;
-    this.params.qpCreatePerson = localStorage.getItem("username");
-    this.params.spCreatePersonId = localStorage.getItem("userId");
+    this.params.qpCreatePerson = JSON.parse(userinfo).realname;
+    this.params.spCreatePersonId = JSON.parse(userinfo).id;
   }
 };
 </script>

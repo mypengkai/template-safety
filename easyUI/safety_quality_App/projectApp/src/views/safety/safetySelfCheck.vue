@@ -10,7 +10,7 @@
         <ul v-for="(item,index) in formList" :key="index" @click="safetyDetail(item.id)">
           <li>{{index+1}}</li>
           <li>
-            <span>巡检名称：{{item.spxjname}}</span>
+            <span style="text-overflow: ellipsis;">巡检名称：{{item.spxjname}}</span>
             <span v-if="item.RectificationState =='-1'" style="background:#464547">未发整改</span>
             <span v-if="item.RectificationState =='0'" style="background:#45b97c">通过</span>
             <span v-if="item.RectificationState =='1'" style="background:##f26522">整改中</span>

@@ -107,10 +107,15 @@ export default {
     DownCheck() {
       let arr = this.$refs.mychild.children;
       for (let i = 0; i < arr.length; i++) {
-        this.paramsArr.push(arr[i].__vue__.params);
+        //判断检查状态,是否需要继续下发整改
+        if(arr[i].__vue__.CheckState){
+          this.paramsArr.push(arr[i].__vue__.params);
+        }
       }
       DownCheck(this.paramsArr).then(res => {
-        console.log(res);
+        if(res.success==0){
+          this.$router.push({path:"/safetySelfZG"})
+        }
       });
     }
   }
