@@ -87,7 +87,8 @@ export default {
       BasicData: {}, //基础信息内容
       CheckContent: [], //整改内容
       paramsArr: [],
-      flag: true
+      flag: true,
+      states:[]       // 状态
     };
   },
   created() {
@@ -106,13 +107,17 @@ export default {
           this.BasicData = res.obj;
           this.CheckContent = res.rows;
           this.CheckContent.forEach(element => {
-            if (element.sprState == 0) {
-              this.flag = false;
-            } else if (element.sprState == 1) {
-              this.flag = true;
-            }
+               this.states.push(element.sprState)
           });
-          
+          let state = this.states.some(item=>{
+             return item==1
+          })
+          if(state){
+              this.flag = true
+          }else{
+              this.flag = false
+          }
+
         } else {
           this.$dialog.toast({
             mes: res.msg,
