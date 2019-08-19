@@ -37,7 +37,7 @@
         style="margin-left:.8rem;font-size:12px;border-bottom: 1px dashed #ccc;margin-bottom:0;"
       >
         <yd-cell-item arrow>
-          <span slot="left" style="padding-left:.2rem;">时间段范围：</span>
+          <span slot="left" style="padding-left:.2rem;">整改完成时间：</span>
           <yd-datetime
             start-date="2012-03-16 15:13"
             end-date="2029-10-21 22:21"

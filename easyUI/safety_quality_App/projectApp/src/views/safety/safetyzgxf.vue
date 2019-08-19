@@ -57,6 +57,7 @@
       </yd-cell-group>
       <!-- </h3> -->
       <yd-button
+        v-if="flag"
         size="large"
         type="primary"
         style="background:#2A82E4"
@@ -85,7 +86,8 @@ export default {
       id: "", //列表页传递过来的参数
       BasicData: {}, //基础信息内容
       CheckContent: [], //整改内容
-      paramsArr: []
+      paramsArr: [],
+      flag: true
     };
   },
   created() {
@@ -100,8 +102,23 @@ export default {
     //获取页面数据
     getData() {
       CheckSelfListDetail({ id: this.id }).then(res => {
-        this.BasicData = res.obj;
-        this.CheckContent = res.rows;
+        if (res.success == 0) {
+          this.BasicData = res.obj;
+          this.CheckContent = res.rows;
+          this.CheckContent.forEach(element => {
+            if (element.sprState == 0) {
+              this.flag = false;
+            } else if (element.sprState == 1) {
+              this.flag = true;
+            }
+          });
+          
+        } else {
+          this.$dialog.toast({
+            mes: res.msg,
+            timeout: 2000
+          });
+        }
       });
     },
     DownCheck() {
@@ -113,8 +130,17 @@ export default {
         }
       }
       DownCheck(this.paramsArr).then(res => {
-        if(res.success==0){
+        if (res.success == 0) {
+          this.$dialog.toast({
+            mes: "下发整改成功",
+            timeout: 2000
+          });
           this.$router.push({path:"/safetySelfZG"})
+        } else {
+          this.$dialog.toast({
+            mes: res.msg,
+            timeout: 2000
+          });
         }
       });
     }
