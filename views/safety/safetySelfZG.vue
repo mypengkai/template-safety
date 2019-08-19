@@ -25,8 +25,9 @@
             <span>待整改:{{item.undone}}项</span>
             <span>待复核:{{item.uncheck}}项</span>
           </li>
-          <li>是否逾期：
-              <span style="background:#ed1941;color:#fff;padding:0.1rem 0.3rem;border-radius:0.1rem;">逾期</span>
+          <li class="yuqiLi">
+            是否逾期：
+            <span style="background:#ed1941;">逾期</span>
           </li>
           <li>未完成数量/已完成数量({{item.done}}/{{item.passCount}})</li>
         </ul>
@@ -182,7 +183,7 @@ export default {
           display: flex;
           justify-content: space-between;
           span:first-child {
-            color: #5b9fea ;
+            color: #5b9fea;
             font-weight: bold;
             overflow: hidden;
           }
@@ -223,8 +224,15 @@ export default {
           }
         }
         &:last-child {
-          color: #FF8D1A;
+          color: #ff8d1a;
         }
+      }
+    }
+    .yuqiLi {
+      span {
+        color: #fff;
+        padding: 0.1rem 0.3rem;
+        border-radius: 0.1rem;
       }
     }
   }
