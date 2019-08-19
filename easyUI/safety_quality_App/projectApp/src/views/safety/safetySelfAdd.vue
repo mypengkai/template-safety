@@ -7,7 +7,6 @@
       <div class="addTop">
         <p class="icon-aliwocanyude">&nbsp;&nbsp;基础信息</p>
         <ul>
-          <!-- <li>巡检名称：AQJC20190808-001</li> -->
           <li>所属部门: {{userinfo.departname}}</li>
           <li>巡检位置：{{userinfo.projectName}}</li>
           <li>检查性质：自检</li>
@@ -25,7 +24,6 @@
             <li>巡检结果</li>
           </ul>
           <!-- 动态组件 -->
-
           <div ref="mychild" class="comChild">
             <resultCopy
               ref="childUpload"
@@ -36,45 +34,7 @@
               :key="index"
             ></resultCopy>
           </div>
-
-          <!-- ================================================================================== -->
-          <!-- <div ref="mychild" class="resultCopy">
-            <div class="childrenConent" v-for="(item,index) in this.dangerItems" :key="index">
-              <div class="rowConent">
-                <ol
-                  class="clearfix"
-                  :class="{move:candelete.id==item.id}"
-                  @touchstart="touchStart(item)"
-                  @touchend="touchEnd(item)"
-                >
-                  <li>{{index+1}}</li>
-                  <li>{{item.hdName}}</li>
-                  <li>{{item.hdGrade}}</li>
-                  <li>
-                    <radio
-                      @setValue="getValue"
-                      :currentIndex="index"
-                      :id="`radio[${index}]`"
-                      :ref="`radio[${index}]`"
-                    ></radio>
-                  </li>
-                </ol>
-                <div class="del" @click="deleteItem(index)" v-if="ifFlag && checkId===item.id">删除</div>
-              </div>
-              <div class="AttachBox">
-                <Attach
-                  :id="`upload[${index}]`"
-                  :ref="`upload[${index}]`"
-                  :attachList="fileList.files"
-                  :delAttachList="delProgressList"
-                  :readonly="false"
-                  :sourceType="3"
-                ></Attach>
-              </div>
-            </div>
-          </div>-->
-          <!-- ================================================================================ -->
-          <div class="iconButton" @click="AddCheck()">
+          <div class="iconButton" @click="AddCheck">
             <i class="icon-alixinzeng"></i>
           </div>
         </div>
@@ -83,7 +43,6 @@
     <div class="addCoentFoot">
       <yd-cell-group>
         <yd-cell-item arrow type="link" href="/notifier">
-          <yd-icon slot="icon" name="ucenter" size=".42rem"></yd-icon>
           <span slot="left">通知人</span>
           <span slot="right" v-if="!this.notifier">请选择</span>
           <span slot="right" v-if="this.notifier">{{notifierPersons}}</span>
@@ -111,7 +70,7 @@ export default {
   data() {
     return {
       title: "自主检查",
-      userinfo: {},  // 用户信息
+      userinfo: {}, // 用户信息
       checkId: "", // 选中项的id
       clientNum: {}, // 记录开始滑动（x1）,结束滑动（x2）的鼠标指针的位置
       candelete: {}, // 滑动的item
@@ -134,9 +93,13 @@ export default {
     ...mapGetters(["dangerItems", "notifier"])
   },
   updated() {
-    this.notifierPersons = this.notifier.array.join(",");
+    if (JSON.stringify(this.notifier) != "{}") {
+      this.notifierPersons = this.notifier.names.join(",");
+    }
   },
+
   created() {
+    //console.log(JSON.stringify(this.notifier))
     let user = localStorage.getItem("userinfo");
     this.userinfo = JSON.parse(user);
   },
@@ -146,10 +109,10 @@ export default {
 
   methods: {
     routerBack() {
-      this.$router.go(-1);
+      this.$router.push({ path: "/safetySelfCheck" });
     },
     delItem(data) {
-       this.dangerItems.splice(data,1);
+      this.dangerItems.splice(data, 1);
     },
     //点击添加检查
     AddCheck() {
@@ -179,7 +142,9 @@ export default {
       this.form.departId = this.userinfo.departid;
       this.form.projectId = this.userinfo.projectId;
       this.form.spCheckUserId = this.userinfo.id;
-      this.form.spNotifier = this.notifier.arrayId.join(",");
+      if (JSON.stringify(this.notifier) != "{}") {
+        this.form.spNotifier = this.notifier.ids.join(",");
+      }
 
       addSafety(this.form).then(res => {
         if (res.success == 0) {
@@ -188,8 +153,8 @@ export default {
             timeout: 2000
           });
           // 清楚vuex 数据以及输入框数据
-          this.$store.commit("getDangerItems",'');  // 隐患
-          this.$store.commit("setNotifier",'');     // 通知人
+          this.$store.commit("getDangerItems", ""); // 隐患
+          this.$store.commit("setNotifier", ""); // 通知人
           this.$router.push({ path: "/safetySelfCheck" }); // 计划检查
         } else {
           this.$dialog.toast({

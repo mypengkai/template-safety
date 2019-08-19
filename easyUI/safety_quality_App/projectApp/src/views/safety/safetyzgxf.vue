@@ -51,16 +51,8 @@
       <!-- <h3> -->
       <yd-cell-group>
         <yd-cell-item>
-          <span slot="left" style="padding-left:.3rem;">
-            <i class="icon-alitouxiang"></i>&nbsp;&nbsp;通知人
-          </span>
-          <span slot="right">
-            <p
-              v-for="(item,index) in (BasicData.spNotifierName||'').split(',')"
-              :key="index"
-              style="text-align:left;padding-left:.4rem"
-            >{{++index+':'+item}}</p>
-          </span>
+          <span slot="left">通知人</span>
+          <span slot="right">{{BasicData.spNotifierName}}</span>
         </yd-cell-item>
       </yd-cell-group>
       <!-- </h3> -->
@@ -109,18 +101,14 @@ export default {
     getData() {
       CheckSelfListDetail({ id: this.id }).then(res => {
         this.BasicData = res.obj;
-
         this.CheckContent = res.rows;
-    
       });
     },
     DownCheck() {
       let arr = this.$refs.mychild.children;
-
       for (let i = 0; i < arr.length; i++) {
         this.paramsArr.push(arr[i].__vue__.params);
       }
-
       DownCheck(this.paramsArr).then(res => {
         console.log(res);
       });
@@ -129,7 +117,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.safetyZgxf { 
+.safetyZgxf {
   background-color: #f5f5f5;
   padding-top: 1rem;
 }
