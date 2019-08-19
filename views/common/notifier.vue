@@ -11,7 +11,10 @@
           :key="index"
           @click="checkStateList(item)"
           :class="{selected:arr.includes(item)}"
-        >{{item.realname}}</li>
+        >
+          <span>{{item.realname}}</span>
+          <span>{{item.role}}</span>
+        </li>
       </ul>
     </div>
   </div>
@@ -34,8 +37,8 @@ export default {
       optionsList: [],
       arr: [], //
       notifier: {
-        array: [],
-        arrayId: []
+        names: [],
+        ids: []
       }
     };
   },
@@ -49,7 +52,6 @@ export default {
     addCheck() {
       // 通知人
       this.$store.commit("setNotifier", this.notifier);
-
       this.$router.go(-1);
     },
     getListData() {
@@ -76,14 +78,14 @@ export default {
       } else {
         this.arr.push(item);
       }
-      this.notifier.array = [];
-      this.notifier.arrayId = [];
+      this.notifier.names = [];
+      this.notifier.ids = [];
       this.arr.forEach(e => {
         if (e.realname) {
-          this.notifier.array.push(e.realname);
+          this.notifier.names.push(e.realname);
         }
         if (e.id) {
-          this.notifier.arrayId.push(e.id);
+          this.notifier.ids.push(e.id);
         }
       });
     }
@@ -107,7 +109,17 @@ export default {
     ul {
       li {
         padding: 0.1rem 0;
-        font-size: 0.36rem;
+        display: flex;
+        justify-content: space-between;
+        span {
+          &:first-child {
+            font-size: 0.36rem;
+          }
+          &:last-child {
+            font-size: 0.2rem;
+            color: #ccc;
+          }
+        }
       }
     }
   }

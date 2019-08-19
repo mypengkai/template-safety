@@ -36,7 +36,7 @@ export default {
   methods: {
     // 回退
     routerBack() {
-      this.$router.go(-1);
+      this.$router.push({path:"/dashboard"});
     },
     // 自检
     selfCheck() {

@@ -68,7 +68,7 @@ export default {
   },
   methods: {
     routerBack() {
-      this.$router.go(-1);
+      this.$router.push({path:"/safetyMenu"});
     },
     addSafetySelf() {
       this.$router.push({ path: "/safetySelfAdd" });
@@ -141,7 +141,7 @@ export default {
   background-color: #efeff4;
   .safetySelfConent {
     margin:0.2rem;
-    margin-top: 1.6rem;
+    margin-top: 1.2rem;
     position: relative;
     height: 100%;
     ul {

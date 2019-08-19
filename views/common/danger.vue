@@ -44,7 +44,8 @@ export default {
           onClick: this.nodeClick
         }
       },
-      array:[] // 选择的隐患项
+      array:[],  // 存储的隐患项
+      obj:{},    // 选择的隐患项
     };
   },
   created() {
@@ -52,11 +53,12 @@ export default {
   },
   methods: {
     goBack() {
-      this.$router.go(-1);
+      this.$router.push({ path: "/safetySelfAdd" });
     },
     routerGo() {
+      this.array.push(this.obj)
       this.$store.commit("getDangerItems", this.array);
-      this.$router.go(-1);
+      this.$router.push({ path: "/safetySelfAdd" });
     },
     // 初始化隐患
     getDangerInit() {
@@ -74,7 +76,8 @@ export default {
         });
         return false;
       }
-      this.array.push(treeNode);
+      // this.array.push(treeNode);
+      this.obj = treeNode
     }
   }
 };

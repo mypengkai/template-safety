@@ -13,12 +13,26 @@
         <p>整改要求:</p>
         <p>{{item.ZGmethod}}</p>
       </li>
-       <li>
+      <li>
         <p>检查状态:</p>
         <p v-if="item.sprState == 0" style="color:#45b97c">安全</p>
         <p v-if="item.sprState == 1" style="color:#ed1941">有隐患</p>
       </li>
-      <yd-cell-group
+      <li>
+        <p>附件:</p>
+        <div class="imgFile">
+          <h6>
+            <viewer :images="item.ResultFile">
+              <img
+                v-for="(src,index) in item.ResultFile"
+                :src="fileURL+src.sprfFilePath"
+                :key="index"
+              />
+            </viewer>
+          </h6>
+        </div>
+      </li>
+      <yd-cell-group  v-if="item.sprState == 1"
         style="margin-left:.8rem;font-size:12px;border-bottom: 1px dashed #ccc;margin-bottom:0;"
       >
         <yd-cell-item arrow>
@@ -31,8 +45,11 @@
           ></yd-datetime>
         </yd-cell-item>
       </yd-cell-group>
-      <yd-cell-group style="margin-left:.8rem;font-size:12px;margin-bottom:0;" @click.native="show4 = true">
-        <yd-cell-item arrow  close-on-masker="true">
+      <yd-cell-group v-if="item.sprState == 1"
+        style="margin-left:.8rem;font-size:12px;margin-bottom:0;"
+        @click.native="show4 = true"
+      >
+        <yd-cell-item arrow close-on-masker="true">
           <span slot="left" style="padding-left:.2rem;">选择整改人:</span>
           <span slot="right">{{params.srUserName}}</span>
         </yd-cell-item>
@@ -40,7 +57,6 @@
     </ul>
 
     <yd-popup v-model="show4" position="right">
-      <!-- <yd-button type="danger" style="margin: 30px;" @click.native="show4 = false">Close Right Popup</yd-button> -->
       <div class="contation">
         <ul>
           <li
@@ -91,7 +107,6 @@ export default {
       this.active = index;
       this.params.srUserName = item.realname;
       this.params.srUserId = item.id;
-      // this.show4=false
     }
   },
   created() {
@@ -153,6 +168,20 @@ export default {
     }
   }
 }
+.imgFile {
+  width: 100%;
+  overflow: hidden;
+  h6 {
+    width: 1.2rem;
+    height: 1.2rem;
+    display: inline-block;
+    img {
+      width: 1.2rem;
+      height: 1.2rem;
+      display: block;
+    }
+  }
+}
 .contation {
   padding: 0.2rem;
   ul {
@@ -170,7 +199,6 @@ export default {
 }
 /deep/.yd-cell-right {
   font-size: 12px;
-  // padding-left: 2.2rem;
 }
 /deep/.yd-cell:after {
   height: 0;
