@@ -33,14 +33,22 @@
       ></Attach>
       <li style="margin-top:.2rem;margin-bottom:.2rem;">
         <p>
-          <button>通过</button>
+          <button @click="subParams.replayState=1" :class="{border:subParams.replayState==1}">通过</button>
         </p>
         <p>
-          <button>不通过</button>
+          <button @click="subParams.replayState=2" :class="{border:subParams.replayState==2}">不通过</button>
         </p>
       </li>
       <li style="margin-bottom:.1rem;">不通过原因:</li>
-      <textarea name id cols="57" rows="5" placeholder="点击输入文字..." class="text"></textarea>
+      <textarea
+        name
+        id
+        cols="57"
+        rows="5"
+        placeholder="点击输入文字..."
+        class="text"
+        v-model="subParams.replayContent"
+      ></textarea>
       <!-- 文件附件 -->
       <Attach
         :attachList="fileList.files"
@@ -49,15 +57,16 @@
         :sourceType="3"
         style="border-bottom:1px dashed #ccc;"
       ></Attach>
-      <yd-button size="large" type="primary" style="width:97%;">保存并提交</yd-button>
+      <yd-button size="large" type="primary" style="width:97%;" @click.native="submit(con)">保存并提交</yd-button>
     </div>
   </div>
 </template>
 
 <script>
 import Attach from "./Attach.vue";
+import { selfCheck, submitResult, safetyAddResult } from "@/api/request.js";
 export default {
-  props: ["ConData"],
+  props: ["ConData", "xjID"],
   components: {
     Attach
   },
@@ -74,11 +83,68 @@ export default {
         replayUserName: "", //恢复人员name
         srId: "", //整改内容id
         replayType: 1, //回复类型
-        replayState: 0, //回复状态
+        replayState: "", //回复状态
         replayContent: "", //回复内容
         filesId: "" //上传文件id
       }
     };
+  },
+  created() {
+    this.subParams.id = this.xjID;
+    let userinfo = localStorage.getItem("userinfo");
+    this.subParams.replayUserName = JSON.parse(userinfo).realname;
+    this.subParams.replayUserId = JSON.parse(userinfo).id;
+  },
+  methods: {
+    async submit(item) {
+      this.subParams.srId = item.srId;
+      if (!this.subParams.replayState) {
+        this.$dialog.toast({
+          mes: "请选择复核状态",
+          timeout: 1000
+        });
+        return false;
+      }
+      await this.upResult();
+      submitResult(this.subParams).then(res => {
+        if (res.success == 0) {
+          this.$dialog.toast({
+            mes: "整改成功",
+            timeout: 3000
+          });
+          this.$router.push({ path: "/safetySelfZG" });
+        } else {
+          this.$dialog.toast({
+            mes: res.msg,
+            timeout: 3000
+          });
+        }
+      });
+    },
+    //文件上传
+    upResult() {
+      let formData = new FormData();
+      formData.append("type", this.fileList.type);
+      if (this.fileList.files.length > 0) {
+        for (let key in this.fileList.files) {
+          formData.append("file", this.fileList.files[key].file);
+        }
+      }
+      safetyAddResult(formData).then(res => {
+        if (res.success == 0) {
+          this.subParams.filesId = res.obj;
+          this.$dialog.toast({
+            mes: "上传成功",
+            timeout: 2000
+          });
+        } else {
+          this.$dialog.toast({
+            mes: res.msg,
+            timeout: 2000
+          });
+        }
+      });
+    }
   }
 };
 </script>
@@ -94,6 +160,7 @@ export default {
       display: flex;
       p {
         flex: 0 0 50%;
+        padding-left: 0.5rem;
         button {
           width: 2rem;
           height: 0.8rem;
@@ -131,4 +198,8 @@ textarea {
   margin-left: 0.1rem;
   width: 6.2rem;
 }
+.border {
+  border: 2px solid #e0861a;
+}
+
 </style>

@@ -15,7 +15,7 @@
           <span>{{item.srContent}}</span>
         </li>
 
-        <xunhuanFH v-for="(con,lis) in item.Reply" :key="lis" :ConData="[con]"></xunhuanFH>
+        <xunhuanFH v-for="(con,lis) in item.Reply" :key="lis" :ConData="[con]" :xjID="BasicData.spid"></xunhuanFH>
       </ul>
     </div>
   </div>
