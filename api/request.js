@@ -115,7 +115,7 @@ export const rectifyList = (data) => {
 export const DownCheck = (data) => {
 	return axios.post(`/SafetyRectification/appointRectification`, data).then(res => res.data)
 }
-//自检隐患整改
+//自检隐患整改(明细)
 export const selfCheck=(data)=>{
 	return axios.post(`/SafetyRectification/details`,data).then(res=>res.data)
 }

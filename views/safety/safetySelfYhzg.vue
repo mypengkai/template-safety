@@ -74,15 +74,6 @@ export default {
       id: "", //整改列表页携带过来的ID
       BasicData: {},
       CheckContent: [],
-      // params: {
-      //   offset: 1,
-      //   limit: 2,
-      //   orgcode: "",
-      //   spBeginDate: "",
-      //   spEndDate: "",
-      //   rectificationState: "",
-      //   isOverdue: ""
-      // },
       subParams: {
         id: "", //安全巡检id
         replayUserId: "", //回复人员id
@@ -109,7 +100,6 @@ export default {
     },
     //保存
     async submit(item) {
-      alert(1);
       this.subParams.id = this.BasicData.spid;
       this.subParams.srId = item.srid;
       console.log(item);

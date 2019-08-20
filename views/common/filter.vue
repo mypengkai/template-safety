@@ -44,18 +44,7 @@
         >{{item}}</li>
       </ul>
       <!-- ==================================================================== -->
-      <!-- <ul v-if="isHowZG">
-        <li
-          v-for="(item,index) in stateZG"
-          :key="index"
-          :class="{selected:index==activeZG}"
-          @click="zgState(index)"
-        >{{item}}</li>
-      </ul> -->
-      <!-- ======================================================== -->
-      <div class="filterFoot" v-if="isHowZG">
-        <h3>是否逾期</h3>
-        <ul>
+      <ul v-if="isHowZG">
           <li
             v-for="(item,index) in stateYQ"
             :key="index"
@@ -63,7 +52,6 @@
             @click="yqState(index)"
           >{{item}}</li>
         </ul>
-      </div>
     </div>
   </div>
 </template>
@@ -78,7 +66,6 @@ export default {
       isHowCH: false,
       spCreateDateTime: "",
       options: ["未发整改", "通过", "整改中"],
-      stateZG: ["待整改", "待复核", "通过", "未通过"], //（0---3）
       stateYQ: ["未逾期", "逾期"], //(0-1)
       activeZG: null,
       activeYQ: null,
@@ -98,7 +85,7 @@ export default {
     next(vm => {
       // console.log(from) // 上一页面的路由信息
       // vm 指的是当前的vue实例
-      if (from.path == "/safetySelfZG") {
+      if (from.path == "/safetySelfZG" || from.path == "/safetySelfFH") {
         vm.isHowZG = true;
         vm.isHowCH = false;
       } else if (from.path == "/safetySelfCheck") {
@@ -109,10 +96,8 @@ export default {
   },
 
   updated() {
-    //this.formData.spCreateDateTime = this.spCreateDateTime;
     this.formData.sprRectificationState = parseInt(this.active);
     this.formData.isOverdue = parseInt(this.activeYQ);
-   // this.formData.rectificationState = parseInt(this.activeZG);
   },
   methods: {
     routerBack() {
@@ -125,9 +110,6 @@ export default {
     filterState(index) {
       this.active = index;
     },
-    // zgState(index) {
-    //   this.activeZG = index;
-    // },
     yqState(index) {
       this.activeYQ = index;
     }
@@ -148,7 +130,7 @@ export default {
       background: #5f5f5f;
       color: #fff;
       padding: 0.1rem 0.4rem;
-      border-radius: 0.3rem;
+      border-radius: 0.2rem;
     }
   }
   .filterConter {
@@ -158,11 +140,6 @@ export default {
       border-bottom: 1px solid #ccc;
       font-size: 0.3rem;
       font-weight: bold;
-    }
-  }
-  .filterFoot {
-    ul {
-      padding: 0.3rem 1rem;
     }
   }
   .selected {
