@@ -80,9 +80,9 @@ export default {
     getInit() {
       let that = this;
       safetySelfList(this.formData).then(res => {
-        console.log(res);
+        //console.log(res);
         if (res.success == 0) {
-          if (that.formData.offset == 1) {
+          if (that.formData.offset == 0) {
             that.formList = res.rows;
           } else {
             that.formList = that.formList.concat(res.rows);
@@ -100,7 +100,7 @@ export default {
     },
     // 下拉刷新
     refresh() {
-      this.formData.offset = 1; //重置页数刷新每次页数都是第一页
+      this.formData.offset = 0; //重置页数刷新每次页数都是第一页
       this.noDate = false; //重置数据判断
       setTimeout(
         function() {
@@ -219,7 +219,7 @@ export default {
           }
         }
         &:last-child {
-          color: #FFB365;
+          color: #ff8d1a;
         }
       }
     }

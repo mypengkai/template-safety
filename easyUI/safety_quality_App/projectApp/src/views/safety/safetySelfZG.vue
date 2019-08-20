@@ -2,7 +2,6 @@
   <div class="safetySelfCheck">
     <headerTop :title="title">
       <span slot="topLeft" class="icon-aliarrow-left- iconBack" @click="routerBack"></span>
-      <span slot="topRight" class="icon-alixinzeng iconBack" @click="addSafetySelf"></span>
     </headerTop>
     <search @search="searchCheck"></search>
     <div class="safetySelfConent">
@@ -27,9 +26,10 @@
           </li>
           <li class="yuqiLi">
             是否逾期：
-            <span style="background:#ed1941;">逾期</span>
+            <span v-if="item.overdue ==1" style="background:#ed1941;">逾期</span>
+            <span v-if="item.overdue ==0" style="background:#45b97c;">未逾期</span>
           </li>
-          <li>未完成数量/已完成数量({{item.done}}/{{item.passCount}})</li>
+          <li>未完成数量/已完成数量({{item.unfinish}}/{{item.finish}})</li>
         </ul>
       </scroller>
     </div>
@@ -53,10 +53,11 @@ export default {
       formData: {
         offset: 0, // 开始页
         limit: 10, // 每页数量
+        spxjname:'', // 巡检名称
         spBeginDate: "", // 开始时间
         spEndDate: "", // 结束时间
         isOverdue: "", // 逾期 状态
-        rectificationState: "" // 整改状态（0待整改1待复检2通过3未通过）
+        rectificationState:0 // 整改状态（0待整改1待复检）
       },
       noDate: false
     };
@@ -64,8 +65,10 @@ export default {
   created() {
     this.getInit();
     if (Object.keys(this.filterData).length > 0) {
-      this.formData.spCreateDateTime = this.filterData.spCreateDateTime;
-      this.formData.sprRectificationState = this.filterData.sprRectificationState;
+      this.formData.spBeginDate = this.filterData.spBeginDate;
+      this.formData.spEndDate = this.filterData.spEndDate;
+      this.formData.isOverdue = this.filterData.isOverdue;
+      this.formData.rectificationState = this.filterData.rectificationState;
     }
   },
   computed: {
@@ -74,9 +77,6 @@ export default {
   methods: {
     routerBack() {
       this.$router.go(-1);
-    },
-    addSafetySelf() {
-      this.$router.push({ path: "/safetySelfAdd" });
     },
     safetyDetail(id) {
       this.$router.push({ path: "/safetySelfYhzg", query: { id: id } });
