@@ -67,24 +67,24 @@ export default {
   data() {
     return {
       title: "自检隐患整改",
-      fileList: {
-        files: [],
-        type: "SafetyPatrol" // 安全
-      },
       id: "", //整改列表页携带过来的ID
       BasicData: {},
       CheckContent: [],
-      subParams: {
-        id: "", //安全巡检id
-        replayUserId: "", //回复人员id
-        replayUserName: "", //恢复人员name
-        srId: "", //整改内容id
-        replayType: 0, //回复类型
-        replayState: 0, //回复状态
-        replayContent: "", //回复内容
-        filesId: "" //上传文件id
-      },
-      delProgressList: []
+      // subParams: {
+      //   id: "", //安全巡检id
+      //   replayUserId: "", //回复人员id
+      //   replayUserName: "", //恢复人员name
+      //   srId: "", //整改内容id
+      //   replayType: 0, //回复类型
+      //   replayState: 0, //回复状态
+      //   replayContent: "", //回复内容
+      //   filesId: "" //上传文件id
+      // },
+      // fileList: {
+      //   files: [],
+      //   type: "SafetyPatrol" // 安全
+      // },
+      // delProgressList: []
     };
   },
 
@@ -99,56 +99,53 @@ export default {
       });
     },
     //保存
-    async submit(item) {
-      this.subParams.id = this.BasicData.spid;
-      this.subParams.srId = item.srid;
-      console.log(item);
-      await this.upResult();
-      submitResult(this.subParams).then(res => {
-        if (res.success == 0) {
-          this.$dialog.toast({
-            mes: "整改成功",
-            timeout: 3000
-          });
-        } else {
-          this.$dialog.toast({
-            mes: res.msg,
-            timeout: 3000
-          });
-        }
-      });
-    },
+    // async submit(item) {
+    //   this.subParams.id = this.BasicData.spid;
+    //   this.subParams.srId = item.srid;
+    //   console.log(item);
+    //   await this.upResult();
+    //   submitResult(this.subParams).then(res => {
+    //     if (res.success == 0) {
+    //       this.$dialog.toast({
+    //         mes: "整改成功",
+    //         timeout: 3000
+    //       });
+    //     } else {
+    //       this.$dialog.toast({
+    //         mes: res.msg,
+    //         timeout: 3000
+    //       });
+    //     }
+    //   });
+    // },
     //文件上传
-    upResult() {
-      let formData = new FormData();
-      formData.append("type", this.fileList.type);
-      if (this.fileList.files.length > 0) {
-        for (let key in this.fileList.files) {
-          formData.append("file", this.fileList.files[key].file);
-        }
-      }
-      safetyAddResult(formData).then(res => {
-        if (res.success == 0) {
-          this.subParams.filesId = res.obj;
-          this.$dialog.toast({
-            mes: "上传成功",
-            timeout: 2000
-          });
-        } else {
-          this.$dialog.toast({
-            mes: res.msg,
-            timeout: 2000
-          });
-        }
-      });
-    }
+    // upResult() {
+    //   let formData = new FormData();
+    //   formData.append("type", this.fileList.type);
+    //   if (this.fileList.files.length > 0) {
+    //     for (let key in this.fileList.files) {
+    //       formData.append("file", this.fileList.files[key].file);
+    //     }
+    //   }
+    //   safetyAddResult(formData).then(res => {
+    //     if (res.success == 0) {
+    //       this.subParams.filesId = res.obj;
+    //       this.$dialog.toast({
+    //         mes: "上传成功",
+    //         timeout: 2000
+    //       });
+    //     } else {
+    //       this.$dialog.toast({
+    //         mes: res.msg,
+    //         timeout: 2000
+    //       });
+    //     }
+    //   });
+    // }
   },
   created() {
     this.id = this.$route.query.id;
     this.getData();
-    let userinfo = localStorage.getItem("userinfo");
-    this.subParams.replayUserName = JSON.parse(userinfo).realname;
-    this.subParams.replayUserId = JSON.parse(userinfo).id;
   }
 };
 </script>

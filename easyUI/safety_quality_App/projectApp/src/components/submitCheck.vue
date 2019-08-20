@@ -20,11 +20,11 @@
         </li>
         <li>
           <span>整改完成时间:</span>&nbsp;&nbsp;&nbsp;
-          <span>{{item.Reply.replayDateTime}}</span>
+          <span>{{item.srFinishDate}}</span>
         </li>
         <li style="margin-bottom:.2rem;">
           <span style="text-align:left;padding-left:.3rem;">整改人:</span>&nbsp;&nbsp;&nbsp;
-          <span>{{item.Reply.replayUserName}}</span>
+          <span>{{item.srUserName}}</span>
         </li>
         <!-- 文件附件 -->
         <Attach
@@ -33,7 +33,7 @@
           :readonly="false"
           :sourceType="3"
         ></Attach>
-        <yd-button size="large" type="primary" @click.native="submit(item)">保存并提交</yd-button>
+        <yd-button size="large" type="primary" @click.native="submit(item)" v-show="flag">保存并提交</yd-button>
       </ul>
     </div>
   </div>
@@ -43,16 +43,16 @@
 import Attach from "./Attach.vue";
 import { selfCheck, submitResult, safetyAddResult } from "@/api/request.js";
 export default {
-  props:{
-      contentData:{
-         type:Array
-      },
-      xuhao:{
-         type:Number,
-      },
-      BasicData:{
-         type:Object
-      }
+  props: {
+    contentData: {
+      type: Array
+    },
+    xuhao: {
+      type: Number
+    },
+    BasicData: {
+      type: Object
+    }
   },
   components: {
     Attach
@@ -64,7 +64,6 @@ export default {
         files: [],
         type: "SafetyPatrol" // 安全
       },
-      id: "", //整改列表页携带过来的ID
       subParams: {
         id: "", //安全巡检id
         replayUserId: "", //回复人员id
@@ -75,17 +74,40 @@ export default {
         replayContent: "", //回复内容
         filesId: "" //上传文件id
       },
-      delProgressList: []
+      delProgressList: [],
+      username: "", // 登录用户
+      flag: true
     };
   },
-  created(){
-      
+  mounted() {
+    this.$nextTick(() => {
+      this.contentData.forEach(element => {
+        if (this.username == element.srUserName) {
+          this.flag = true;
+        } else {
+          this.flag = false;
+        }
+      });
+    });
+  },
+  created() {
+    let userinfo = localStorage.getItem("userinfo");
+    this.subParams.replayUserName = JSON.parse(userinfo).realname;
+    this.username = JSON.parse(userinfo).realname;
+    this.subParams.replayUserId = JSON.parse(userinfo).id;
   },
   methods: {
     //保存
     async submit(item) {
       this.subParams.id = this.BasicData.spid;
       this.subParams.srId = item.srid;
+      if (this.subParams.replayContent == "") {
+        this.$dialog.toast({
+          mes: "请输入整改结果",
+          timeout: 2000
+        });
+        return false;
+      }
       await this.upResult();
       submitResult(this.subParams).then(res => {
         if (res.success == 0) {
@@ -93,7 +115,7 @@ export default {
             mes: "整改成功",
             timeout: 3000
           });
-          this.$router.push({path:"/safetySelfFH"})
+          this.$router.push({ path: "/safetySelfFH" });
         } else {
           this.$dialog.toast({
             mes: res.msg,
