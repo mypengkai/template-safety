@@ -4,7 +4,7 @@
       <li>{{xuhao+1}}</li>
       <li>
         <p>
-          安全隐患&nbsp;
+          隐患&nbsp;
           <i style="background:#ffc300;padding:.02rem;">{{"("+item.hdGrade+")"}}</i>:
         </p>
         <p>{{item.hdContent}}</p>
@@ -41,6 +41,8 @@
           <yd-datetime
             start-date="2019-03-16 15:13"
             v-model="params.srFinishDate"
+            :init-emit="false"
+            placeholder="请选择整改完成时间"
             slot="right"
           ></yd-datetime>
         </yd-cell-item>

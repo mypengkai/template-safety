@@ -51,7 +51,7 @@
         </li>
         <li style="height:1.5rem;border-bottom: 1px dashed #ccc;">
           <span>整改结果:</span>&nbsp;&nbsp;&nbsp;
-          <span style="color:#71ACED">{{item.Reply.replayContent}}</span>
+          <textarea v-model="subParams.replayContent"></textarea>
         </li>
         <li>
           <span>整改完成时间:</span>&nbsp;&nbsp;&nbsp;
@@ -68,16 +68,16 @@
           :readonly="false"
           :sourceType="3"
         ></Attach>
-        <yd-button size="large" type="primary" @click="submit">保存并提交</yd-button>
+        <yd-button size="large" type="primary" @click.native="submit(item)">保存并提交</yd-button>
       </ul>
     </div>
 
     <yd-cell-group>
-      <yd-cell-item>
+      <yd-cell-item arrow>
         <span slot="left">
           <i class="icon-alitouxiang"></i>&nbsp;&nbsp;通知人
         </span>
-        <span slot="right">右边内容一</span>
+        <span slot="right">{{BasicData.spNotifierName}}</span>
       </yd-cell-item>
     </yd-cell-group>
   </div>
@@ -85,8 +85,7 @@
 <script>
 import headerTop from "@/components/headerTop";
 import Attach from "@/components/Attach.vue";
-
-import { selfCheck, submitResult } from "@/api/request.js";
+import { selfCheck, submitResult, safetyAddResult } from "@/api/request.js";
 export default {
   components: {
     headerTop,
@@ -100,30 +99,31 @@ export default {
         type: "SafetyPatrol" // 安全
       },
       id: "", //整改列表页携带过来的ID
-      BasicData: "",
-      CheckContent: "",
-      params: {
-        offset: 1,
-        limit: 2,
-        orgcode: "",
-        spBeginDate: "",
-        spEndDate: "",
-        rectificationState: "",
-        isOverdue: ""
-      },
+      BasicData: {},
+      CheckContent: [],
+      // params: {
+      //   offset: 1,
+      //   limit: 2,
+      //   orgcode: "",
+      //   spBeginDate: "",
+      //   spEndDate: "",
+      //   rectificationState: "",
+      //   isOverdue: ""
+      // },
       subParams: {
         id: "", //安全巡检id
         replayUserId: "", //回复人员id
         replayUserName: "", //恢复人员name
         srId: "", //整改内容id
-        replayType: "", //回复类型
-        replayState: "", //回复状态
+        replayType: 0, //回复类型
+        replayState: 0, //回复状态
         replayContent: "", //回复内容
         filesId: "" //上传文件id
       },
       delProgressList: []
     };
   },
+
   methods: {
     routerBack() {
       this.$router.go(-1);
@@ -135,13 +135,57 @@ export default {
       });
     },
     //保存
-    submit() {
-      submitResult().then(res => {});
+    async submit(item) {
+      alert(1);
+      this.subParams.id = this.BasicData.spid;
+      this.subParams.srId = item.srid;
+      console.log(item)
+      await this.upResult();
+      submitResult(this.subParams).then(res => {
+        if (res.success == 0) {
+          this.$dialog.toast({
+            mes: "整改成功",
+            timeout: 3000
+          });
+        } else {
+          this.$dialog.toast({
+            mes: res.msg,
+            timeout: 3000
+          });
+        }
+      });
+    },
+    //文件上传
+    upResult() {
+      let formData = new FormData();
+      formData.append("type", this.fileList.type);
+      if (this.fileList.files.length > 0) {
+        for (let key in this.fileList.files) {
+          formData.append("file", this.fileList.files[key].file);
+        }
+      }
+      safetyAddResult(formData).then(res => {
+        if (res.success == 0) {
+          this.subParams.filesId = res.obj;
+          this.$dialog.toast({
+            mes: "上传成功",
+            timeout: 2000
+          });
+        } else {
+          this.$dialog.toast({
+            mes: res.msg,
+            timeout: 2000
+          });
+        }
+      });
     }
   },
   created() {
     this.id = this.$route.query.id;
     this.getData();
+    let userinfo = localStorage.getItem("userinfo");
+    this.subParams.replayUserName = JSON.parse(userinfo).realname;
+    this.subParams.replayUserId = JSON.parse(userinfo).id;
   }
 };
 </script>
@@ -224,8 +268,9 @@ export default {
       }
       textarea {
         padding: 0.2rem;
-        border-radius: 0.2rem;
-        margin-left: 0.1rem;
+        border-radius: 0.1rem;
+        width: 100%;
+        border: 1px solid #ccc;
       }
     }
   }

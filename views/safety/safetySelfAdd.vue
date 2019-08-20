@@ -43,7 +43,7 @@
     <div class="addCoentFoot">
       <yd-cell-group>
         <yd-cell-item arrow type="link" href="/notifier">
-          <span slot="left">通知人</span>
+          <span slot="left"><i class="icon-alitouxiang"></i>&nbsp;&nbsp;通知人</span>
           <span slot="right" v-if="!this.notifier">请选择</span>
           <span slot="right" v-if="this.notifier">{{notifierPersons}}</span>
         </yd-cell-item>
