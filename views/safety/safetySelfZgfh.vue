@@ -9,33 +9,15 @@
     <ul class="information">
       <li>
         <span>巡检名称:</span>&nbsp;&nbsp;&nbsp;
-<<<<<<< .mine
-        <span>{{dataObj.spxjname}}</span>
-||||||| .r14115
-        <span>AQXJ20190807_001</span>
-=======
         <span>{{BasicData.spxjname}}</span>
->>>>>>> .r14124
       </li>
       <li>
         <span>所属部门:</span>&nbsp;&nbsp;&nbsp;
-<<<<<<< .mine
-        <span>{{dataObj.departname}}</span>
-||||||| .r14115
-        <span>安质部</span>
-=======
         <span>{{BasicData.departname}}</span>
->>>>>>> .r14124
       </li>
       <li>
         <span>巡检位置:</span>&nbsp;&nbsp;&nbsp;
-<<<<<<< .mine
-        <span>{{dataObj.projectName}}</span>
-||||||| .r14115
-        <span>花果山隧道洞口</span>
-=======
         <span>{{BasicData.projectName}}</span>
->>>>>>> .r14124
       </li>
       <!-- <li>
         <span>检查性质:</span>&nbsp;&nbsp;&nbsp;
@@ -43,13 +25,7 @@
       </li>-->
       <li>
         <span>检查人:</span>&nbsp;&nbsp;&nbsp;
-<<<<<<< .mine
-        <span>{{dataObj.spCheckUserName}}</span>
-||||||| .r14115
-        <span>AQXJ20190807_001</span>
-=======
         <span>{{BasicData.spCheckUserName}}</span>
->>>>>>> .r14124
       </li>
       <li>
         <span>检查时间:</span>&nbsp;&nbsp;&nbsp;

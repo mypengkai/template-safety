@@ -57,7 +57,7 @@
       </yd-cell-group>
       <!-- </h3> -->
       <yd-button
-        v-if="flag"
+        v-show="flag"
         size="large"
         type="primary"
         style="background:#2A82E4"
@@ -83,13 +83,13 @@ export default {
     return {
       title: "自检整改单下发",
       datetime7: "",
-      username:'',  // 登录用户
+      username: "", // 登录用户
       id: "", //列表页传递过来的参数
       BasicData: {}, //基础信息内容
       CheckContent: [], //整改内容
       paramsArr: [],
       flag: true,
-      states:[]       // 状态
+      states: [] // 状态
     };
   },
   created() {
@@ -97,7 +97,6 @@ export default {
     this.getData();
     let userinfo = localStorage.getItem("userinfo");
     this.username = JSON.parse(userinfo).realname;
-   
   },
   methods: {
     //页面回退
@@ -111,17 +110,16 @@ export default {
           this.BasicData = res.obj;
           this.CheckContent = res.rows;
           this.CheckContent.forEach(element => {
-               this.states.push(element.sprState)
+            this.states.push(element.sprState);
           });
-          let state = this.states.some(item=>{
-             return item==1
-          })
-          if(state && this.username == this.BasicData.spCheckUserName){
-              this.flag = true
-          }else{
-              this.flag = false
+          let state = this.states.some(item => {
+            return item == 1;
+          });
+          if (state && this.username == this.BasicData.spCheckUserName) {
+            this.flag = true;
+          } else {
+            this.flag = false;
           }
-
         } else {
           this.$dialog.toast({
             mes: res.msg,
@@ -132,10 +130,28 @@ export default {
     },
     DownCheck() {
       let arr = this.$refs.mychild.children;
+      let list = [];
       for (let i = 0; i < arr.length; i++) {
         //判断检查状态,是否需要继续下发整改
-        if(arr[i].__vue__.CheckState){
-          this.paramsArr.push(arr[i].__vue__.params);
+        if (arr[i].__vue__.CheckState) {
+          list.push(arr[i].__vue__.params);
+        }
+      }
+      this.paramsArr = list
+      for (let key in this.paramsArr) {
+        if (this.paramsArr[key].srFinishDate == "") {
+          this.$dialog.toast({
+            mes: "请选择整改时间",
+            timeout: 2000
+          });
+          return false;
+        }
+        if (this.paramsArr[key].srUserName == "") {
+          this.$dialog.toast({
+            mes: "请选择整改人",
+            timeout: 2000
+          });
+          return false;
         }
       }
       DownCheck(this.paramsArr).then(res => {
