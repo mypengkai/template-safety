@@ -19,10 +19,10 @@
         <span>巡检位置:</span>&nbsp;&nbsp;&nbsp;
         <span>{{BasicData.projectName}}</span>
       </li>
-      <!-- <li>
+      <li>
         <span>检查性质:</span>&nbsp;&nbsp;&nbsp;
         <span>自检</span>
-      </li>-->
+      </li>
       <li>
         <span>检查人:</span>&nbsp;&nbsp;&nbsp;
         <span>{{BasicData.spCheckUserName}}</span>
@@ -36,13 +36,13 @@
       <i class="icon-alishapes-"></i>&nbsp;&nbsp;整改内容
     </h3>
 
-    <submitFH v-for="(item,index) in CheckContent" :key="index" :contentData="CheckContent" :BasicData="BasicData" :xuhao="index"></submitFH>
+    <submitFH v-for="(item,index) in CheckContent" :key="index" :contentData="[item]" :BasicData="BasicData" :xuhao="index"></submitFH>
     <yd-cell-group>
       <yd-cell-item>
         <span slot="left">
           <i class="icon-alitouxiang"></i>&nbsp;&nbsp;通知人
         </span>
-        <span slot="right">{{dataObj.spNotifierName}}</span>
+        <span slot="right">右边内容一</span>
       </yd-cell-item>
     </yd-cell-group>
   </div>
@@ -68,21 +68,7 @@ export default {
         files: [],
         type: "SafetyPatrol" // 安全
       },
-      delProgressList: [],
-      dataObj: {},
-      dataList: [],
-      options:["通过","不通过"],
-      active:null,
-      subParams: {
-        id: "", //安全巡检id
-        replayUserId: "", //回复人员id
-        replayUserName: "", //恢复人员name
-        srId: "", //整改内容id
-        replayType: 0, //回复类型
-        replayState: 0, //回复状态
-        replayContent: "", //回复内容
-        filesId: "", //上传文件id
-      }
+      delProgressList: []
     };
   },
   created(){
@@ -105,6 +91,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .content {
+  // padding: 0 0.1rem;
   padding-top: 1.2rem;
   background-color: #f5f5f5;
   h3 {
@@ -144,6 +131,7 @@ export default {
         align-items: center; //子元素垂直居中
         span {
           display: inline-block;
+
           &:nth-child(1) {
             flex: 0 0 28%;
             text-align: center;
@@ -201,43 +189,9 @@ export default {
       }
       textarea {
         padding: 0.2rem;
-        border-radius: 0.1rem;
+        border-radius: 0.2rem;
         margin-left: 0.1rem;
         width: 6.2rem;
-      }
-    }
-    .imgBox {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      h6 {
-        width: 1.2rem;
-        height: 1.2rem;
-        img {
-          width: 100%;
-          height: 100%;
-          display: block;
-        }
-      }
-    }
-    .zgConent {
-      ol {
-        li{
-            border-bottom: 1px dashed #ccc;
-        }
-      }
-      .stateLi {
-        ul {
-          display: flex;
-          justify-content: space-between;
-          li{
-             border: 1px solid #ccc;
-             text-align: center;
-             padding: 0.2rem 0.4rem;
-             font-size: 0.28rem;
-             border-radius: 0.1rem;
-          }
-        }
       }
     }
   }
