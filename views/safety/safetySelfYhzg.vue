@@ -35,43 +35,14 @@
     <h3>
       <i class="icon-alishapes-"></i>&nbsp;&nbsp;整改内容
     </h3>
-    <div class="zgList" v-for="(item,index) in CheckContent" :key="index">
-      <p style="color:white;">{{++index}}</p>
-      <ul>
-        <li style="border-bottom: 1px dashed #ccc;">
-          <span>
-            隐患&nbsp;
-            <i style="color:#ffc300;padding:.02rem;">{{"("+item.hdGrade+")"}}</i>:
-          </span>&nbsp;&nbsp;&nbsp;
-          <span>{{item.spContent}}</span>
-        </li>
-        <li style="border-bottom: 1px dashed #ccc;">
-          <span>整改要求:</span>&nbsp;&nbsp;&nbsp;
-          <span>{{item.srContent}}</span>
-        </li>
-        <li style="height:1.5rem;border-bottom: 1px dashed #ccc;">
-          <span>整改结果:</span>&nbsp;&nbsp;&nbsp;
-          <textarea v-model="subParams.replayContent"></textarea>
-        </li>
-        <li>
-          <span>整改完成时间:</span>&nbsp;&nbsp;&nbsp;
-          <span>{{item.Reply.replayDateTime}}</span>
-        </li>
-        <li style="margin-bottom:.2rem;">
-          <span style="text-align:left;padding-left:.3rem;">整改人:</span>&nbsp;&nbsp;&nbsp;
-          <span>{{item.Reply.replayUserName}}</span>
-        </li>
-        <!-- 文件附件 -->
-        <Attach
-          :attachList="fileList.files"
-          :delAttachList="delProgressList"
-          :readonly="false"
-          :sourceType="3"
-        ></Attach>
-        <yd-button size="large" type="primary" @click.native="submit(item)">保存并提交</yd-button>
-      </ul>
-    </div>
 
+    <submitCheck
+      v-for="(item,index) in CheckContent"
+      :key="index"
+      :contentData="[item]"
+      :BasicData="BasicData"
+      :xuhao="index"
+    ></submitCheck>
     <yd-cell-group>
       <yd-cell-item arrow>
         <span slot="left">
@@ -85,10 +56,12 @@
 <script>
 import headerTop from "@/components/headerTop";
 import Attach from "@/components/Attach.vue";
+import submitCheck from "@/components/submitCheck.vue";
 import { selfCheck, submitResult, safetyAddResult } from "@/api/request.js";
 export default {
   components: {
     headerTop,
+    submitCheck,
     Attach
   },
   data() {
@@ -139,7 +112,7 @@ export default {
       alert(1);
       this.subParams.id = this.BasicData.spid;
       this.subParams.srId = item.srid;
-      console.log(item)
+      console.log(item);
       await this.upResult();
       submitResult(this.subParams).then(res => {
         if (res.success == 0) {
