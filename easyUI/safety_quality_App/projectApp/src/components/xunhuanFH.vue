@@ -6,7 +6,7 @@
         <div class="imgFile">
           <h6>
             <viewer :images="con.files2">
-              <img v-for="(src,index) in con.files2" :src="FilePath" :key="index" />
+              <img v-for="(src,index) in con.files2" :src="fileURL+ src.FilePath" :key="index" />
             </viewer>
           </h6>
         </div>
@@ -23,14 +23,7 @@
         <span style="text-align:left;padding-left:.3rem;">整改人:</span>&nbsp;&nbsp;&nbsp;
         <span>{{con.replayUserName}}</span>
       </li>
-      <!-- 文件附件 -->
-      <Attach
-        :attachList="fileList.files"
-        :delAttachList="delProgressList"
-        :readonly="false"
-        :sourceType="3"
-        style="border-bottom:1px dashed #ccc;"
-      ></Attach>
+
       <li style="margin-top:.2rem;margin-bottom:.2rem;">
         <p>
           <button @click="subParams.replayState=1" :class="{border:subParams.replayState==1}">通过</button>
@@ -41,8 +34,6 @@
       </li>
       <li style="margin-bottom:.1rem;">不通过原因:</li>
       <textarea
-        name
-        id
         cols="57"
         rows="5"
         placeholder="点击输入文字..."
@@ -74,7 +65,7 @@ export default {
     return {
       fileList: {
         files: [],
-        type: "SafetyPatrol" // 安全
+        type: "SafetyReply" // 安全
       },
       delProgressList: [],
       subParams: {
@@ -105,24 +96,7 @@ export default {
         });
         return false;
       }
-      await this.upResult();
-      submitResult(this.subParams).then(res => {
-        if (res.success == 0) {
-          this.$dialog.toast({
-            mes: "整改成功",
-            timeout: 3000
-          });
-          this.$router.push({ path: "/safetySelfZG" });
-        } else {
-          this.$dialog.toast({
-            mes: res.msg,
-            timeout: 3000
-          });
-        }
-      });
-    },
-    //文件上传
-    upResult() {
+      //文件上传
       let formData = new FormData();
       formData.append("type", this.fileList.type);
       if (this.fileList.files.length > 0) {
@@ -130,7 +104,7 @@ export default {
           formData.append("file", this.fileList.files[key].file);
         }
       }
-      safetyAddResult(formData).then(res => {
+      await safetyAddResult(formData).then(res => {
         if (res.success == 0) {
           this.subParams.filesId = res.obj;
           this.$dialog.toast({
@@ -141,6 +115,20 @@ export default {
           this.$dialog.toast({
             mes: res.msg,
             timeout: 2000
+          });
+        }
+      });
+      submitResult(this.subParams).then(res => {
+        if (res.success == 0) {
+          this.$dialog.toast({
+            mes: "复核成功",
+            timeout: 3000
+          });
+          this.$router.push({ path: "/safetySelfZG" });
+        } else {
+          this.$dialog.toast({
+            mes: res.msg,
+            timeout: 3000
           });
         }
       });
@@ -156,7 +144,7 @@ export default {
     padding: 0.2rem 0.1rem;
     padding-right: 0.3rem;
     align-items: center; //子元素垂直居中
-    &:nth-child(6) {
+    &:nth-child(5) {
       display: flex;
       p {
         flex: 0 0 50%;
@@ -201,5 +189,19 @@ textarea {
 .border {
   border: 2px solid #e0861a;
 }
-
+.imgFile {
+  width: 100%;
+  overflow: hidden;
+  h6 {
+    width: 1.2rem;
+    height: 1.2rem;
+    display: inline-block;
+    overflow: hidden;
+    img {
+      width: 1.2rem;
+      height: 1.2rem;
+      display: block;
+    }
+  }
+}
 </style>

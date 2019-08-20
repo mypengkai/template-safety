@@ -180,6 +180,7 @@ export default {
     width: 1.2rem;
     height: 1.2rem;
     display: inline-block;
+    overflow: hidden;
     img {
       width: 1.2rem;
       height: 1.2rem;

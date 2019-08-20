@@ -62,7 +62,7 @@ export default {
       title: "自检隐患整改",
       fileList: {
         files: [],
-        type: "SafetyPatrol" // 安全
+        type: "SafetyReply" // 安全
       },
       subParams: {
         id: "", //安全巡检id
@@ -82,7 +82,7 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.contentData.forEach(element => {
-        if (this.username == element.srUserName) {
+        if (this.username == element.srUserName && element.type == 0) {
           this.flag = true;
         } else {
           this.flag = false;
@@ -108,7 +108,29 @@ export default {
         });
         return false;
       }
-      await this.upResult();
+      // await this.upResult();
+      let formData = new FormData();
+      formData.append("type", this.fileList.type);
+      if (this.fileList.files.length > 0) {
+        for (let key in this.fileList.files) {
+          formData.append("file", this.fileList.files[key].file);
+        }
+      }
+      await safetyAddResult(formData).then(res => {
+        if (res.success == 0) {
+          this.subParams.filesId = res.obj;
+          this.$dialog.toast({
+            mes: "上传成功",
+            timeout: 2000
+          });
+        } else {
+          this.$dialog.toast({
+            mes: res.msg,
+            timeout: 2000
+          });
+        }
+      });
+      alert(JSON.stringify(this.subParams))
       submitResult(this.subParams).then(res => {
         if (res.success == 0) {
           this.$dialog.toast({
@@ -125,29 +147,29 @@ export default {
       });
     },
     //文件上传
-    upResult() {
-      let formData = new FormData();
-      formData.append("type", this.fileList.type);
-      if (this.fileList.files.length > 0) {
-        for (let key in this.fileList.files) {
-          formData.append("file", this.fileList.files[key].file);
-        }
-      }
-      safetyAddResult(formData).then(res => {
-        if (res.success == 0) {
-          this.subParams.filesId = res.obj;
-          this.$dialog.toast({
-            mes: "上传成功",
-            timeout: 2000
-          });
-        } else {
-          this.$dialog.toast({
-            mes: res.msg,
-            timeout: 2000
-          });
-        }
-      });
-    }
+    // upResult() {
+    //   let formData = new FormData();
+    //   formData.append("type", this.fileList.type);
+    //   if (this.fileList.files.length > 0) {
+    //     for (let key in this.fileList.files) {
+    //       formData.append("file", this.fileList.files[key].file);
+    //     }
+    //   }
+    //   safetyAddResult(formData).then(res => {
+    //     if (res.success == 0) {
+    //       this.subParams.filesId = res.obj;
+    //       this.$dialog.toast({
+    //         mes: "上传成功",
+    //         timeout: 2000
+    //       });
+    //     } else {
+    //       this.$dialog.toast({
+    //         mes: res.msg,
+    //         timeout: 2000
+    //       });
+    //     }
+    //   });
+    // }
   }
 };
 </script>
