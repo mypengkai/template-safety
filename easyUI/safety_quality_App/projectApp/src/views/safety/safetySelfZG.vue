@@ -58,6 +58,7 @@ export default {
         spEndDate: "", // 结束时间
         isOverdue: "", // 逾期 状态
         rectificationState:0 // 整改状态（0待整改1待复检）
+   
       },
       noDate: false
     };
