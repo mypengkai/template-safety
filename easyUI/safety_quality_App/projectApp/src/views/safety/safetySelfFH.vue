@@ -10,10 +10,10 @@
           <li>{{index+1}}</li>
           <li>
             <span>巡检名称：{{item.spxjname}}</span>
-            <span v-if="item.safe ==0" style="background:#ffc20e">待整改</span>
+            <!-- <span v-if="item.safe ==0" style="background:#ffc20e">待整改</span>
             <span v-if="item.safe ==1" style="background:#f26522">待复核</span>
             <span v-if="item.safe ==2" style="background:#45b97c">通过</span>
-            <span v-if="item.safe ==3" style="background:#ed1941">未通过</span>
+            <span v-if="item.safe ==3" style="background:#ed1941">未通过</span> -->
           </li>
           <li>所属部门：{{item.departname}}</li>
           <li>巡检位置：{{item.projectName}}</li>
@@ -57,7 +57,7 @@ export default {
         spBeginDate: "", // 开始时间
         spEndDate: "", // 结束时间
         isOverdue: "", // 逾期 状态
-        rectificationState: 1 // 整改状态（0待整改1待复检2通过3未通过）
+        rectificationState: "1" // 整改状态（0待整改1待复检2通过3未通过）
       },
       noDate: false
     };
@@ -180,24 +180,24 @@ export default {
           padding: 0 0.4rem;
         }
         &:nth-child(2) {
-          display: flex;
-          justify-content: space-between;
+          // display: flex;
+          // justify-content: space-between;
           span:first-child {
             color: #5b9fea;
             font-weight: bold;
             overflow: hidden;
           }
-          span:last-child {
-            width: 1.2rem;
-            height: 0.5rem;
-            margin-top: 0.2rem;
-            line-height: 0.5rem;
-            text-align: center;
-            color: #fff;
-            -webkit-border-radius: 6px;
-            -moz-border-radius: 6px;
-            border-radius: 6px;
-          }
+          // span:last-child {
+          //   width: 1.2rem;
+          //   height: 0.5rem;
+          //   margin-top: 0.2rem;
+          //   line-height: 0.5rem;
+          //   text-align: center;
+          //   color: #fff;
+          //   -webkit-border-radius: 6px;
+          //   -moz-border-radius: 6px;
+          //   border-radius: 6px;
+          // }
         }
         &:nth-child(7) {
           span:first-child {

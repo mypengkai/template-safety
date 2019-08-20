@@ -7,95 +7,67 @@
       <div class="detailTop">
         <p class="icon-aliwocanyude">&nbsp;&nbsp;基础信息</p>
         <ul>
-          <li>巡检名称：AQJC20190808-001</li>
-          <li>所属部门：安质部</li>
-          <li>巡检位置：大桥</li>
+          <li>巡检名称：{{dataObj.spxjname}}</li>
+          <li>所属部门：{{dataObj.departname}}</li>
+          <li>巡检位置：{{dataObj.projectName}}</li>
           <li>检查性质：自检</li>
-          <li>检查人：韩信</li>
-          <li>检查时间：2019-08-08 10:10:20</li>
-          <li>通知人：花木兰，百里玄策</li>
-          <li>有隐患项：1，3</li>
+          <li>检查人：{{dataObj.spCheckUserName}}</li>
+          <li>检查时间：{{dataObj.spCreateDateTime}}</li>
+          <li>通知人：{{dataObj.spNotifierName}}</li>
+          <!-- <li>有隐患项：1，3</li> -->
         </ul>
       </div>
       <div class="detailFoot">
         <p class="icon-alishapes-">&nbsp;&nbsp;整改内容</p>
-        <div class="datailSeeBox">
-          <h3>1</h3>
+        <div class="datailSeeBox" v-for="(item,index) in dataList" :key="index">
+          <h3>{{index+1}}</h3>
           <ul>
             <li>
               <span>
                 隐患(
-                <i>3级</i>):
+                <i>{{item.hdGrade}}</i>):
               </span>
               <span>
-                <em>作业指导书作业指导书作业指导书作业指导书作业指导书作业指导书作业指导书作业指导书作业指导书作业指导书作业指导书作业指导书作业指导书作业指导书作业指导书</em>
+                <em>{{item.spContent}}</em>
                 <p>
-                  <img src="@/assets/img/logo.png" alt />
+                  <!-- <img src="@/assets/img/logo.png" alt /> -->
+                  <viewer :images="item.files">
+                    <img v-for="(src,index) in item.files" :src="fileURL+src.FilePath" :key="index" />
+                  </viewer>
                 </p>
               </span>
             </li>
             <li>
               <span>整改要求：</span>
-              <span>作业指导书作业指导书作业指导书作业指导书作业指导书作业指导书作业指导书作业指导书作业指导书作业指导书作业指导书作业指导书作业指</span>
+              <span>{{item.srContent}}</span>
             </li>
             <div class="infoList">
-              <ol>
-                <li>
+              <ol v-for="(value,index) in item.Reply" :key="index">
+                <li v-if="value.replayType==0">
                   <span>整改结果：</span>
                   <span>
-                    <b>已完成</b>
-                    <b>第一次</b>
+                    <b>{{value.replayContent}}</b>
+                    <b>第{{index+1}}次</b>
                   </span>
                 </li>
-                <li>整改完成时间：2019-08-12 9：18：30</li>
-                <li>整改人：韩信</li>
-                <li>
-                  附件：
-                  <p>
-                    <img src="@/assets/img/logo.png" alt />
-                  </p>
-                </li>
-                <li class="fjLi">
+                <li class="fjLi" v-if="value.replayType==1">
                   复核结果：
-                  <i>未通过</i>
+                  <i v-if="value.replayState==1" style="background:#45b97c">通过</i>
+                  <i v-if="value.replayState==2" style="background:#b70000">不通过</i>
                 </li>
-                <li>复核人：李白</li>
-                <li>复核时间：2019-08-12 9：18：30</li>
-                <li>不通过原因：整改要求不复核</li>
+                <li v-if="value.replayType==1">不通过原因：{{value.replayContent}}</li>
+                <li>整改完成时间：{{value.replayDateTime}}</li>
+                <li>{{value.replayType==0? "整改人" :"复核人"}}：{{value.replayUserName}}</li>
                 <li>
                   附件：
                   <p>
-                    <img src="@/assets/img/logo.png" alt />
-                  </p>
-                </li>
-              </ol>
-              <ol>
-                <li class="fjLi">
-                  <span>整改结果：</span>
-                  <span>
-                    <b>已完成</b>
-                    <b>第一次</b>
-                  </span>
-                </li>
-                <li>整改完成时间：2019-08-12 9：18：30</li>
-                <li>整改人：韩信</li>
-                <li>
-                  附件：
-                  <p>
-                    <img src="@/assets/img/logo.png" alt />
-                  </p>
-                </li>
-                <li class="fjLi">
-                  复核结果：
-                  <i>未通过</i>
-                </li>
-                <li>复核人：李白</li>
-                <li>复核时间：2019-08-12 9：18：30</li>
-                <li>不通过原因：整改要求不复核</li>
-                <li>
-                  附件：
-                  <p>
-                    <img src="@/assets/img/logo.png" alt />
+                    <viewer :images="value.files2">
+                      <img
+                        v-for="(src,index) in value.files2"
+                        :src="fileURL+src.FilePath"
+                        :key="index"
+                      />
+                    </viewer>
                   </p>
                 </li>
               </ol>
@@ -108,16 +80,32 @@
 </template>
 <script>
 import headerTop from "@/components/headerTop.vue";
+import { selfCheck } from "@/api/request.js";
 export default {
   components: { headerTop },
   data() {
     return {
-      title: "自检详情"
+      title: "最终详情",
+      id: this.$route.query.id,
+      dataObj: {},
+      dataList: []
     };
+  },
+  created() {
+    this.getInit();
   },
   methods: {
     routerBack() {
       this.$router.go(-1);
+    },
+    getInit() {
+      selfCheck({ id: this.$route.query.id }).then(res => {
+        console.log(res);
+        if (res.success == 0) {
+          this.dataObj = res.attributes;
+          this.dataList = res.rows;
+        }
+      });
     }
   }
 };
@@ -148,9 +136,9 @@ export default {
         margin-bottom: 0.2rem;
         li {
           margin-left: 0.8rem;
-          &:last-child {
-            color: #b70000;
-          }
+          // &:last-child {
+          //   color: #b70000;
+          // }
         }
       }
     }
@@ -204,6 +192,7 @@ export default {
               width: 1rem;
               height: 1rem;
               margin: 0.1rem;
+              overflow: hidden;
               img {
                 width: 100%;
                 height: 100%;
@@ -258,21 +247,16 @@ export default {
                   }
                 }
               }
-              &:nth-child(5) {
-                i {
-                  background: #b70000;
-                  color: #fff;
-                  padding: 0.1rem 0.3rem;
-                  border-radius: 0.2rem;
-                }
-              }
-              &:nth-child(8) {
-                font-weight: bold;
-              }
+             
             }
             .fjLi {
               border-top: 1px dashed #ccc;
               padding-top: 0.1rem;
+              i {
+                color: #fff;
+                padding: 0.1rem 0.3rem;
+                border-radius: 0.2rem;
+              }
             }
           }
         }

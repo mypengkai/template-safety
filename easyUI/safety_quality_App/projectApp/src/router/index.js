@@ -40,7 +40,8 @@ import filter from "@/views/common/filter"
 import CheckPerson from "@/views/common/CheckPerson"
 //联系人列表
 import notifier from "@/views/common/notifier"
-
+//最终查看列表
+import safetyDoneList from "@/views/safety/safetyDoneList"
 Vue.use(Router)
 const router = new Router({
   routes: [
@@ -164,6 +165,12 @@ const router = new Router({
       name: "notifier",
       component: notifier
     },
+    //整改最终查看列表
+    {
+      path: '/safetyDoneList',
+      name: "safetyDoneList",
+      component: safetyDoneList
+    }
   ]
 })
 

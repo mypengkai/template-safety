@@ -43,7 +43,17 @@
 import Attach from "./Attach.vue";
 import { selfCheck, submitResult, safetyAddResult } from "@/api/request.js";
 export default {
-  props: ["contentData", "xuhao", "BasicData"],
+  props:{
+      contentData:{
+         type:Array
+      },
+      xuhao:{
+         type:Number,
+      },
+      BasicData:{
+         type:Object
+      }
+  },
   components: {
     Attach
   },
@@ -55,8 +65,6 @@ export default {
         type: "SafetyPatrol" // 安全
       },
       id: "", //整改列表页携带过来的ID
-      BasicData: {},
-      CheckContent: [],
       subParams: {
         id: "", //安全巡检id
         replayUserId: "", //回复人员id
@@ -70,13 +78,14 @@ export default {
       delProgressList: []
     };
   },
+  created(){
+      
+  },
   methods: {
     //保存
     async submit(item) {
-      alert(1);
       this.subParams.id = this.BasicData.spid;
       this.subParams.srId = item.srid;
-      console.log(item);
       await this.upResult();
       submitResult(this.subParams).then(res => {
         if (res.success == 0) {

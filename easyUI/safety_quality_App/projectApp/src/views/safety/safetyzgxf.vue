@@ -83,6 +83,7 @@ export default {
     return {
       title: "自检整改单下发",
       datetime7: "",
+      username:'',  // 登录用户
       id: "", //列表页传递过来的参数
       BasicData: {}, //基础信息内容
       CheckContent: [], //整改内容
@@ -94,6 +95,9 @@ export default {
   created() {
     this.id = this.$route.query.id;
     this.getData();
+    let userinfo = localStorage.getItem("userinfo");
+    this.username = JSON.parse(userinfo).realname;
+   
   },
   methods: {
     //页面回退
@@ -112,7 +116,7 @@ export default {
           let state = this.states.some(item=>{
              return item==1
           })
-          if(state){
+          if(state && this.username == this.BasicData.spCheckUserName){
               this.flag = true
           }else{
               this.flag = false

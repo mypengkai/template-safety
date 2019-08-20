@@ -17,6 +17,10 @@
           <span class="icon-aligerenxinxiicon-"></span>
           <span>复核</span>
         </li>
+        <li @click="safetyDone">
+          <span class="icon-alizhenggaicuoshi"></span>
+          <span>完成</span>
+        </li>
       </ul>
     </div>
   </div>
@@ -36,7 +40,7 @@ export default {
   methods: {
     // 回退
     routerBack() {
-      this.$router.push({path:"/dashboard"});
+      this.$router.push({ path: "/dashboard" });
     },
     // 自检
     selfCheck() {
@@ -49,6 +53,10 @@ export default {
     //复核
     safetyFuhe() {
       this.$router.push({ path: "/safetySelfFH" });
+    },
+    //最终查询
+    safetyDone() {
+      this.$router.push({ path: "/safetyDoneList" });
     }
   }
 };
