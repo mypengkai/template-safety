@@ -137,7 +137,7 @@ export default {
           list.push(arr[i].__vue__.params);
         }
       }
-      this.paramsArr = list
+      this.paramsArr = list;
       for (let key in this.paramsArr) {
         if (this.paramsArr[key].srFinishDate == "") {
           this.$dialog.toast({
@@ -160,7 +160,7 @@ export default {
             mes: "下发整改成功",
             timeout: 2000
           });
-          this.$router.push({path:"/safetySelfZG"})
+          this.$router.push({ path: "/safetySelfZG" });
         } else {
           this.$dialog.toast({
             mes: res.msg,

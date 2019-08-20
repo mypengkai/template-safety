@@ -42,7 +42,7 @@
         <span slot="left">
           <i class="icon-alitouxiang"></i>&nbsp;&nbsp;通知人
         </span>
-        <span slot="right">右边内容一</span>
+        <span slot="right">{{BasicData.spNotifierName}}</span>
       </yd-cell-item>
     </yd-cell-group>
   </div>
@@ -81,7 +81,6 @@ export default {
     },
     getData() {
       selfCheck({ id: this.id }).then(res => {
-        console.log(res)
         this.BasicData = res.attributes;
         this.CheckContent = res.rows;
       });
@@ -146,69 +145,10 @@ export default {
           font-weight: 600;
         }
       }
-      .dialogue {
-        li {
-          display: flex;
-          padding: 0.2rem 0.1rem;
-          padding-right: 0.3rem;
-          align-items: center; //子元素垂直居中
-          &:nth-child(6) {
-            display: flex;
-            p {
-              flex: 0 0 50%;
-              button {
-                width: 2rem;
-                height: 0.8rem;
-                color: white;
-                font-size: 0.28rem;
-                border-radius: 0.2rem;
-                &:nth-child(1) {
-                  background-color: green;
-                }
-              }
-            }
-            p:nth-child(2) {
-              button:nth-child(1) {
-                background-color: red;
-              }
-            }
-          }
-          span {
-            display: inline-block;
-
-            &:nth-child(1) {
-              flex: 0 0 28%;
-              text-align: center;
-            }
-            &:nth-child(2) {
-              flex: 0 0 72%;
-              padding: 0.1rem;
-            }
-          }
-        }
-      }
-      textarea {
-        padding: 0.2rem;
-        border-radius: 0.2rem;
-        margin-left: 0.1rem;
-        width: 6.2rem;
-      }
+    
     }
   }
-  .imgFile {
-    width: 100%;
-    overflow: hidden;
-    h6 {
-      width: 1.2rem;
-      height: 1.2rem;
-      display: inline-block;
-      img {
-        width: 1.2rem;
-        height: 1.2rem;
-        display: block;
-      }
-    }
-  }
+  
 }
 /deep/.yd-cell-box {
   margin-bottom: 0 !important;
