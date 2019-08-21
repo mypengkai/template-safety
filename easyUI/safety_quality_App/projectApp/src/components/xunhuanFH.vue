@@ -23,7 +23,6 @@
         <span style="text-align:left;padding-left:.3rem;">整改人:</span>&nbsp;&nbsp;&nbsp;
         <span>{{con.replayUserName}}</span>
       </li>
-
       <li style="margin-top:.2rem;margin-bottom:.2rem;">
         <p>
           <button @click="subParams.replayState=1" :class="{border:subParams.replayState==1}">通过</button>
@@ -156,7 +155,7 @@ export default {
           font-size: 0.28rem;
           border-radius: 0.2rem;
           &:nth-child(1) {
-            background-color: green;
+            background-color: #00a6ac;
           }
         }
       }
@@ -187,7 +186,7 @@ textarea {
   width: 6.2rem;
 }
 .border {
-  border: 2px solid #e0861a;
+  border: 2px solid #525f42;
 }
 .imgFile {
   width: 100%;
