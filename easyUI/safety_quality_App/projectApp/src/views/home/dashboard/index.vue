@@ -21,11 +21,15 @@
       </yd-slider>
       <!-- 天气 -->
       <div class="weather">
-        <span>{{weaterList.week}}</span>
+        <!-- <span>{{weaterList.week}}</span>
         <span>{{weaterList.date | formDate}}</span>
         <span>{{weaterList.wea}}</span>
         <span>{{weaterList.tem2}}~{{weaterList.tem1}}</span>
-        <span>{{win}}&nbsp;{{weaterList.win_speed}}</span>
+        <span>{{win}}&nbsp;{{weaterList.win_speed}}</span> -->
+       <iframe width="280" scrolling="no" height="25" frameborder="0" allowtransparency="true" src="http://i.tianqi.com/index.php?c=code&id=34&icon=1&num=3"></iframe>
+ 
+ 
+ 
       </div>
     </div>
     <div class="tabBar">
@@ -109,19 +113,19 @@
         <div class="safetyConentRight">
           <ul>
             <li>
-                <span>总数：</span>&nbsp;&nbsp;{{hideenList.zong}}
+                <span>总数&nbsp;&nbsp;：({{hideenList.zong}})</span>
             </li>
             <li>
-                 <span>Ⅰ级：</span>&nbsp;&nbsp;{{hideenList.one}} 
+                 <span>Ⅰ级：&nbsp;&nbsp;({{hideenList.one}})</span>
             </li>
             <li>
-                 <span>Ⅱ级：</span>&nbsp;&nbsp;{{hideenList.tow}}
+                 <span>Ⅱ级：&nbsp;&nbsp;({{hideenList.tow}})</span>
             </li>
             <li>
-                 <span>Ⅲ级：</span>&nbsp;&nbsp;{{hideenList.three}}
+                 <span>Ⅲ级：&nbsp;&nbsp;({{hideenList.three}})</span>
             </li>
             <li>
-                 <span>Ⅳ级：</span>&nbsp;&nbsp;{{hideenList.four}}
+                 <span>Ⅳ级：&nbsp;&nbsp;({{hideenList.four}})</span>
             </li>
           </ul>
         </div>
@@ -181,7 +185,8 @@ export default {
   },
   created() {
     this.cityid = localStorage.getItem("cid");
-    this.initweater();
+    this.cityname = localStorage.getItem("cname");
+    // this.initweater();
     this.getNum()
     this.getYinhuan()
   },
@@ -201,31 +206,26 @@ export default {
       })
     },
     // 城市天气
-    initweater() {
-      var that = this;
-      $.ajax({
-        type: "get",
-        url: "https://www.tianqiapi.com/api/?version=v1&cityid=" + that.cityid,
-        dataType: "jsonp",
-        success: function(res) {
-          if (res.data && res.data.length >= 0) {
-            that.weaterList = res.data[0];
-            if (that.weaterList.win && that.weaterList.win.length >= 0) {
-              that.win = that.weaterList.win[0];
-            }
-          }
-        }
-      });
-      // axios.get(`https://www.tianqiapi.com/api/?version=v1&cityid=${this.cityid}`).then(res=>{
-      //      console.log(res,"res")
-      // })
-    },
+    // initweater() {
+    //   var that = this;
+    //   $.ajax({
+    //     type: "get",
+    //     url: "http://wthrcdn.etouch.cn/weather_mini?city=武汉市",
+    //     dataType: "jsonp",
+    //     success: function(res) {
+    //       if (res.data && res.data.length >= 0) {
+    //         that.weaterList = res.data[0];
+    //         if (that.weaterList.win && that.weaterList.win.length >= 0) {
+    //           that.win = that.weaterList.win[0];
+    //         }
+    //       }
+    //     }
+    //   });
+    // },
     getNumber(data){
          this.hideenList = data;
          console.log(this.hideenList)
     },
-
-
     safetyPage() {
       // 安全页面跳转
       this.$router.push({ path: "/safetyMenu" });
@@ -647,21 +647,25 @@ export default {
                span{
                   color: #00ae9d;
                }
+               margin-left:0.8rem;
             }
              &:nth-child(3){
                span{
                   color: #b2d235;
                }
+               margin-left:0.8rem;
             }
              &:nth-child(4){
                span{
                   color: #f47920;
                }
+               margin-left:0.8rem;
             }
              &:nth-child(5){
                span{
                   color: #d71345;
                }
+               margin-left:0.8rem;
             } 
           }
         }

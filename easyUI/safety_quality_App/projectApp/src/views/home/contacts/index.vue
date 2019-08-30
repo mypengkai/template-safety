@@ -1,7 +1,7 @@
 <template>
   <div class="contacts">
     <headerTop :title="title">
-      <span slot="topRight" class="padd" @click="routerGo" v-if="isHow">确定</span>
+      <!-- <span slot="topRight" class="padd">确定</span> -->
     </headerTop>
     <div class="contation">
       <ul id="treeDemo" class="ztree"></ul>
@@ -10,7 +10,7 @@
 </template>
 <script>
 import headerTop from "@/components/headerTop";
-//import { organAll } from "@/api/request.js";
+import { getDepart } from "@/api/request.js";
 export default {
   components: {
     headerTop
@@ -41,25 +41,25 @@ export default {
       }
     };
   },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      // console.log(from) // 上一页面的路由信息
-      // vm 指的是当前的vue实例
-      if (from.path == "/addPlan" || from.path == "/QaddPlan") {
-        vm.isHow = true;
-      } else {
-        vm.isHow = false;
-      }
-    });
-  },
+  // beforeRouteEnter(to, from, next) {
+  //   next(vm => {
+  //     // console.log(from) // 上一页面的路由信息
+  //     // vm 指的是当前的vue实例
+  //     if (from.path == "/addPlan" || from.path == "/QaddPlan") {
+  //       vm.isHow = true;
+  //     } else {
+  //       vm.isHow = false;
+  //     }
+  //   });
+  // },
   created() {
-    //this.getListData();
+    this.getListData();
   },
   methods: {
     getListData() {
-      organAll().then(res => {
+      getDepart().then(res => {
         if (res.success == 0) {
-          $.fn.zTree.init($("#treeDemo"), this.setting, res.obj);
+          $.fn.zTree.init($("#treeDemo"), this.setting, res.rows);
           var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
           var nodes = treeObj.getNodes();
           for (var i = 0; i < nodes.length; i++) {
@@ -79,10 +79,10 @@ export default {
     
       this.departObj = treeNode;
     },
-    routerGo() {
-      this.$store.dispatch("setdepartAll", this.departObj);
-      this.$router.go(-1);
-    }
+    // routerGo() {
+    //   this.$store.dispatch("setdepartAll", this.departObj);
+    //   this.$router.go(-1);
+    // }
   }
 };
 </script>
@@ -97,6 +97,7 @@ export default {
 }
 /deep/ul.ztree {
   margin-bottom: 1.2rem;
+  background: #fff;
 }
 /deep/.ztree * {
   font-size: 18px !important;
