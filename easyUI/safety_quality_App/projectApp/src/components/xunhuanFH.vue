@@ -37,25 +37,11 @@ export default {
   },
   data() {
     return {
-      flag: true
+      
     };
   },
   created() {},
-  mounted() {
-    this.$nextTick(() => {
-      this.ConData.forEach(element => {
-        //console.log(element)
-        if (
-          this.username == this.xjID.spCheckUserName &&
-          element.replayType == 0
-        ) {
-          this.flag = true;
-        } else {
-          this.flag = false;
-        }
-      });
-    });
-  },
+  
 
   methods: {
 
