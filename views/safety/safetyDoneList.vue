@@ -30,6 +30,11 @@
             <span v-if="item.overdue ==0" style="background:#45b97c;">未逾期</span>
           </li>
           <li>未完成数量/已完成数量({{item.unfinish}}/{{item.finish}})</li>
+          <!-- <li>{{item.spxjresult==0?"通过":item.spxjresult==1?"未整改通过":"整改通过"}}</li> -->
+          <li v-if="item.RectificationState==0" style="background:#1d953f;padding-left:1.4rem;">通过</li>
+          <li v-if="item.RectificationState==1" style="background:#ef4136;">整改中</li>
+          <li v-if="item.RectificationState==-1" style="background:#45b97c;">未发整改</li>
+        
         </ul>
       </scroller>
     </div>
@@ -48,7 +53,7 @@ export default {
   },
   data() {
     return {
-      title: "最终查询",
+      title: "自检查询",
       formList: [],
       formData: {
         offset: 0, // 开始页
@@ -68,6 +73,7 @@ export default {
       this.formData.spBeginDate = this.filterData.spBeginDate;
       this.formData.spEndDate = this.filterData.spEndDate;
       this.formData.isOverdue = this.filterData.isOverdue;
+      this.formData.rectificationState=this.filterData.rectificationState;
     }
   },
   computed: {
@@ -159,6 +165,7 @@ export default {
       box-shadow: #666 0px 0px 10px;
       behavior: url(/PIE.htc);
       margin-bottom: 0.2rem;
+      overflow: hidden;
       li {
         height: 0.6rem;
         line-height: 0.6rem;
@@ -221,10 +228,21 @@ export default {
             border-radius: 3px;
           }
         }
-        &:last-child {
+        &:nth-child(9) {
           color: #ff8d1a;
         }
+        &:last-child{
+         
+          color: white;
+          position: absolute;
+          width: 4rem;
+          left: 4rem;
+          bottom:.8rem;
+          transform: rotate(-45deg);
+          padding-left: 1rem;
+        }
       }
+
     }
     .yuqiLi {
       span {

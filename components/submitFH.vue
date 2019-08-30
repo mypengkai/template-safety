@@ -15,7 +15,7 @@
           <span>{{item.srContent}}</span>
         </li>
 
-        <xunhuanFH v-for="(con,lis) in item.Reply" :key="lis" :ConData="[con]" :xjID="BasicData.spid"></xunhuanFH>
+        <xunhuanFH v-for="(con,lis) in item.Reply" :key="lis" :ConData="[con]" :xjID="BasicData.spid" :leng="(item.Reply.length-1)==lis"></xunhuanFH>
       </ul>
     </div>
   </div>
@@ -71,7 +71,7 @@ export default {
 
         &:nth-child(1) {
           flex: 0 0 28%;
-          text-align: center;
+          text-align: left;
         }
         &:nth-child(2) {
           flex: 0 0 72%;

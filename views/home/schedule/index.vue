@@ -2,16 +2,29 @@
   <div class="schedule">
     <headerTop :title="title"></headerTop>
     <ul>
-      <li
-        v-for="(item,index) in msgList"
-        :key="index"
-        @click="skip(item.type,item.receiverid)"
-        :class="{complete:index==active}"
-      >
+      <li>
         <p>
-          <i class="icon-alixiaoxi"></i>
+          <span><i class="icon-alialarm-clock" style=""></i> 安全列表</span>
+          <span>2019-08-27</span>
         </p>
-        <span>{{item.sendMsg}}</span>
+        <p>
+          <span>2019-08-27</span>&nbsp;&nbsp;
+          <span>关于阿里巴巴iconfont的使用方法 iconfont网址:http:
+            //www.iconfont.cn/...用户在iconfont.cn可以下载,多种格式的icon,平
+            台也可将图标转换为字体,便于...</span>
+        </p>
+      </li>
+            <li>
+        <p>
+          <span><i class="icon-alialarm-clock" style=""></i> 安全列表</span>
+          <span>2019-08-27</span>
+        </p>
+        <p>
+          <span>2019-08-27</span>&nbsp;&nbsp;
+          <span>关于阿里巴巴iconfont的使用方法 iconfont网址:http:
+            //www.iconfont.cn/...用户在iconfont.cn可以下载,多种格式的icon,平
+            台也可将图标转换为字体,便于...</span>
+        </p>
       </li>
     </ul>
   </div>
@@ -69,32 +82,40 @@ export default {
 .schedule {
   padding-top: 1rem;
   height: 100%;
-  background: #fff;
+  background: #EAEDF4;
   ul {
-    padding: 1.2rem 0.2rem 0 0.2rem;
-    li {
-      position: relative;
+    padding: 0.2rem 0.2rem 0 0.2rem;
+    li { 
       background-color: white;
-      color: black;
-      min-height: 1.4rem;
-      font-size: 0.28rem;
-      margin-bottom: 0.2rem;
-      border-radius: 0.2rem;
-      padding: 0.1rem;
+      border-radius: .2rem;
+      padding: .2rem;
+      font-size: .3rem;
+      margin-bottom: .2rem;
       p {
-        float: left;
-        height: 1.2rem;
-        width: 6%;
-        line-height: 1.2rem;
-        text-align: center;
-        color: #2b79ed;
-      }
-      span {
-        position: absolute;
-        left: 10%;
-        top: 50%;
-        transform: translateY(-50%);
-        padding: 0 0.2rem;
+        &:nth-child(1) {
+          height: 0.5rem;
+          border-bottom: 1px solid #ccc;
+          margin-bottom: .2rem;
+          span {
+            &:nth-child(1) {
+              float: left;
+              i{
+                color:#6ACCE3;
+                background-color: #DBF2FF;
+                display: inline-block;
+                width: .4rem;
+                height: .4rem;
+                line-height: .4rem;
+                text-align: center;
+                border-radius: .1rem;
+              }
+            }
+            &:nth-child(2) {
+              float: right;
+              color: #CACACA;
+            }
+          }
+        }
       }
     }
   }

@@ -76,7 +76,8 @@ export default {
   },
   methods: {
     routerBack() {
-      this.$router.go(-1);
+      // this.$router.go(-1);
+       this.$router.push({path:"/safetyMenu"})
     },
     safetyDetail(id) {
       this.$router.push({ path: "/safetySelfZgfh", query: { id: id } });

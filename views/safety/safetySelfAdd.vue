@@ -43,7 +43,9 @@
     <div class="addCoentFoot">
       <yd-cell-group>
         <yd-cell-item arrow type="link" href="/notifier">
-          <span slot="left"><i class="icon-alitouxiang"></i>&nbsp;&nbsp;通知人</span>
+          <span slot="left">
+            <i class="icon-alitouxiang"></i>&nbsp;&nbsp;通知人
+          </span>
           <span slot="right" v-if="!this.notifier">请选择</span>
           <span slot="right" v-if="this.notifier">{{notifierPersons}}</span>
         </yd-cell-item>
@@ -99,6 +101,7 @@ export default {
   },
 
   created() {
+    console.log(this.dangerItems);
     //console.log(JSON.stringify(this.notifier))
     let user = localStorage.getItem("userinfo");
     this.userinfo = JSON.parse(user);
@@ -106,7 +109,10 @@ export default {
   mounted() {
     this.$nextTick(() => {});
   },
-
+  beforeDestroy(){
+    alert(123)
+    location.reload();
+  },
   methods: {
     routerBack() {
       this.$router.push({ path: "/safetySelfCheck" });
@@ -144,27 +150,35 @@ export default {
       this.form.spCheckUserId = this.userinfo.id;
       if (JSON.stringify(this.notifier) != "{}") {
         this.form.spNotifier = this.notifier.ids.join(",");
+      } else {
+        this.$dialog.toast({
+          mes: "请选择通知人",
+          timeout: 2000
+        });
+        return false;
       }
-
       addSafety(this.form).then(res => {
         if (res.success == 0) {
           this.$dialog.toast({
             mes: "新增成功",
             timeout: 2000
           });
+           this.$destroy(true);
           // 清楚vuex 数据以及输入框数据
           this.$store.commit("getDangerItems", ""); // 隐患
           this.$store.commit("setNotifier", ""); // 通知人
+          // location.reload();
           this.$router.push({ path: "/safetySelfCheck" }); // 计划检查
         } else {
           this.$dialog.toast({
             mes: res.msg,
-            timeout: 2000
+            timeout: 1000
           });
         }
       });
     }
   }
+
 };
 </script>
 <style lang="less" scoped>

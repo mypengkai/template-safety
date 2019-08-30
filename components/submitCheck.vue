@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="zgList" v-for="(item,index) in contentData" :key="index">
-      <p style="color:white;">{{xuhao+1}}</p>
-      <ul>
+      <p v-show="item.srUserName" style="color:white;">{{xuhao+1}}</p>
+      <ul v-show="item.srUserName">
         <li style="border-bottom: 1px dashed #ccc;">
           <span>
-            隐患&nbsp;
-            <i style="color:#ffc300;padding:.02rem;">{{"("+item.hdGrade+")"}}</i>:
+            安全隐患&nbsp;
+            <i style="background:#ffc300;padding:.02rem;">{{item.hdGrade}}</i>:
           </span>&nbsp;&nbsp;&nbsp;
           <span>{{item.spContent}}</span>
         </li>
@@ -14,26 +14,43 @@
           <span>整改要求:</span>&nbsp;&nbsp;&nbsp;
           <span>{{item.srContent}}</span>
         </li>
-        <li style="height:1.5rem;border-bottom: 1px dashed #ccc;">
-          <span>整改结果:</span>&nbsp;&nbsp;&nbsp;
-          <textarea v-model="subParams.replayContent"></textarea>
-        </li>
-        <li>
-          <span>整改完成时间:</span>&nbsp;&nbsp;&nbsp;
-          <span>{{item.srFinishDate}}</span>
-        </li>
-        <li style="margin-bottom:.2rem;">
-          <span style="text-align:left;padding-left:.3rem;">整改人:</span>&nbsp;&nbsp;&nbsp;
-          <span>{{item.srUserName}}</span>
-        </li>
-        <!-- 文件附件 -->
-        <Attach
-          :attachList="fileList.files"
-          :delAttachList="delProgressList"
-          :readonly="false"
-          :sourceType="3"
-        ></Attach>
-        <yd-button size="large" type="primary" @click.native="submit(item)" v-show="flag">保存并提交</yd-button>
+        <xunhuanZG
+          v-for="(con,lis) in item.Reply"
+          :key="lis"
+          :ConData="[con]"
+          :xjID="BasicData.spid"
+          :leng="(item.Reply.length-1)==lis"
+          @hasbutton="hasSubmit"
+        ></xunhuanZG>
+        <div class="dialogue" v-show="hasButton">
+          <li>
+            <span>整改完成时间:</span>&nbsp;&nbsp;&nbsp;
+            <span>{{item.srFinishDate}}</span>
+          </li>
+          <li>
+            <span style="text-align:left;padding-left:.3rem;">整改人:</span>&nbsp;&nbsp;&nbsp;
+            <span>{{item.srUserName}}</span>
+          </li>
+          <li>
+            <span>整改结果:</span>&nbsp;&nbsp;&nbsp;
+            <textarea v-model="subParams.replayContent"></textarea>
+          </li>
+          <!-- 文件附件 -->
+          <Attach
+            :attachList="fileList.files"
+            :delAttachList="delProgressList"
+            :readonly="false"
+            :sourceType="3"
+            style="border-bottom:1px dashed #ccc;"
+          ></Attach>
+          <yd-button
+            v-show="flag"
+            size="large"
+            type="primary"
+            style="width:97%;"
+            @click.native="submit(item)"
+          >保存并提交</yd-button>
+        </div>
       </ul>
     </div>
   </div>
@@ -41,29 +58,23 @@
 
 <script>
 import Attach from "./Attach.vue";
+import xunhuanZG from "./xunhuanZG.vue";
 import { selfCheck, submitResult, safetyAddResult } from "@/api/request.js";
 export default {
-  props: {
-    contentData: {
-      type: Array
-    },
-    xuhao: {
-      type: Number
-    },
-    BasicData: {
-      type: Object
-    }
-  },
+  props: ["contentData", "xuhao", "BasicData"],
   components: {
-    Attach
+    Attach,
+    xunhuanZG
   },
   data() {
     return {
-      title: "自检隐患整改",
       fileList: {
         files: [],
         type: "SafetyReply" // 安全
       },
+      flag: true,
+      hasButton: true,
+      delProgressList: [],
       subParams: {
         id: "", //安全巡检id
         replayUserId: "", //回复人员id
@@ -73,31 +84,23 @@ export default {
         replayState: 0, //回复状态
         replayContent: "", //回复内容
         filesId: "" //上传文件id
-      },
-      delProgressList: [],
-      username: "", // 登录用户
-      flag: true
+      }
     };
   },
-  mounted() {
-    this.$nextTick(() => {
-      this.contentData.forEach(element => {
-        if (this.username == element.srUserName && element.type == 0) {
-          this.flag = true;
-        } else {
-          this.flag = false;
-        }
-      });
-    });
-  },
   created() {
+    console.log(this.contentData);
     let userinfo = localStorage.getItem("userinfo");
     this.subParams.replayUserName = JSON.parse(userinfo).realname;
     this.username = JSON.parse(userinfo).realname;
     this.subParams.replayUserId = JSON.parse(userinfo).id;
   },
   methods: {
-    //保存
+    hasSubmit(data) {
+      if (data == 1) {
+        this.hasButton = false;
+      }
+      console.log(this.hasButton);
+    },
     async submit(item) {
       this.subParams.id = this.BasicData.spid;
       this.subParams.srId = item.srid;
@@ -130,14 +133,14 @@ export default {
           });
         }
       });
-      alert(JSON.stringify(this.subParams))
+      alert(JSON.stringify(this.subParams));
       submitResult(this.subParams).then(res => {
         if (res.success == 0) {
           this.$dialog.toast({
             mes: "整改成功",
             timeout: 3000
           });
-          this.$router.push({ path: "/safetySelfFH" });
+          this.flag = false;
         } else {
           this.$dialog.toast({
             mes: res.msg,
@@ -145,31 +148,7 @@ export default {
           });
         }
       });
-    },
-    //文件上传
-    // upResult() {
-    //   let formData = new FormData();
-    //   formData.append("type", this.fileList.type);
-    //   if (this.fileList.files.length > 0) {
-    //     for (let key in this.fileList.files) {
-    //       formData.append("file", this.fileList.files[key].file);
-    //     }
-    //   }
-    //   safetyAddResult(formData).then(res => {
-    //     if (res.success == 0) {
-    //       this.subParams.filesId = res.obj;
-    //       this.$dialog.toast({
-    //         mes: "上传成功",
-    //         timeout: 2000
-    //       });
-    //     } else {
-    //       this.$dialog.toast({
-    //         mes: res.msg,
-    //         timeout: 2000
-    //       });
-    //     }
-    //   });
-    // }
+    }
   }
 };
 </script>
@@ -190,42 +169,22 @@ export default {
   ul {
     background-color: #fff;
     width: 100%;
-    padding-left: 0.2rem;
+    // padding-left: 0.2rem;
     li {
       display: flex;
-      padding: 0.1rem;
+      padding: 0.2rem 0.1rem;
       padding-right: 0.3rem;
       align-items: center; //子元素垂直居中
-      &:nth-child(7) {
-        display: flex;
-        p {
-          flex: 0 0 50%;
-          button {
-            width: 2rem;
-            height: 0.8rem;
-            color: white;
-            font-size: 0.28rem;
-            border-radius: 0.2rem;
-            &:nth-child(1) {
-              background-color: green;
-            }
-          }
-        }
-        p:nth-child(2) {
-          button:nth-child(1) {
-            background-color: red;
-          }
-        }
-      }
       span {
         display: inline-block;
 
         &:nth-child(1) {
-          flex: 0 0 30%;
+          flex: 0 0 28%;
           text-align: center;
         }
         &:nth-child(2) {
-          flex: 0 0 70%;
+          flex: 0 0 72%;
+          padding: 0.1rem;
         }
       }
       &:nth-child(8) {
@@ -233,11 +192,66 @@ export default {
         font-weight: 600;
       }
     }
+    .dialogue {
+      li {
+        display: flex;
+        padding: 0.2rem 0.1rem;
+        padding-right: 0.3rem;
+        align-items: center; //子元素垂直居中
+        &:nth-child(6) {
+          display: flex;
+          p {
+            flex: 0 0 50%;
+            button {
+              width: 2rem;
+              height: 0.8rem;
+              color: white;
+              font-size: 0.28rem;
+              border-radius: 0.2rem;
+              &:nth-child(1) {
+                background-color: green;
+              }
+            }
+          }
+          p:nth-child(2) {
+            button:nth-child(1) {
+              background-color: red;
+            }
+          }
+        }
+        span {
+          display: inline-block;
+
+          &:nth-child(1) {
+            flex: 0 0 28%;
+            text-align: center;
+          }
+          &:nth-child(2) {
+            flex: 0 0 72%;
+            padding: 0.1rem;
+          }
+        }
+      }
+    }
     textarea {
       padding: 0.2rem;
-      border-radius: 0.1rem;
-      width: 100%;
-      border: 1px solid #ccc;
+      border-radius: 0.2rem;
+      margin-left: 0.1rem;
+      width: 6.2rem;
+    }
+  }
+}
+.imgFile {
+  width: 100%;
+  overflow: hidden;
+  h6 {
+    width: 1.2rem;
+    height: 1.2rem;
+    display: inline-block;
+    img {
+      width: 1.2rem;
+      height: 1.2rem;
+      display: block;
     }
   }
 }

@@ -77,7 +77,8 @@ export default {
   },
   methods: {
     routerBack() {
-      this.$router.go(-1);
+      // this.$router.go(-1);
+      this.$router.push({path:"/safetySelfFH"})
     },
     getData() {
       selfCheck({ id: this.id }).then(res => {

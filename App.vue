@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <keep-alive :include="['safetySelfAdd','danger']">
+    <keep-alive :include="['safetySelfAdd','danger','safetyzgxf']">
       <router-view v-if="routerAlive" />
     </keep-alive>
   </div>

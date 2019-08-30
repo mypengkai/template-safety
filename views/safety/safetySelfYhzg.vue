@@ -70,78 +70,21 @@ export default {
       id: "", //整改列表页携带过来的ID
       BasicData: {},
       CheckContent: [],
-      // subParams: {
-      //   id: "", //安全巡检id
-      //   replayUserId: "", //回复人员id
-      //   replayUserName: "", //恢复人员name
-      //   srId: "", //整改内容id
-      //   replayType: 0, //回复类型
-      //   replayState: 0, //回复状态
-      //   replayContent: "", //回复内容
-      //   filesId: "" //上传文件id
-      // },
-      // fileList: {
-      //   files: [],
-      //   type: "SafetyPatrol" // 安全
-      // },
-      // delProgressList: []
     };
   },
 
   methods: {
     routerBack() {
-      this.$router.go(-1);
+      // this.$router.go(-1);
+      this.$router.push({path:"/safetySelfZG"})
     },
     getData() {
       selfCheck({ id: this.id }).then(res => {
         this.BasicData = res.attributes;
         this.CheckContent = res.rows;
+        console.log(this.CheckContent)
       });
     },
-    //保存
-    // async submit(item) {
-    //   this.subParams.id = this.BasicData.spid;
-    //   this.subParams.srId = item.srid;
-    //   console.log(item);
-    //   await this.upResult();
-    //   submitResult(this.subParams).then(res => {
-    //     if (res.success == 0) {
-    //       this.$dialog.toast({
-    //         mes: "整改成功",
-    //         timeout: 3000
-    //       });
-    //     } else {
-    //       this.$dialog.toast({
-    //         mes: res.msg,
-    //         timeout: 3000
-    //       });
-    //     }
-    //   });
-    // },
-    //文件上传
-    // upResult() {
-    //   let formData = new FormData();
-    //   formData.append("type", this.fileList.type);
-    //   if (this.fileList.files.length > 0) {
-    //     for (let key in this.fileList.files) {
-    //       formData.append("file", this.fileList.files[key].file);
-    //     }
-    //   }
-    //   safetyAddResult(formData).then(res => {
-    //     if (res.success == 0) {
-    //       this.subParams.filesId = res.obj;
-    //       this.$dialog.toast({
-    //         mes: "上传成功",
-    //         timeout: 2000
-    //       });
-    //     } else {
-    //       this.$dialog.toast({
-    //         mes: res.msg,
-    //         timeout: 2000
-    //       });
-    //     }
-    //   });
-    // }
   },
   created() {
     this.id = this.$route.query.id;
@@ -182,7 +125,7 @@ export default {
     }
     ul {
       background-color: #fff;
-      width: 100%;
+      width: 90%;
       padding-left: 0.2rem;
       li {
         display: flex;

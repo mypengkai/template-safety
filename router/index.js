@@ -42,6 +42,10 @@ import CheckPerson from "@/views/common/CheckPerson"
 import notifier from "@/views/common/notifier"
 //最终查看列表
 import safetyDoneList from "@/views/safety/safetyDoneList"
+//安全计划列表
+import safetyList from "@/views/safety/safetyList"
+//新增安全计划列表
+import addPlan from "@/views/safety/addPlan"
 Vue.use(Router)
 const router = new Router({
   routes: [
@@ -109,7 +113,10 @@ const router = new Router({
     {
       path: '/safetyzgxf',
       name: 'safetyzgxf',
-      component: safetyzgxf
+      component: safetyzgxf,
+      meta: {
+        keepAlive: true
+      }
     },
     // 新增自主检查
     {
@@ -170,6 +177,18 @@ const router = new Router({
       path: '/safetyDoneList',
       name: "safetyDoneList",
       component: safetyDoneList
+    },
+    //安全计划列表
+    {
+      path:'/safetyList',
+      name:'safetyList',
+      component:safetyList
+    },
+    //新增安全计划
+    {
+      path:'/addPlan',
+      name:'addPlan',
+      component:addPlan
     }
   ]
 })
