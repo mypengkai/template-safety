@@ -14,7 +14,6 @@
           <li>检查人：{{dataObj.spCheckUserName}}</li>
           <li>检查时间：{{dataObj.spCreateDateTime}}</li>
           <li>通知人：{{dataObj.spNotifierName}}</li>
-          <!-- <li>有隐患项：1，3</li> -->
         </ul>
       </div>
       <div class="detailFoot">
@@ -30,7 +29,6 @@
               <span>
                 <em>{{item.spContent}}</em>
                 <p>
-                  <!-- <img src="@/assets/img/logo.png" alt /> -->
                   <viewer :images="item.files">
                     <img v-for="(src,index) in item.files" :src="fileURL+src.FilePath" :key="index" />
                   </viewer>
@@ -104,10 +102,10 @@ export default {
     },
     getInit() {
       selfCheck({ id: this.$route.query.id }).then(res => {
-        console.log(res);
         if (res.success == 0) {
           this.dataObj = res.attributes;
           this.dataList = res.rows;
+         
         }
       });
     }
@@ -255,11 +253,11 @@ export default {
             }
             .fjLi {
               border-top: 1px dashed #ccc;
-              padding-top: 0.1rem;
+              padding: 0.1rem 0;
               i {
                 color: #fff;
-                padding: 0.1rem 0.3rem;
-                border-radius: 0.2rem;
+                padding: 0 0.3rem;
+                border-radius: 0.1rem;
               }
             }
           }

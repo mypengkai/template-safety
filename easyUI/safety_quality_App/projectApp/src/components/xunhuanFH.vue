@@ -34,6 +34,7 @@
       <li style="margin-bottom:.1rem;" v-show="subParams.replayState==2">不通过原因:</li>
       <li style="margin-bottom:.1rem;" v-show="subParams.replayState==1">备注:</li>
       <textarea
+       v-if="subParams.replayState==2"
         cols="57"
         rows="5"
         placeholder="点击输入文字..."
@@ -78,7 +79,7 @@ export default {
         replayUserName: "", //恢复人员name
         srId: "", //整改内容id
         replayType: 1, //回复类型
-        replayState: "", //回复状态
+        replayState: '', //回复状态
         replayContent: "", //回复内容
         filesId: "" //上传文件id
       }
@@ -89,8 +90,22 @@ export default {
     this.subParams.id = this.xjID;
     let userinfo = localStorage.getItem("userinfo");
     this.subParams.replayUserName = JSON.parse(userinfo).realname;
+    this.username = JSON.parse(userinfo).realname;
     this.subParams.replayUserId = JSON.parse(userinfo).id;
   },
+  mounted(){
+      this.$nextTick(()=>{
+           this.ConData.forEach(element => {
+                //console.log(element)
+                if(this.username==this.xjID.spCheckUserName && element.replayType == 0){
+                     this.flag = true
+                }else{
+                     this.flag = false
+                }
+           });
+      })
+  },
+
   methods: {
     async submit(item) {
       this.subParams.srId = item.srId;
@@ -141,7 +156,6 @@ export default {
   }
 };
 </script>
-
 <style lang="less" scoped>
 .dialogue {
   li {
