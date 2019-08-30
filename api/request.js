@@ -150,3 +150,7 @@ export const getYinhuan= (params)=>{
 export const getHiddens=(params)=>{
 	return axios.post("/CountController/searchhdGrade",params).then(res=>res.data) 
 }
+// 组织机构
+export const getDepart=()=>{
+	return axios.get("main/getUserByDepart").then(res=>res.data)
+}
