@@ -83,7 +83,6 @@ export default {
       selfCheck({ id: this.id }).then(res => {
         this.BasicData = res.attributes;
         this.CheckContent = res.rows;
-        console.log(this.CheckContent)
       });
     },
   },

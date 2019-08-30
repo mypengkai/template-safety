@@ -109,10 +109,6 @@ export default {
   mounted() {
     this.$nextTick(() => {});
   },
-  beforeDestroy(){
-    alert(123)
-    location.reload();
-  },
   methods: {
     routerBack() {
       this.$router.push({ path: "/safetySelfCheck" });

@@ -2,11 +2,11 @@
   <div class="headerTop">
     <ul>
       <li>
-           <slot name="topLeft"></slot>
+        <slot name="topLeft"></slot>
       </li>
       <li :title="title">{{title}}</li>
       <li>
-           <slot name="topRight"></slot>
+        <slot name="topRight"></slot>
       </li>
     </ul>
   </div>
@@ -17,9 +17,7 @@ export default {
   data() {
     return {};
   },
-  methods: {
-   
-  }
+  methods: {}
 };
 </script>
 <style lang="less" scoped>
@@ -31,27 +29,29 @@ export default {
   top: 0;
   left: 0;
   z-index: 999;
-  background-color: #2A82E4;
+  background-color: #2a82e4;
+  background: -webkit-gradient(linear, 0 0, 0 100%, from(#2a5caa), to(#2a82e4));
   color: #fff;
 
-  ul{
-     overflow: hidden;
-     text-align: center;
-     display: -webkit-flex;
-     display: flex;
-     justify-content:space-between;
-     li{
-        //float: left;
-        &:first-child,&:last-child{
-          width:15%;
-          font-size: 0.3rem;
-        }
-        &:nth-child(2){
-           width:70%;
-           font-size: 0.34rem;
-           font-weight: normal;
-        }
-     }
+  ul {
+    overflow: hidden;
+    text-align: center;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: space-between;
+    li {
+      //float: left;
+      &:first-child,
+      &:last-child {
+        width: 15%;
+        font-size: 0.3rem;
+      }
+      &:nth-child(2) {
+        width: 70%;
+        font-size: 0.34rem;
+        font-weight: normal;
+      }
+    }
   }
 }
 </style>
