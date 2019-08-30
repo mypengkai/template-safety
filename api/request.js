@@ -146,3 +146,7 @@ export const getNum = (params)=>{
 export const getYinhuan= (params)=>{
 	return axios.post("/CountController/searchHidden",params).then(res=>res.data)
 }
+// 隐患等级数
+export const getHiddens=(params)=>{
+	return axios.post("/CountController/searchhdGrade",params).then(res=>res.data) 
+}

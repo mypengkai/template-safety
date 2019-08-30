@@ -4,27 +4,41 @@
 
 <script>
 import echarts from "echarts";
-//import { safeExchart } from "@/api/request.js";
+import { getHiddens } from "@/api/request.js";
 export default {
   data() {
     return {
-      num: "",
-      num2: "",
-      num3: ""
+        nowMonth:'',//当前月份
+        hiddenList:[],  // 隐患等级数
+        hiddenOne:'',
+        hiddenTwo:'',
+        hiddenThree:'',
+        hiddenFour:'',
+        hiddenAll:null,
     };
   },
-
+  created(){
+      var date=new Date();
+      this.nowMonth = date.getMonth()+1;
+  },
   mounted() {
-    //this.safetyInit()
+    this.hiddenInit()
   },
   methods: {
     //初始化图表
-    safetyInit() {
-      safeExchart().then(res => {
-        this.num2 = res.rows[0].wkscount; // 未开始
-        this.num3 = res.rows[0].ywccount; // 已完成
-        this.num = res.rows[0].zcount; // 总数
-        this.initChart();
+    hiddenInit() {
+      getHiddens({monthDate:''}).then(res => {
+        if(res.success =="0"){
+            this.hiddenList = res.rows[0];          
+            this.hiddenOne = res.rows[0].one;
+            this.hiddenTwo = res.rows[0].tow;
+            this.hiddenThree = res.rows[0].three;
+            this.hiddenFour = res.rows[0].four;
+            this.hiddenAll = res.rows[0].zong
+            this.initChart();
+            this.$emit("setNumber",this.hiddenList)
+        }
+        
       });
     },
     initChart() {
@@ -35,13 +49,13 @@ export default {
             {
               type: "text",
               style: {
-                text:this.num, // 总计划数
+                text:this.hiddenAll, // 总计划数
                 width: 25,
                 height: 30,
                 font: "20px  bold"
               },
               left: "center",
-              top: "25%"
+              top: "30%"
             },
             {
               type: "text",
@@ -49,7 +63,7 @@ export default {
               top: "55%", // 相对父元素上下的位置
               style: {
                 fill: "#333333",
-                text: ["总计划"],
+                text: ["总数"],
                 font: "12px  Normal"
               }
             }
@@ -80,12 +94,14 @@ export default {
               }
             },
             data: [
-              { value: this.num2, name: "未开始" }, // value    数据
-              { value: this.num3, name: "已完成" }
+              { value: this.hiddenOne, name: "Ⅰ级" }, // value    数据
+              { value: this.hiddenTwo, name: "Ⅱ级" },
+              { value: this.hiddenThree, name: "Ⅲ级" }, // value    数据
+              { value: this.hiddenFour, name: "Ⅳ级" },
             ]
           }
         ],
-        color: ["#b36d41", "#4CD2DF"]
+        color: ["#00ae9d", "#b2d235","#f47920","#d71345"]
       };
       this.chart.setOption(option); //展示
     }
@@ -95,6 +111,6 @@ export default {
 <style lang="less" scoped>
 #chart {
   width: 100%;
-  height: 2rem;
+  height: 2.4rem;
 }
 </style>

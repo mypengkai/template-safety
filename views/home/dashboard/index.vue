@@ -83,12 +83,12 @@
         </div>
       </yd-tab>
     </div>
-    <!-- 质量 -->
+    <!-- 待办事项 -->
     <div class="safety">
       <div class="safetyTop">
-        <h3 style="float: left;">
+        <p style="float: left;">
           <span class="icon-alicaozuozhiliang"></span>&nbsp;&nbsp;待办事项
-        </h3>
+        </p>
       </div>
       <ul class="commission">
         <li @click="$router.push({path:'/safetySelfZG'})">待整改({{ZGFH.rectificationcount}})</li>
@@ -96,64 +96,37 @@
       </ul>
     </div>
     <!-- 安全 -->
-    <!-- <div class="safety">
+    <div class="safety">
       <div class="safetyTop">
-        <h4>
-          <span class="icon-alianquanfanghu"></span>&nbsp;&nbsp;安全
-        </h4>
+        <p style="float: left;">
+          <span class="icon-alianquanfanghu"></span>&nbsp;&nbsp;安全隐患
+        </p>
       </div>
       <div class="safetyConent">
         <div class="safetyConentLeft">
-          <qCaty></qCaty>
+          <qCaty @setNumber="getNumber"></qCaty>
         </div>
         <div class="safetyConentRight">
-          <h3>
-            <span></span>总计划
-          </h3>
           <ul>
             <li>
-              <span></span>
-              未开始({{safetyList.wkscount}})
+                <span>总数：</span>&nbsp;&nbsp;{{hideenList.zong}}
             </li>
             <li>
-              <span></span>
-              已完成({{safetyList.ywccount}})
+                 <span>Ⅰ级：</span>&nbsp;&nbsp;{{hideenList.one}} 
+            </li>
+            <li>
+                 <span>Ⅱ级：</span>&nbsp;&nbsp;{{hideenList.tow}}
+            </li>
+            <li>
+                 <span>Ⅲ级：</span>&nbsp;&nbsp;{{hideenList.three}}
+            </li>
+            <li>
+                 <span>Ⅳ级：</span>&nbsp;&nbsp;{{hideenList.four}}
             </li>
           </ul>
         </div>
       </div>
-      <div class="safetyFoot">
-        <h3>
-          <span></span>整改单
-        </h3>
-        <div class="progressbar">
-          <ul>
-            <li>
-              <p>进行中({{safetyList.zgjxzcount}})</p>
-              <p>
-                <yd-progressbar
-                  type="line"
-                  :progress="safetyjxzjd"
-                  trail-width="4"
-                  trail-color="#57b6fe"
-                ></yd-progressbar>
-              </p>
-            </li>
-            <li>
-              <p>逾期({{safetyList.yuqicount}})</p>
-              <p>
-                <yd-progressbar
-                  type="line"
-                  :progress="safetyyuqijd"
-                  trail-width="4"
-                  trail-color="#FE5D51"
-                ></yd-progressbar>
-              </p>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div> -->
+    </div>
     <div style="height:1.4rem; opacity: 0;"></div>
   </div>
 </template>
@@ -188,7 +161,8 @@ export default {
       win: "", // 风向
       weaterList: {}, // 天气
       yinhuan:{}, // 统计隐患数
-      ZGFH:{} // 整改复核的数量
+      ZGFH:{}, // 整改复核的数量
+      hideenList:{},   // 隐患
     };
   },
   filters: {
@@ -207,9 +181,6 @@ export default {
   },
   created() {
     this.cityid = localStorage.getItem("cid");
-    //this.safetyInit();
-    //this.qualityInit();
-    //this.renwuInit();
     this.initweater();
     this.getNum()
     this.getYinhuan()
@@ -245,7 +216,15 @@ export default {
           }
         }
       });
+      // axios.get(`https://www.tianqiapi.com/api/?version=v1&cityid=${this.cityid}`).then(res=>{
+      //      console.log(res,"res")
+      // })
     },
+    getNumber(data){
+         this.hideenList = data;
+         console.log(this.hideenList)
+    },
+
 
     safetyPage() {
       // 安全页面跳转
@@ -434,7 +413,7 @@ export default {
       border-bottom: 0.01rem solid #ccc;
       span {
         background-color: yellowgreen;
-        font-size: 0.3rem;
+        font-size: 0.4rem;
         color: white;
         border-radius: 30%;
       }
@@ -473,9 +452,9 @@ export default {
           float: left;
           &:nth-child(1) {
             div {
-              width: 1.2rem;
-              height: 1.2rem;
-              border-radius: 50%;
+              height: 1rem;
+              border-radius: 0.2rem;
+              width:1.5rem;
               margin: 0 auto;
               background: -webkit-gradient(
                 linear,
@@ -486,20 +465,18 @@ export default {
               );
               color: white;
               p {
-                height: 0.6rem;
-                line-height: 0.6rem;
-                font-size: 0.4rem;
+                height: 0.5rem;
+                line-height: 0.5rem;
+                font-size: 0.36rem;
               }
-              h5 {
-                font-size: 0.24rem;
-              }
+             
             }
           }
           &:nth-child(2) {
             div {
-              width: 1.2rem;
-              height: 1.2rem;
-              border-radius: 50%;
+              height: 1rem;
+               width:1.5rem;
+              border-radius: 0.2rem;
               margin: 0 auto;
               background: -webkit-gradient(
                 linear,
@@ -510,20 +487,18 @@ export default {
               );
               color: white;
               p {
-                height: 0.6rem;
-                line-height: 0.6rem;
-                font-size: 0.4rem;
+                height: 0.5rem;
+                line-height: 0.5rem;
+                font-size: 0.36rem;
               }
-              h5 {
-                font-size: 0.24rem;
-              }
+           
             }
           }
           &:nth-child(3) {
             div {
-              width: 1.2rem;
-              height: 1.2rem;
-              border-radius: 50%;
+              height: 1rem;
+               width:1.5rem;
+              border-radius: 0.2rem;
               margin: 0 auto;
               background: -webkit-gradient(
                 linear,
@@ -533,21 +508,19 @@ export default {
                 to(#fd7a61)
               );
               color: white;
-              p {
-                height: 0.6rem;
-                line-height: 0.6rem;
-                font-size: 0.4rem;
+             p {
+                height: 0.5rem;
+                line-height: 0.5rem;
+                font-size: 0.36rem;
               }
-              h5 {
-                font-size: 0.24rem;
-              }
+             
             }
           }
           &:nth-child(4) {
             div {
-              width: 1.2rem;
-              height: 1.2rem;
-              border-radius: 50%;
+              height: 1rem;
+               width:1.5rem;
+              border-radius: 0.2rem;
               margin: 0 auto;
               background: -webkit-gradient(
                 linear,
@@ -558,13 +531,11 @@ export default {
               );
               color: white;
               p {
-                height: 0.6rem;
-                line-height: 0.6rem;
-                font-size: 0.4rem;
+                height: 0.5rem;
+                line-height: 0.5rem;
+                font-size: 0.36rem;
               }
-              h5 {
-                font-size: 0.24rem;
-              }
+            
             }
           }
         }
@@ -578,7 +549,21 @@ export default {
     padding: 0.1rem 0.2rem;
     overflow: hidden;
     border-radius: 0.2rem;
+    .safetyTop{
+       border-bottom: 1px solid #ccc;
+      
+       p{
+          font-size: 14px;
+         span{
+            background: -webkit-gradient(linear,0 0,0 100%,from(#dec674),to(#fcaf17));
+            color: #fff;
+            font-size: 0.38rem;
+            border-radius: 0.1rem;
+         }
+       }
+    }
     .commission {
+      margin-top: 0.2rem;
       display: flex;
       justify-content: space-around;
       li {
@@ -644,60 +629,40 @@ export default {
       overflow: hidden;
       .safetyConentLeft {
         float: left;
-        width: 40%;
+        width: 50%;
       }
       .safetyConentRight {
         float: right;
-        width: 60%;
-        h3 {
-          font-size: 14px;
-          font-weight: 400;
-          margin-left: 1rem;
-          height: 0.6rem;
-          span {
-            display: inline-block;
-            width: 0.2rem;
-            height: 0.2rem;
-            border-radius: 50%;
-            background: red;
-            margin: 0 0.1rem;
-          }
-        }
+        width: 50%;
         ul {
-          margin-left: 1.5rem;
           li {
-            // font-size: 0.24rem;
+            font-size: 0.3rem;
             height: 0.45rem;
-            &:nth-child(1) {
-              span {
-                display: inline-block;
-                width: 0.16rem;
-                height: 0.16rem;
-                border-radius: 50%;
-                background: #b36d41;
-                margin: 0 0.1rem;
-              }
+            &:nth-child(1){
+               span{
+                  color: #2a82e4;
+               }
             }
-            &:nth-child(2) {
-              span {
-                display: inline-block;
-                width: 0.16rem;
-                height: 0.16rem;
-                border-radius: 50%;
-                background: #4cd2df;
-                margin: 0 0.1rem;
-              }
+             &:nth-child(2){
+               span{
+                  color: #00ae9d;
+               }
             }
-            &:nth-child(3) {
-              span {
-                display: inline-block;
-                width: 0.16rem;
-                height: 0.16rem;
-                border-radius: 50%;
-                background: #b4dd70;
-                margin: 0 0.1rem;
-              }
+             &:nth-child(3){
+               span{
+                  color: #b2d235;
+               }
             }
+             &:nth-child(4){
+               span{
+                  color: #f47920;
+               }
+            }
+             &:nth-child(5){
+               span{
+                  color: #d71345;
+               }
+            } 
           }
         }
       }
