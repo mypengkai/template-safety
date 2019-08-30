@@ -39,10 +39,10 @@
         <yd-cell-item arrow>
           <span slot="left" style="padding-left:.2rem;">整改完成时间：</span>
           <yd-datetime
-            start-date="2019-03-16 15:13"
+            start-date="2019-01-01 00:00"
             v-model="params.srFinishDate"
             :init-emit="false"
-            placeholder="请选择整改完成时间"
+            placeholder="请选择"
             slot="right"
           ></yd-datetime>
         </yd-cell-item>
@@ -74,7 +74,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { getPerson } from "@/api/request.js";
+import { Person } from "@/api/request.js";
 export default {
   props: ["itData", "BasicData", "xuhao"],
 
@@ -98,9 +98,23 @@ export default {
       }
     };
   },
+  updated() {
+    //di作为一个变量传进来
+    //如果时间格式是正确的，那下面这一步转化时间格式就可以不用了
+    var dateBegin = new Date(this.getNowFormatDate().replace(/-/g, "/")); //将-转化为/，使用new Date
+    var dateEnd = new Date(this.params.srFinishDate.replace(/-/g, "/")); //获取当前时间
+    var dateDiff = dateEnd.getTime() - dateBegin.getTime(); //时间差的毫秒数
+    if (dateDiff < 0) {
+      this.$dialog.toast({
+        mes: "时光不能倒流",
+        timeout: 1500
+      });
+      this.params.srFinishDate = this.getNowFormatDate();
+    }
+  },
   methods: {
     getInit() {
-      getPerson(this.formData).then(res => {
+      Person(this.formData).then(res => {
         if (res.success == 0) {
           this.nodeData = res.rows;
         }
@@ -110,6 +124,21 @@ export default {
       this.active = index;
       this.params.srUserName = item.realname;
       this.params.srUserId = item.id;
+    },
+    getNowFormatDate() {
+      var date = new Date();
+      var seperator1 = "-";
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var strDate = date.getDate();
+      if (month >= 1 && month <= 9) {
+        month = "0" + month;
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate;
+      return currentdate;
     }
   },
   created() {

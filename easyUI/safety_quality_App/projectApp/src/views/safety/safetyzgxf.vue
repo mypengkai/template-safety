@@ -57,7 +57,7 @@
       </yd-cell-group>
       <!-- </h3> -->
       <yd-button
-        v-show="flag"
+        v-show="flag&&state==-1"
         size="large"
         type="primary"
         style="background:#2A82E4"
@@ -83,20 +83,32 @@ export default {
     return {
       title: "自检整改单下发",
       datetime7: "",
+      offsetTop: "", //获取滚动位置，下次进来的时候，设置滚动高度为这个值
       username: "", // 登录用户
       id: "", //列表页传递过来的参数
       BasicData: {}, //基础信息内容
       CheckContent: [], //整改内容
       paramsArr: [],
       flag: true,
-      states: [] // 状态
+      states: [], // 状态
+      state:''
     };
   },
   created() {
     this.id = this.$route.query.id;
+    this.state=this.$route.query.state
     this.getData();
     let userinfo = localStorage.getItem("userinfo");
     this.username = JSON.parse(userinfo).realname;
+  },
+  activated() {
+    // keep-alive组件 页面进入的时候设置滚动高度
+    document.getElementById("mychild").scrollTop = this.offsetTop;
+  },
+  deactivated() {
+    //keep-alive 组件停用时调用（简单理解为组件离开的时候）。
+    // 获取页面滚动高度，这个钩子有可能会拿不到数据，因为这个钩子执行的慢，可以用beforeRouteLeave代替
+    this.offsetTop = document.getElementById("mychild").scrollTop;
   },
   methods: {
     //页面回退
@@ -160,7 +172,9 @@ export default {
             mes: "下发整改成功",
             timeout: 2000
           });
+          this.flag = false;
           this.$router.push({ path: "/safetySelfZG" });
+           
         } else {
           this.$dialog.toast({
             mes: res.msg,
@@ -202,6 +216,7 @@ export default {
     background: #fff;
     behavior: url(/PIE.htc);
     margin-bottom: 0.2rem;
+  
     li {
       display: flex;
 

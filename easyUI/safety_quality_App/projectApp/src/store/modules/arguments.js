@@ -1,7 +1,7 @@
 const argument = {
     state: {
         updateTip: true,     //提示版本更新
-        dangerItems: {},     // 隐患条目
+        dangerItems: [],     // 隐患条目
         filterData: {},       // 筛选条件
         CheckPerson: {},     //整改人
         notifier: {},         //通知人

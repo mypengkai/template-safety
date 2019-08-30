@@ -44,8 +44,9 @@ export default {
           onClick: this.nodeClick
         }
       },
-      array:[],  // 存储的隐患项
-      obj:{},    // 选择的隐患项
+      array: [], // 存储的隐患项
+      obj: {}, // 选择的隐患项
+      biaoji: ""
     };
   },
   created() {
@@ -56,9 +57,21 @@ export default {
       this.$router.push({ path: "/safetySelfAdd" });
     },
     routerGo() {
-      this.array.push(this.obj)
-      this.$store.commit("getDangerItems", this.array);
-      this.$router.push({ path: "/safetySelfAdd" });
+      if (JSON.stringify(this.obj) == "{}") {
+        this.$dialog.toast({
+          mes: "请选择隐患条目",
+          timeout: 1000
+        });
+        return false;
+      } else {
+        this.array.push(this.obj);
+        console.log(this.array[this.array.length - 1]);
+        if (this.array[this.array.length - 1].hdCode === this.obj.hdCode) {
+          alert(123);
+        }
+        this.$store.commit("getDangerItems", this.array);
+        this.$router.push({ path: "/safetySelfAdd" });
+      }
     },
     // 初始化隐患
     getDangerInit() {
@@ -67,17 +80,16 @@ export default {
       });
     },
     nodeClick: function(event, treeId, treeNode) {
-      var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
-      treeObj.checkNode(treeNode, !treeNode.checked, true);
       if (treeNode.children.length > 0) {
         this.$dialog.toast({
           mes: "请选择最下级隐患条目",
-          timeout: 2000
+          timeout: 1000
         });
         return false;
       }
-      // this.array.push(treeNode);
-      this.obj = treeNode
+      var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+      treeObj.checkNode(treeNode, !treeNode.checked, true);
+      this.obj = treeNode;
     }
   }
 };

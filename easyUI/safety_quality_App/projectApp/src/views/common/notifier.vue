@@ -5,17 +5,7 @@
       <span slot="topRight" class="padd" @click="addCheck">确定</span>
     </headerTop>
     <div class="contation">
-      <ul>
-        <li
-          v-for="(item,index) in optionsList"
-          :key="index"
-          @click="checkStateList(item)"
-          :class="{selected:arr.includes(item)}"
-        >
-          <span>{{item.realname}}</span>
-          <span>{{item.role}}</span>
-        </li>
-      </ul>
+      <ul id="treeDemo" class="ztree"></ul>
     </div>
   </div>
 </template>
@@ -39,17 +29,70 @@ export default {
       notifier: {
         names: [],
         ids: []
-      }
+      },
+      setting: {
+        view: {
+          showLine: false,
+          selectedMulti: true
+        },
+        check: {
+          enable: true,
+          chkStyle: "checkbox",
+          chkboxType: { Y: "", N: "" }
+        },
+        data: {
+          key: {
+            name: "name"
+          },
+          simpleData: {
+            enable: true,
+            idKey: "id",
+            pIdKey: "pid",
+            rootPId: null
+          }
+        },
+        callback: {
+          onClick: this.nodeClick
+        }
+      },
+      ContentId:"",
+      Contentname:""
     };
   },
   created() {
     this.getListData();
   },
   methods: {
+    nodeClick: function(event, treeId, treeNode) {
+      if (treeNode.childcount > 0) {
+        this.$dialog.toast({
+          mes: "请选择最下级隐患条目",
+          timeout: 1500
+        });
+        return false;
+      }
+      //设置z-tree的多选功能
+      var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+      treeObj.checkNode(treeNode, !treeNode.checked, true);
+      //循环获取z-tree多选中的id与name
+      var treeObj = $.fn.zTree.getZTreeObj("treeDemo"),
+        nodes = treeObj.getCheckedNodes(true),
+        v = "";
+      var idArr = [],
+        projectNameArr = [];
+      for (var i = 0; i < nodes.length; i++) {
+        idArr.push(nodes[i].id);
+        projectNameArr.push(nodes[i].name);
+      }
+      this.ContentId = idArr.toString();
+      this.Contentname = projectNameArr.toString();
+    },
     routerBack() {
       this.$router.go(-1);
     },
     addCheck() {
+      this.notifier.ids.push(this.ContentId)
+      this.notifier.names.push(this.Contentname)
       // 通知人
       this.$store.commit("setNotifier", this.notifier);
       this.$router.go(-1);
@@ -58,6 +101,7 @@ export default {
       getPerson(this.formData).then(res => {
         if (res.success == 0) {
           this.optionsList = res.rows;
+          $.fn.zTree.init($("#treeDemo"), this.setting, res.rows);
         } else {
           this.$dialog.toast({
             mes: res.msg,

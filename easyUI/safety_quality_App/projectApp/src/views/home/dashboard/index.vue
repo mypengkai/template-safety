@@ -4,7 +4,7 @@
       <!-- <span slot="topLeft">返回</span> -->
       <!-- <span slot="topRight">
         <i class="icon-aliarrow-right-"></i>
-      </span> -->
+      </span>-->
     </headerTop>
     <div class="header">
       <!-- 轮播 -->
@@ -34,10 +34,10 @@
           <p class="icon-alirenwu"></p>
           <span style="font-size:10px">任务</span>
         </li>-->
-        <li @click="qualityPage">
+        <!-- <li @click="qualityPage">
           <p class="icon-alicaozuozhiliang"></p>
           <span style="font-size:10px">质量</span>
-        </li>
+        </li>-->
         <li @click="safetyPage">
           <p class="icon-alianquanfanghu"></p>
           <span style="font-size:10px">安全巡检</span>
@@ -57,20 +57,26 @@
           <ul>
             <li>
               <div>
-                <p>{{data.wfzcount}}</p>
-                <span style="font-size:10px">我负责的</span>
+                <p>{{yinhuan.hiddencount}}</p>
+                <span style="font-size:10px">发现隐患</span>
               </div>
             </li>
             <li>
               <div>
-                <p>{{data.wfpcount}}</p>
-                <span style="font-size:10px">我分派的</span>
+                <p>{{yinhuan.solvecount}}</p>
+                <span style="font-size:10px">已消除隐患</span>
               </div>
             </li>
             <li>
               <div>
-                <p>{{data.wcycount}}</p>
-                <span style="font-size:10px">我参与的</span>
+                <p>{{yinhuan.Overduecount}}</p>
+                <span style="font-size:10px">逾期隐患</span>
+              </div>
+            </li>
+            <li>
+              <div>
+                <p>{{yinhuan.unsolvedcount}}</p>
+                <span style="font-size:10px">未消除隐患</span>
               </div>
             </li>
           </ul>
@@ -83,41 +89,14 @@
         <h3 style="float: left;">
           <span class="icon-alicaozuozhiliang"></span>&nbsp;&nbsp;待办事项
         </h3>
-        <h3 style="float: right;">全部代办()</h3>
       </div>
-
-      <yd-cell-item style="padding-left:0;">
-        <span slot="left">
-          安全整改
-          <span style="color:blue">000887</span>
-        </span>
-        <span slot="right" style="padding-right:0;">
-          <span
-            style="background:#FEAC4D;color:white;padding:3px;border-radius:10px;border-bottom-left-radius:0px;"
-          >待复检</span>
-        </span>
-      </yd-cell-item>
-      <p style="font-size:.25rem;padding:.1rem 0;">
-        <span style="color:#ccc;">项目名称:</span>
-        <span>武汉到黄石高速公路</span>
-      </p>
-      <p style="font-size:.25rem;padding:.1rem 0;">
-        <span style="color:#ccc;">项目名称:</span>
-        <span>武汉到黄石高速公路</span>
-      </p>
-      <p style="font-size:.25rem;padding:.1rem 0;">
-        <span style="color:#ccc;">项目名称:</span>
-        <span>武汉到黄石高速公路</span>
-      </p>
-      <p style="font-size:.25rem;padding:.1rem 0;">
-        <span style="color:#ccc;">项目名称:</span>
-        <span>武汉到黄石高速公路</span>
-      </p>
-      <button>查看详情</button>
-      <i></i>
+      <ul class="commission">
+        <li @click="$router.push({path:'/safetySelfZG'})">待整改({{ZGFH.rectificationcount}})</li>
+        <li @click="$router.push({path:'/safetySelfFH'})">待复核({{ZGFH.replycount}})</li>
+      </ul>
     </div>
     <!-- 安全 -->
-    <div class="safety">
+    <!-- <div class="safety">
       <div class="safetyTop">
         <h4>
           <span class="icon-alianquanfanghu"></span>&nbsp;&nbsp;安全
@@ -136,10 +115,6 @@
               <span></span>
               未开始({{safetyList.wkscount}})
             </li>
-            <!-- <li>
-              <span></span>
-              进行中({{safetyList.jxzcount}})
-            </li>-->
             <li>
               <span></span>
               已完成({{safetyList.ywccount}})
@@ -178,7 +153,7 @@
           </ul>
         </div>
       </div>
-    </div>
+    </div> -->
     <div style="height:1.4rem; opacity: 0;"></div>
   </div>
 </template>
@@ -188,6 +163,7 @@ import qCaty from "@/components/echarts/qCaty.vue";
 import headerTop from "@/components/headerTop";
 import axios from "axios";
 import $ from "jquery";
+import { getNum, getYinhuan } from "@/api/request.js";
 //import { safeExchart, qualityExchart, renwuAll } from "@/api/request.js";
 export default {
   components: {
@@ -210,7 +186,9 @@ export default {
       cityname: "",
       cityid: "",
       win: "", // 风向
-      weaterList: {} // 天气
+      weaterList: {}, // 天气
+      yinhuan:{}, // 统计隐患数
+      ZGFH:{} // 整改复核的数量
     };
   },
   filters: {
@@ -233,8 +211,24 @@ export default {
     //this.qualityInit();
     //this.renwuInit();
     this.initweater();
+    this.getNum()
+    this.getYinhuan()
   },
   methods: {
+    // 获取整改复核数量
+    getNum(){
+      getNum({monthDate:''}).then(res => {
+        console.log(res)
+        this.ZGFH=res.rows[0]
+      })
+    },
+    //统计隐患数
+    getYinhuan(){
+      getYinhuan({monthDate:''}).then(res => {
+        console.log(res)
+        this.yinhuan=res.rows[0]
+      })
+    },
     // 城市天气
     initweater() {
       var that = this;
@@ -382,7 +376,7 @@ export default {
       overflow: hidden;
       li {
         float: left;
-        width: 50% !important;
+        width: 100% !important;
         &:nth-child(1) {
           p {
             margin: 0 auto;
@@ -475,7 +469,7 @@ export default {
         text-align: center;
         overflow: hidden;
         > li {
-          width: 33%;
+          width: 25%;
           float: left;
           &:nth-child(1) {
             div {
@@ -549,6 +543,30 @@ export default {
               }
             }
           }
+          &:nth-child(4) {
+            div {
+              width: 1.2rem;
+              height: 1.2rem;
+              border-radius: 50%;
+              margin: 0 auto;
+              background: -webkit-gradient(
+                linear,
+                0 0,
+                100% 0,
+                from(#bed742),
+                to(#7fb80e)
+              );
+              color: white;
+              p {
+                height: 0.6rem;
+                line-height: 0.6rem;
+                font-size: 0.4rem;
+              }
+              h5 {
+                font-size: 0.24rem;
+              }
+            }
+          }
         }
       }
     }
@@ -560,6 +578,38 @@ export default {
     padding: 0.1rem 0.2rem;
     overflow: hidden;
     border-radius: 0.2rem;
+    .commission {
+      display: flex;
+      justify-content: space-around;
+      li {
+        width: 40%;
+        color: white;
+        float: left;
+        height: 1.2rem;
+        line-height: 1.2rem;
+        text-align: center;
+        border-radius: 0.2rem;
+        font-size: 0.3rem;
+        &:nth-child(1) {
+          background: -webkit-gradient(
+            linear,
+            0 0,
+            0 100%,
+            from(#dec674),
+            to(#45b97c)
+          );
+        }
+        &:nth-child(2) {
+          background: -webkit-gradient(
+            linear,
+            0 0,
+            0 100%,
+            from(#fcaf17),
+            to(#f3715c)
+          );
+        }
+      }
+    }
     button {
       width: 2rem;
       height: 0.6rem;
@@ -571,7 +621,7 @@ export default {
     }
     i {
       display: inline-block;
-      width: .2rem;
+      width: 0.2rem;
       height: 2px;
       background: blue;
       margin-left: 47%;

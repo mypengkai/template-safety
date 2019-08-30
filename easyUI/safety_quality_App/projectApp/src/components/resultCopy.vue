@@ -71,7 +71,6 @@ export default {
       });
     });
   },
-
   methods: {
     deleteItem(currentIndex) {
       //触发父组件时间删除数据

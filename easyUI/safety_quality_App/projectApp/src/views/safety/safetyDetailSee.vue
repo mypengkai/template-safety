@@ -47,7 +47,10 @@
                   <span>整改结果：</span>
                   <span>
                     <b>{{value.replayContent}}</b>
-                    <b>第{{index+1}}次</b>
+                    <b v-if="index==0">第{{index+1}}次</b>
+                    
+                    <b v-else-if="index==2">第{{index}}次</b>
+                    <b v-else>第{{index-1}}次</b>
                   </span>
                 </li>
                 <li class="fjLi" v-if="value.replayType==1">
@@ -55,7 +58,8 @@
                   <i v-if="value.replayState==1" style="background:#45b97c">通过</i>
                   <i v-if="value.replayState==2" style="background:#b70000">不通过</i>
                 </li>
-                <li v-if="value.replayType==1">不通过原因：{{value.replayContent}}</li>
+                <li v-if="value.replayType==1&&value.replayState==2">不通过原因：{{value.replayContent}}</li>
+                <li v-if="value.replayType==1&&value.replayState==1">通过原因：{{value.replayContent}}</li>
                 <li>整改完成时间：{{value.replayDateTime}}</li>
                 <li>{{value.replayType==0? "整改人" :"复核人"}}：{{value.replayUserName}}</li>
                 <li>

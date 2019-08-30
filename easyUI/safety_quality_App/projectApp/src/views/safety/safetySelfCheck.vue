@@ -7,7 +7,7 @@
     <search @search="searchCheck"></search>
     <div class="safetySelfConent">
       <scroller :on-refresh="refresh" :on-infinite="infinite" ref="myscroller">
-        <ul v-for="(item,index) in formList" :key="index" @click="safetyDetail(item.id)">
+        <ul v-for="(item,index) in formList" :key="index" @click="safetyDetail(item.id,item.RectificationState)">
           <li>{{index+1}}</li>
           <li>
             <span style="text-overflow: ellipsis;">巡检名称：{{item.spxjname}}</span>
@@ -51,7 +51,9 @@ export default {
         spCreateDateTime: "", // 创建时间
         spxjname: "", // 巡检名称
         sprRectificationState: "", // 状态（-1：整改待发送 0：待整改 1：待复核 2：通过 3：不通过）
-        isCheck:2
+        isCheck: 2,
+        spBeginDate: "", // 开始时间
+        spEndDate: "" // 结束时间
       },
       noDate: false
     };
@@ -61,6 +63,8 @@ export default {
     if (Object.keys(this.filterData).length > 0) {
       this.formData.spCreateDateTime = this.filterData.spCreateDateTime;
       this.formData.sprRectificationState = this.filterData.sprRectificationState;
+      this.formData.spBeginDate=this.filterData.spBeginDate
+      this.formData.spEndDate=this.filterData.spEndDate
     }
   },
   computed: {
@@ -68,13 +72,13 @@ export default {
   },
   methods: {
     routerBack() {
-      this.$router.push({path:"/safetyMenu"});
+      this.$router.push({ path: "/safetyMenu" });
     },
     addSafetySelf() {
       this.$router.push({ path: "/safetySelfAdd" });
     },
-    safetyDetail(id) {
-      this.$router.push({ path: "/safetyzgxf" ,query:{id:id}});
+    safetyDetail(id,ste) {
+      this.$router.push({ path: "/safetyzgxf", query: { id: id ,state: ste} });
     },
     //初始化数据
     getInit() {
@@ -129,8 +133,8 @@ export default {
       this.getInit();
     }
   },
-  beforeDestroy(){
-       this.$store.commit("getFilterData",'')
+  beforeDestroy() {
+    this.$store.commit("getFilterData", "");
   }
 };
 </script>
@@ -140,7 +144,7 @@ export default {
   height: 100%;
   background-color: #efeff4;
   .safetySelfConent {
-    margin:0.2rem;
+    margin: 0.2rem;
     margin-top: 1.2rem;
     position: relative;
     height: 100%;
@@ -178,7 +182,7 @@ export default {
           display: flex;
           justify-content: space-between;
           span:first-child {
-            color: #5B9FEA;
+            color: #5b9fea;
             font-weight: bold;
             overflow: hidden;
           }
@@ -196,7 +200,7 @@ export default {
         }
         &:nth-child(7) {
           span:first-child {
-            color: #5B9FEA;
+            color: #5b9fea;
             font-weight: bold;
           }
           span:nth-child(2) {
