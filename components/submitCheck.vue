@@ -99,7 +99,6 @@ export default {
       if (data == 1) {
         this.hasButton = false;
       }
-      console.log(this.hasButton);
     },
     async submit(item) {
       this.subParams.id = this.BasicData.spid;
@@ -133,7 +132,7 @@ export default {
           });
         }
       });
-      alert(JSON.stringify(this.subParams));
+
       submitResult(this.subParams).then(res => {
         if (res.success == 0) {
           this.$dialog.toast({

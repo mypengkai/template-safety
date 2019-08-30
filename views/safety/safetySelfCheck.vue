@@ -169,7 +169,7 @@ export default {
           text-align: center;
           background: #ccc;
           position: absolute;
-          left: 0.1rem;
+          // left: 0.1rem;
           justify-content: center; //子元素水平居中
           align-items: center; //子元素垂直居中
           display: -webkit-flex;

@@ -125,6 +125,7 @@ export default {
       border-radius: 1.8rem;
       border: 0.1rem solid #a9e5fe;
       background-color: #48cafe;
+      background: -webkit-gradient(linear, 0 0, 0 100%, from(#48cafe), to(#90d7ec));
       margin: 0 auto;
       line-height: 1.68rem;
       text-align: center;

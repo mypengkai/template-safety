@@ -57,8 +57,6 @@ export default {
   },
   created() {
     this.$emit("hasbutton",this.ConData[0].replayState);
-    console.log(this.ConData, 111);
-    console.log(this.leng);
     this.subParams.id = this.xjID;
     let userinfo = localStorage.getItem("userinfo");
     this.subParams.replayUserName = JSON.parse(userinfo).realname;
