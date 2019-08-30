@@ -2,7 +2,7 @@
   <div class="safetySelfCheck">
     <headerTop :title="title">
       <span slot="topLeft" class="icon-aliarrow-left- iconBack" @click="routerBack"></span>
-      <span slot="topRight" class="icon-alixinzeng iconBack" @click="addSafetySelf"></span>
+      <!-- <span slot="topRight" class="icon-alixinzeng iconBack" @click="addSafetySelf"></span> -->
     </headerTop>
     <search @search="searchCheck"></search>
     <div class="safetySelfConent">

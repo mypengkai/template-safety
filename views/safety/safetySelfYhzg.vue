@@ -35,7 +35,6 @@
     <h3>
       <i class="icon-alishapes-"></i>&nbsp;&nbsp;整改内容
     </h3>
-
     <submitCheck
     style="margin: 0 .1rem;"
       v-for="(item,index) in CheckContent"

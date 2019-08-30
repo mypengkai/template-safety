@@ -366,13 +366,14 @@ export default {
             font-size: 0.6rem;
             padding: 0.1rem;
             color: white;
-            background: -webkit-gradient(
-              linear,
-              0 0,
-              0 100%,
-              from(#dec674),
-              to(#fcaf17)
-            );
+            background: -webkit-gradient(linear,0 0,0 100%,from(#2a5caa),to(#2a82e4));
+            // background: -webkit-gradient(
+            //   linear,
+            //   0 0,
+            //   0 100%,
+            //   from(#dec674),
+            //   to(#fcaf17)
+            // );
           }
         }
         &:nth-child(2) {
@@ -456,13 +457,7 @@ export default {
               border-radius: 0.2rem;
               width:1.5rem;
               margin: 0 auto;
-              background: -webkit-gradient(
-                linear,
-                0 0,
-                100% 0,
-                from(#f8ba1c),
-                to(#fde428)
-              );
+             background: -webkit-gradient(linear,0 0,0 100%,from(#2a5caa),to(#2a82e4));
               color: white;
               p {
                 height: 0.5rem;
@@ -478,13 +473,7 @@ export default {
                width:1.5rem;
               border-radius: 0.2rem;
               margin: 0 auto;
-              background: -webkit-gradient(
-                linear,
-                0 0,
-                100% 0,
-                from(#40d2df),
-                to(#12e8b5)
-              );
+              background: -webkit-gradient(linear,0 0,0 100%,from(#2a5caa),to(#2a82e4));
               color: white;
               p {
                 height: 0.5rem;
@@ -500,13 +489,7 @@ export default {
                width:1.5rem;
               border-radius: 0.2rem;
               margin: 0 auto;
-              background: -webkit-gradient(
-                linear,
-                0 0,
-                100% 0,
-                from(#fe4f54),
-                to(#fd7a61)
-              );
+              background:   #FF6600;;
               color: white;
              p {
                 height: 0.5rem;
@@ -522,13 +505,7 @@ export default {
                width:1.5rem;
               border-radius: 0.2rem;
               margin: 0 auto;
-              background: -webkit-gradient(
-                linear,
-                0 0,
-                100% 0,
-                from(#bed742),
-                to(#7fb80e)
-              );
+              background-color: yellowgreen;
               color: white;
               p {
                 height: 0.5rem;
@@ -555,7 +532,7 @@ export default {
        p{
           font-size: 14px;
          span{
-            background: -webkit-gradient(linear,0 0,0 100%,from(#dec674),to(#fcaf17));
+            background-color: yellowgreen;
             color: #fff;
             font-size: 0.38rem;
             border-radius: 0.1rem;
@@ -576,22 +553,10 @@ export default {
         border-radius: 0.2rem;
         font-size: 0.3rem;
         &:nth-child(1) {
-          background: -webkit-gradient(
-            linear,
-            0 0,
-            0 100%,
-            from(#dec674),
-            to(#45b97c)
-          );
+           background-color: yellowgreen;
         }
         &:nth-child(2) {
-          background: -webkit-gradient(
-            linear,
-            0 0,
-            0 100%,
-            from(#fcaf17),
-            to(#f3715c)
-          );
+            background:   #FF6600;;
         }
       }
     }
