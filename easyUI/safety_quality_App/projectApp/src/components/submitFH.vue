@@ -51,7 +51,7 @@ export default {
   align-items: center;
   margin-top: 0.2rem;
   p {
-    width: 0.8rem;
+    width: 0.6rem;
     //   background-color: #ffc300;
     height: 100%;
     float: left;
@@ -59,7 +59,7 @@ export default {
   }
   ul {
     background-color: #fff;
-    width: 100%;
+    width: 92%;
     padding-left: 0.2rem;
     li {
       display: flex;

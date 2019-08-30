@@ -37,7 +37,7 @@
         <i class="icon-alishapes-"></i>&nbsp;&nbsp;整改内容
       </h3>
 
-      <div ref="mychild" id="mychild">
+      <div ref="mychild" id="mychild" style="margin: 0 .1rem;">
         <zgxf
           v-for="(item,index) in CheckContent"
           :key="index"
@@ -76,9 +76,7 @@ export default {
     headerTop,
     zgxf
   },
-  computed: {
-    ...mapGetters(["CheckPerson", "notifier"])
-  },
+
   data() {
     return {
       title: "自检整改单下发",
@@ -91,12 +89,12 @@ export default {
       paramsArr: [],
       flag: true,
       states: [], // 状态
-      state:''
+      state: ""
     };
   },
   created() {
     this.id = this.$route.query.id;
-    this.state=this.$route.query.state
+    this.state = this.$route.query.state;
     this.getData();
     let userinfo = localStorage.getItem("userinfo");
     this.username = JSON.parse(userinfo).realname;
@@ -174,7 +172,6 @@ export default {
           });
           this.flag = false;
           this.$router.push({ path: "/safetySelfZG" });
-           
         } else {
           this.$dialog.toast({
             mes: res.msg,
@@ -203,9 +200,9 @@ export default {
   .information {
     margin: 0.1rem 0.1rem;
     border: 1px solid #ccc;
-    border-radius: 0.1rem;
     padding-left: 0.7rem;
     background: #fff;
+    box-shadow: 1px 1px 5px #888888;
     p {
       color: black;
       padding: 0.1rem 0;
@@ -216,7 +213,7 @@ export default {
     background: #fff;
     behavior: url(/PIE.htc);
     margin-bottom: 0.2rem;
-  
+
     li {
       display: flex;
 
@@ -233,7 +230,7 @@ export default {
         color: white;
       }
       &:not(:first-child) {
-        margin-left: 1rem;
+        // margin-left: 1rem;
         padding: 0.1rem 0.2rem;
         align-items: center;
         display: -webkit-flex;

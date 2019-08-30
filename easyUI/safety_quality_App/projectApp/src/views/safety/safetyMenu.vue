@@ -115,7 +115,7 @@ export default {
 .addCheck {
   height: 2.7rem;
   width: 100%;
-  margin-top: 7rem;
+  margin-top: 5rem;
   div {
     height: 100%;
     text-align: center;

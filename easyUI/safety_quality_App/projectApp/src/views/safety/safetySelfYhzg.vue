@@ -37,6 +37,7 @@
     </h3>
 
     <submitCheck
+    style="margin: 0 .1rem;"
       v-for="(item,index) in CheckContent"
       :key="index"
       :contentData="[item]"
@@ -117,7 +118,7 @@ export default {
     align-items: center;
     margin-top: 0.2rem;
     p {
-      width: 0.8rem;
+      width: 0.6rem;
       //   background-color: #ffc300;
       height: 100%;
       float: left;
@@ -125,7 +126,7 @@ export default {
     }
     ul {
       background-color: #fff;
-      width: 90%;
+      width: 92%;
       padding-left: 0.2rem;
       li {
         display: flex;

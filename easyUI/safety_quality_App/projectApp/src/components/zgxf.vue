@@ -1,11 +1,13 @@
 <template>
-  <div class="zglist">
+  <div class="zglist" style="border-radius:1.2rem;">
     <ul class="zgul" v-for="(item,index) in itData" :key="index">
       <li>{{xuhao+1}}</li>
       <li>
         <p>
           隐患&nbsp;
-          <i style="background:#ffc300;padding:.02rem;">{{"("+item.hdGrade+")"}}</i>:
+          <i
+            style="background:#ffc300;padding:.04rem;color:white;font-size:.1rem;border-radius:.1rem;"
+          >{{"("+item.hdGrade+")"}}</i>:
         </p>
         <p>{{item.hdContent}}</p>
       </li>
@@ -34,10 +36,10 @@
       </li>
       <yd-cell-group
         v-if="item.sprState == 1"
-        style="margin-left:.8rem;font-size:12px;border-bottom: 1px dashed #ccc;margin-bottom:0;"
+        style="margin-left:.7rem;font-size:12px;border-bottom: 1px dashed #ccc;margin-bottom:0;"
       >
         <yd-cell-item arrow>
-          <span slot="left" style="padding-left:.2rem;">整改完成时间：</span>
+          <span slot="left">整改完成时间：</span>
           <yd-datetime
             start-date="2019-01-01 00:00"
             v-model="params.srFinishDate"
@@ -49,27 +51,15 @@
       </yd-cell-group>
       <yd-cell-group
         v-if="item.sprState == 1"
-        style="margin-left:.8rem;font-size:12px;margin-bottom:0;"
-        @click.native="show4 = true"
+        style="margin-left:.7rem;font-size:12px;margin-bottom:0;"
+        @click.native="$router.push({path:'/ZGren'})"
       >
         <yd-cell-item arrow close-on-masker="true">
-          <span slot="left" style="padding-left:.2rem;">选择整改人:</span>
-          <span slot="right">{{params.srUserName}}</span>
+          <span slot="left">选择整改人:</span>
+          <span slot="right">{{CheckPerson.name}}</span>
         </yd-cell-item>
       </yd-cell-group>
     </ul>
-    <yd-popup v-model="show4" position="right">
-      <div class="contation">
-        <ul>
-          <li
-            v-for="(item,index) in nodeData"
-            :key="index"
-            :class="{selected:index == active}"
-            @click="checkPreson(item,index)"
-          >{{item.realname}}</li>
-        </ul>
-      </div>
-    </yd-popup>
   </div>
 </template>
 <script>
@@ -77,7 +67,9 @@ import { mapGetters } from "vuex";
 import { Person } from "@/api/request.js";
 export default {
   props: ["itData", "BasicData", "xuhao"],
-
+  computed: {
+    ...mapGetters(["CheckPerson"])
+  },
   data() {
     return {
       show4: false,
@@ -120,11 +112,6 @@ export default {
         }
       });
     },
-    checkPreson(item, index) {
-      this.active = index;
-      this.params.srUserName = item.realname;
-      this.params.srUserId = item.id;
-    },
     getNowFormatDate() {
       var date = new Date();
       var seperator1 = "-";
@@ -148,6 +135,8 @@ export default {
     this.params.id = this.itData[0].id;
     this.params.qpCreatePerson = JSON.parse(userinfo).realname;
     this.params.spCreatePersonId = JSON.parse(userinfo).id;
+    this.params.srUserName = this.CheckPerson.name;
+    this.params.srUserId = this.CheckPerson.id;
   }
 };
 </script>
@@ -173,7 +162,7 @@ export default {
       color: white;
     }
     &:not(:first-child) {
-      margin-left: 1rem;
+      margin-left: 0.8rem;
       padding: 0.1rem 0.2rem;
       align-items: center;
       display: -webkit-flex;
