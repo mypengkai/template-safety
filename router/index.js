@@ -46,6 +46,8 @@ import safetyDoneList from "@/views/safety/safetyDoneList"
 import safetyList from "@/views/safety/safetyList"
 //新增安全计划列表
 import addPlan from "@/views/safety/addPlan"
+// 通知人列表
+import ZGren from "@/views/common/ZGren"
 Vue.use(Router)
 const router = new Router({
   routes: [
@@ -189,6 +191,11 @@ const router = new Router({
       path:'/addPlan',
       name:'addPlan',
       component:addPlan
+    },
+    {
+      path:'/ZGren',
+      name:'ZGren',
+      component:ZGren
     }
   ]
 })

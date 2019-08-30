@@ -36,7 +36,14 @@
       <i class="icon-alishapes-"></i>&nbsp;&nbsp;整改内容
     </h3>
 
-    <submitFH v-for="(item,index) in CheckContent" :key="index" :contentData="[item]" :BasicData="BasicData" :xuhao="index"></submitFH>
+    <submitFH
+      v-for="(item,index) in CheckContent"
+      :key="index"
+      :contentData="[item]"
+      :BasicData="BasicData"
+      :xuhao="index"
+      style="margin: 0 .1rem;"
+    ></submitFH>
     <yd-cell-group>
       <yd-cell-item>
         <span slot="left">
@@ -61,7 +68,7 @@ export default {
   data() {
     return {
       title: "自检整改复核",
-      id:"",//列表页携带过来的ID
+      id: "", //列表页携带过来的ID
       BasicData: {},
       CheckContent: [],
       fileList: {
@@ -71,14 +78,14 @@ export default {
       delProgressList: []
     };
   },
-  created(){
-    this.id=this.$route.query.id
-    this.getData()
+  created() {
+    this.id = this.$route.query.id;
+    this.getData();
   },
   methods: {
     routerBack() {
       // this.$router.go(-1);
-      this.$router.push({path:"/safetySelfFH"})
+      this.$router.push({ path: "/safetySelfFH" });
     },
     getData() {
       selfCheck({ id: this.id }).then(res => {
@@ -114,15 +121,14 @@ export default {
     align-items: center;
     margin-top: 0.2rem;
     p {
-      width: 0.8rem;
-      //   background-color: #ffc300;
+      width: 0.6rem;
       height: 100%;
       float: left;
       text-align: center;
     }
     ul {
       background-color: #fff;
-      width: 100%;
+      width: 92%;
       padding-left: 0.2rem;
       li {
         display: flex;
@@ -146,10 +152,8 @@ export default {
           font-weight: 600;
         }
       }
-    
     }
   }
-  
 }
 /deep/.yd-cell-box {
   margin-bottom: 0 !important;

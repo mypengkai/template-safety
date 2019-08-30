@@ -6,7 +6,7 @@
         <li style="border-bottom: 1px dashed #ccc;">
           <span>
             安全隐患&nbsp;
-            <i style="background:#ffc300;padding:.02rem;">{{item.hdGrade}}</i>:
+            <i style="background:#ffc300;padding:.04rem;color:white;font-size:.1rem;border-radius:.1rem;">{{item.hdGrade}}</i>:
           </span>&nbsp;&nbsp;&nbsp;
           <span>{{item.spContent}}</span>
         </li>
@@ -28,7 +28,7 @@
             <span>{{item.srFinishDate}}</span>
           </li>
           <li>
-            <span style="text-align:left;padding-left:.3rem;">整改人:</span>&nbsp;&nbsp;&nbsp;
+            <span style="text-align:left;">整改人:</span>&nbsp;&nbsp;&nbsp;
             <span>{{item.srUserName}}</span>
           </li>
           <li>
@@ -41,7 +41,7 @@
             :delAttachList="delProgressList"
             :readonly="false"
             :sourceType="3"
-            style="border-bottom:1px dashed #ccc;"
+            style="border-bottom:1px dashed #ccc;border-top:1px dashed #ccc;padding-top:.2rem"
           ></Attach>
           <yd-button
             v-show="flag"
@@ -168,8 +168,8 @@ export default {
   }
   ul {
     background-color: #fff;
-    width: 100%;
-    // padding-left: 0.2rem;
+    width: 92%;
+    padding-left: 0.2rem;
     li {
       display: flex;
       padding: 0.2rem 0.1rem;
@@ -180,7 +180,7 @@ export default {
 
         &:nth-child(1) {
           flex: 0 0 28%;
-          text-align: center;
+          text-align: left;
         }
         &:nth-child(2) {
           flex: 0 0 72%;
@@ -224,7 +224,7 @@ export default {
 
           &:nth-child(1) {
             flex: 0 0 28%;
-            text-align: center;
+            text-align: left;
           }
           &:nth-child(2) {
             flex: 0 0 72%;

@@ -20,7 +20,7 @@
         <span>{{con.replayDateTime}}</span>
       </li>
       <li  style="border-bottom: 1px dashed #ccc;">
-        <span style="text-align:left;padding-left:.3rem;">{{con.replayType==0?"整改人:":"复核人:"}}</span>&nbsp;&nbsp;&nbsp;
+        <span style="text-align:left;">{{con.replayType==0?"整改人:":"复核人:"}}</span>&nbsp;&nbsp;&nbsp;
         <span>{{con.replayUserName}}</span>
       </li>
     </div>
@@ -131,7 +131,7 @@ export default {
 
       &:nth-child(1) {
         flex: 0 0 28%;
-        text-align: center;
+        text-align: left;
       }
       &:nth-child(2) {
         flex: 0 0 72%;

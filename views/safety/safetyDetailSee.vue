@@ -123,7 +123,7 @@ export default {
       line-height: 0.6rem;
       margin-bottom: 0.2rem;
       p {
-        margin-left: 0.4rem;
+        // margin-left: 0.4rem;
         font-weight: bold;
         font-size: 0.3rem;
       }
@@ -146,7 +146,7 @@ export default {
     }
     .detailFoot {
       p {
-        margin-left: 0.4rem;
+        // margin-left: 0.4rem;
         font-weight: bold;
         font-size: 0.3rem;
         line-height: 0.6rem;
@@ -238,7 +238,7 @@ export default {
                     display: flex;
                     align-items: center; //子元素垂直居中
                     color: #6060ff;
-                    font-size: 0.3rem;
+                    font-size: 0.2rem;
                   }
                   b:last-child {
                     border: 1px solid #6060ff;
@@ -257,7 +257,7 @@ export default {
               i {
                 color: #fff;
                 padding: 0 0.3rem;
-                border-radius: 0.1rem;
+                border-radius: 0.2rem;
               }
             }
           }

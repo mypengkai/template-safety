@@ -64,11 +64,18 @@ export default {
         });
         return false;
       } else {
-        this.array.push(this.obj);
         console.log(this.array[this.array.length - 1]);
-        if (this.array[this.array.length - 1].hdCode === this.obj.hdCode) {
-          alert(123);
+        if (
+          this.array.length &&
+          this.array[this.array.length - 1].hdCode === this.obj.hdCode
+        ) {
+          this.$dialog.toast({
+            mes: "请勿重复添加",
+            timeout: 1000
+          });
+          return false;
         }
+        this.array.push(this.obj);
         this.$store.commit("getDangerItems", this.array);
         this.$router.push({ path: "/safetySelfAdd" });
       }
