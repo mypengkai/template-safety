@@ -1,19 +1,27 @@
 <template>
   <div class="safetySelfCheck">
     <headerTop :title="title">
-      <span slot="topLeft" class="icon-aliarrow-left- iconBack" @click="routerBack"></span>
+      <span
+        slot="topLeft"
+        class="icon-aliarrow-left- iconBack"
+        v-if="isHow"
+        @click="$router.push({ path: '/safetyMenu' })"
+      ></span>
+      <span
+        slot="topLeft"
+        class="icon-aliarrow-left- iconBack"
+        v-if="!isHow"
+        @click="$router.push({ path: '/safetyPlanMenu' })"
+      ></span>
     </headerTop>
-    <search @search="searchCheck"></search>
+    <search @search="searchCheck" v-if="isHow"></search>
+    <Plansearch @search="searchCheck" v-if="!isHow"></Plansearch>
     <div class="safetySelfConent">
       <scroller :on-refresh="refresh" :on-infinite="infinite" ref="myscroller">
         <ul v-for="(item,index) in formList" :key="index" @click="safetyDetail(item.id)">
           <li>{{index+1}}</li>
           <li>
             <span>巡检名称：{{item.spxjname}}</span>
-            <!-- <span v-if="item.safe ==0" style="background:#ffc20e">待整改</span>
-            <span v-if="item.safe ==1" style="background:#f26522">待复核</span>
-            <span v-if="item.safe ==2" style="background:#45b97c">通过</span>
-            <span v-if="item.safe ==3" style="background:#ed1941">未通过</span> -->
           </li>
           <li>所属部门：{{item.departname}}</li>
           <li>巡检位置：{{item.projectName}}</li>
@@ -38,13 +46,15 @@
 <script>
 import headerTop from "@/components/headerTop.vue";
 import search from "@/components/search.vue";
+import Plansearch from "@/components/Plansearch.vue";
 import { getZGlist } from "@/api/request.js";
 import { mapGetters } from "vuex";
 export default {
   name: "safetySelfCheck",
   components: {
     headerTop,
-    search
+    search,
+    Plansearch
   },
   data() {
     return {
@@ -53,13 +63,14 @@ export default {
       formData: {
         offset: 0, // 开始页
         limit: 10, // 每页数量
-        spxjname:'', // 巡检名称
+        spxjname: "", // 巡检名称
         spBeginDate: "", // 开始时间
         spEndDate: "", // 结束时间
         isOverdue: "", // 逾期 状态
         rectificationState: "1" // 整改状态（0待整改1待复检2通过3未通过）
       },
-      noDate: false
+      noDate: false,
+      isHow: true
     };
   },
   created() {
@@ -74,13 +85,24 @@ export default {
   computed: {
     ...mapGetters(["filterData"])
   },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      // console.log(from) // 上一页面的路由信息
+      // vm 指的是当前的vue实例
+      if (from.path == "/safetyPlanMenu" || from.path == "/safetySelfJhfh"||from.path == "/Planfilter") {
+        vm.isHow = false;
+      } else {
+        vm.isHow = true;
+      }
+    });
+  },
   methods: {
-    routerBack() {
-      // this.$router.go(-1);
-       this.$router.push({path:"/safetyMenu"})
-    },
     safetyDetail(id) {
-      this.$router.push({ path: "/safetySelfZgfh", query: { id: id } });
+      if (!this.isHow) {
+        this.$router.push({ path: "/safetySelfJhfh", query: { id: id } });
+      } else {
+        this.$router.push({ path: "/safetySelfZgfh", query: { id: id } });
+      }
     },
     //初始化数据
     getInit() {
@@ -147,8 +169,8 @@ export default {
   background-color: #efeff4;
   .safetySelfConent {
     margin: 0.2rem;
-    margin-top: 1.2rem;
     position: relative;
+    margin-top: 1rem;
     height: 100%;
     ul {
       position: relative;

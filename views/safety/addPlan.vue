@@ -1,7 +1,12 @@
 <template>
   <div class="addplan" style="padding-top:1rem;background:#efeff4; padding-bottom:0.2rem">
-    <headerTop :flag="flag" :title="title">
-      <span style="color:#fff;" @click="addplancheck">确定</span>
+    <headerTop :title="title">
+      <span
+        slot="topLeft"
+        class="icon-aliarrow-left- iconBack"
+        @click="$router.push({path:'/safetyPlanMenu'})"
+      ></span>
+      <span slot="topRight" class="padd" @click="addplancheck" v-preventReClick="3000">保存</span>
     </headerTop>
     <div class="conents">
       <yd-cell-group>
@@ -15,22 +20,28 @@
           <yd-textarea
             slot="right"
             placeholder="请输入计划名称"
-            maxlength="50"
-            style="background:#ebf0f2"
+            maxlength="30"
+            style="background:#ebf0f2;padding:.1rem;"
             v-model="formData.sppName"
           ></yd-textarea>
         </yd-cell-item>
 
         <yd-cell-item arrow type="link" href="/contacts">
           <span slot="left">巡检部门</span>
-          <span slot="right" v-if="!departAll">请选择</span>
-          <span slot="right" v-if="departAll">{{departAll.name}}</span>
+          <span slot="right" v-if="!CheckDepart">请选择</span>
+          <span slot="right" v-if="CheckDepart">{{CheckDepart.name}}</span>
         </yd-cell-item>
 
         <yd-cell-item arrow type="link" href="/branch">
           <span slot="left">巡检位置</span>
           <span slot="right" v-if="!projectName">请选择</span>
-          <span slot="right" v-if="projectName">{{projectName}}</span>
+          <span slot="right" v-if="projectName">
+            <p
+              v-for="(item,index) in projectName.split(',')"
+              :key="index"
+              style="text-align:left;padding-left:.4rem"
+            >{{++index+':'+item}}</p>
+          </span>
         </yd-cell-item>
 
         <yd-cell-item arrow type="link" href="/checkXz">
@@ -38,36 +49,36 @@
             巡检性质
             <span style="color:#d71345">*</span>
           </span>
-          <span slot="right" v-if="!inspectionPropertyName">请选择</span>
-          <span slot="right" v-if="inspectionPropertyName">{{inspectionPropertyName}}</span>
+          <span slot="right" v-if="!InspectionPropertyName">请选择</span>
+          <span slot="right" v-if="InspectionPropertyName">{{InspectionPropertyName}}</span>
         </yd-cell-item>
-        <yd-cell-item arrow style="background:#fff" type="link" href="/safetyCheckItem">
+        <yd-cell-item arrow style="background:#fff" type="link" href="/CheckItem">
           <span slot="left">
             检查项
             <span style="color:#d71345">*</span>
           </span>
-          <span slot="right" v-if="!qpContent">请选择</span>
-          <span slot="right" v-if="qpContent">
+          <span slot="right" v-if="!PlanDanger">请选择</span>
+          <span slot="right" v-if="PlanDanger">
             <p
-              v-for="(item,index) in qpContent.split(',')"
+              v-for="(item,index) in PlanDanger"
               :key="index"
               style="text-align:left;padding-left:0.4rem"
-            >{{item}}</p>
+            >{{item.hdName}}</p>
           </span>
         </yd-cell-item>
 
-        <yd-cell-item arrow type="link" href="/lianxiren">
+        <yd-cell-item arrow type="link" href="/ZGren">
           <span slot="left">
             检查人
             <span style="color:#d71345">*</span>
           </span>
-          <span slot="right" v-if="!checkPerson">请选择</span>
-          <span slot="right" v-if="checkPerson">{{checkPerson}}</span>
+          <span slot="right" v-if="!CheckPerson">请选择</span>
+          <span slot="right" v-if="CheckPerson">{{CheckPerson.name}}</span>
         </yd-cell-item>
-        <yd-cell-item arrow type="link" href="/contact">
+        <yd-cell-item arrow type="link" href="/notifier">
           <span slot="left">通知人</span>
-          <span slot="right" v-if="!qpNotifierName">请选择</span>
-          <span slot="right" v-if="qpNotifierName">{{qpNotifierName}}</span>
+          <span slot="right" v-if="!notifier">请选择</span>
+          <span slot="right" v-if="notifier">{{notifier.names[0]}}</span>
         </yd-cell-item>
         <yd-cell-item arrow>
           <span slot="left">开始日期</span>
@@ -90,47 +101,65 @@
       </yd-cell-group>
     </div>
     <!-- 文件附件 -->
-    <Attach
+    <!-- <Attach
+      style="padding-top:.2rem;"
       :attachList="fileList.files"
       :delAttachList="delProgressList"
       :readonly="false"
       :sourceType="3"
-    ></Attach>
+    ></Attach> -->
   </div>
 </template>
 <script>
 import headerTop from "@/components/headerTop";
 import Attach from "@/components/Attach.vue";
 import { mapGetters } from "vuex";
-// import { addsafetyPlancheck,uploadFile } from "@/api/request.js";
-
+import { safetyAddResult, addsafetyPlancheck } from "@/api/request.js";
 export default {
   components: { headerTop, Attach },
-  name: "safeplan",
+  name: "addPlan",
   data() {
     return {
       title: "新增安全计划",
-      flag: true,
       date: "",
       spCreatePersonName: "", // 创建人
       fileList: {
         files: [], // 图片
-        name: "safetyPlan"
+        type: "SafetyReply"
       },
       delProgressList: [],
       formData: {
-
+        projectId: "", // 分部分项
+        sppName: "", //计划名称
+        ipId: "", // 巡检性质 id
+        sppCheckUserId: "", // 检查人id
+        sppBeginDate: "", // 开始时间
+        sppEndDate: "", // 结束时间
+        sppContent: "", // 巡检内容（检查项）
+        sppNotifier: "", // 通知人id
+        sppIsCreateSafetyPatrol: 0, // 是否创建（默认0）
+        sppDepartmentId: "", // 巡检部门id
+        filename: "", // 图片名称
+        filepath: "", // 图片路径
+        spCreatePersonId: "" // 创建人id
       }
     };
   },
   computed: {
     ...mapGetters([
-
+      "CheckDepart",
+      "projectName",
+      "projectId",
+      "InspectionPropertyId",
+      "InspectionPropertyName",
+      "PlanDanger",
+      "CheckPerson",
+      "notifier"
     ])
   },
   created() {
+    
     this.getuserName();
-    // this.getNowtime();
   },
   updated() {
     //如果时间格式是正确的，那下面这一步转化时间格式就可以不用了
@@ -145,26 +174,33 @@ export default {
       return false;
     }
     this.date = Math.floor(dateDiff / (24 * 3600 * 1000) + 1); //计算出相差天数
-    
   },
   methods: {
-
     getuserName() {
       let nowTime = new Date();
-      this.formData.sppBeginDate = nowTime.toLocaleDateString().replace(/\//g, "-");
-      this.formData.sppEndDate = nowTime.toLocaleDateString().replace(/\//g, "-"); 
-      this.spCreatePersonName = localStorage.getItem("username"); // 创建人
+      this.formData.sppBeginDate = nowTime
+        .toLocaleDateString()
+        .replace(/\//g, "-");
+      this.formData.sppEndDate = nowTime
+        .toLocaleDateString()
+        .replace(/\//g, "-");
+      this.spCreatePersonName = JSON.parse(
+        localStorage.getItem("loginInfo")
+      ).username; // 创建人
+      this.formData.spCreatePersonId = JSON.parse(
+        localStorage.getItem("userinfo")
+      ).id; // 创建人
     },
     // 新增
     async addplancheck() {
       let formData = new FormData();
-      formData.append("name", this.fileList.name);
+      formData.append("type", this.fileList.type);
       if (this.fileList.files.length > 0) {
         for (let key in this.fileList.files) {
           formData.append("file", this.fileList.files[key].file);
         }
       }
-      await uploadFile(formData).then(res => {
+      await safetyAddResult(formData).then(res => {
         if (res.success == 0) {
           res.obj.forEach(e => {
             this.formData.filepath += e.filepath + ",";
@@ -181,12 +217,23 @@ export default {
           });
         }
       });
+      var arr = [];
+      for (let item of this.PlanDanger) {
+        arr.push(item.id);
+        //检查项
+        this.formData.sppContent = arr.toString();
+      }
+      //巡检部门ID
+      this.formData.sppDepartmentId = this.CheckDepart.id;
+      //巡检位置
       this.formData.projectId = this.projectId;
-      this.formData.sppCheckUserId = this.qpCheckUserId;
-      this.formData.sppNotifier = this.qpCheckUserId;
-      this.formData.ipId = this.inspectionPropertyId;
-      this.formData.sppContent = this.qpContent;
-      this.formData.sppDepartmentId = this.departAll.id;
+      //巡检性质
+      this.formData.ipId = this.InspectionPropertyId;
+      //检查人
+      this.formData.sppCheckUserId = this.CheckPerson.id;
+      //通知人
+      this.formData.sppNotifier = this.notifier.ids[0];
+
       if (this.formData.sppName == "") {
         this.$dialog.toast({
           mes: "请输入计划名称",
@@ -237,19 +284,16 @@ export default {
             timeout: 2000
           });
           // 清除vuex数据
-          this.$store.dispatch("setQpNotifierName", "");
-          this.$store.dispatch("setQpNotifierId", "");
-          this.$store.dispatch("setInspectionPropertyId", "");
-          this.$store.dispatch("setInspectionPropertyName", "");
-          this.$store.dispatch("setCheckPerson", "");
-          this.$store.dispatch("setQpCheckUserId", "");
-          this.$store.dispatch("setQpContent", "");
-          this.$store.dispatch("setQpContentId", "");
-          this.$store.dispatch("setdepartAll", "");
-          this.$store.dispatch("setProjectName", "");
-          this.$store.dispatch("setProjectId", "");
+          this.$store.commit("setCheckDepart", "");
+          this.$store.commit("setProjectName", "");
+          this.$store.commit("setProjectId", "");
+          this.$store.commit("setInspectionPropertyId", "");
+          this.$store.commit("setInspectionPropertyName", "");
+          this.$store.commit("setPlanDanger", "");
+          this.$store.commit("setCheckPerson", "");
+          this.$store.commit("setNotifier", "");
           this.$destroy(true);
-          this.$router.go(-1);
+          this.$router.push({ path: "/safetyList" });
         } else {
           this.$dialog.toast({
             mes: res.msg,

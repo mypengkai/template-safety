@@ -24,6 +24,7 @@ import 'ztree/css/metroStyle/metroStyle.css'
 import VueScroller from 'vue-scroller'
 //处理app推送消息和跳转
 import './assets/plus/handlePush'
+
 // 图片预览插件
 import Viewer from 'v-viewer'
 import 'viewerjs/dist/viewer.css'
@@ -56,6 +57,19 @@ router.beforeEach((to, from, next) => {
 // 时间全局过滤
 Vue.filter('dateformat', function (dataStr, pattern = 'YYYY-MM-DD') {
   return moment(dataStr).format(pattern)
+})
+
+//自定义全局指令防止用户短时间内重复点击
+Vue.directive('preventReClick', {
+  inserted (el, binding) {
+    el.addEventListener('click', () => {      if (!el.disabled) {
+        el.disabled = true
+        setTimeout(() => {
+          el.disabled = false
+        }, binding.value || 3000)
+      }
+    })
+  }
 })
 
 

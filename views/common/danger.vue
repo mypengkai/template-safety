@@ -26,8 +26,8 @@ export default {
         },
         check: {
           enable: true,
-          chkStyle: "radio",
-          radioType: "all"
+          chkStyle: "checkbox",
+          chkboxType: { Y: "", N: "" }
         },
         data: {
           key: {
@@ -46,10 +46,13 @@ export default {
       },
       array: [], // 存储的隐患项
       obj: {}, // 选择的隐患项
-      biaoji: ""
+      biaoji: "",
+      id:''
     };
   },
   created() {
+    console.log(this.$route.query.id)
+    this.id=this.$route.query.id
     this.getDangerInit();
   },
   methods: {
@@ -57,37 +60,25 @@ export default {
       this.$router.push({ path: "/safetySelfAdd" });
     },
     routerGo() {
-      if (JSON.stringify(this.obj) == "{}") {
+      if (JSON.stringify(this.array) == "[]") {
         this.$dialog.toast({
           mes: "请选择隐患条目",
           timeout: 1000
         });
         return false;
       } else {
-        console.log(this.array[this.array.length - 1]);
-        if (
-          this.array.length &&
-          this.array[this.array.length - 1].hdCode === this.obj.hdCode
-        ) {
-          this.$dialog.toast({
-            mes: "请勿重复添加",
-            timeout: 1000
-          });
-          return false;
-        }
-        this.array.push(this.obj);
         this.$store.commit("getDangerItems", this.array);
         this.$router.push({ path: "/safetySelfAdd" });
       }
     },
     // 初始化隐患
     getDangerInit() {
-      getDanger().then(res => {
+      getDanger(this.id).then(res => {
         $.fn.zTree.init($("#treeDemo"), this.setting, res.rows);
       });
     },
     nodeClick: function(event, treeId, treeNode) {
-      if (treeNode.children.length > 0) {
+      if (treeNode.children&&treeNode.children.length > 0) {
         this.$dialog.toast({
           mes: "请选择最下级隐患条目",
           timeout: 1000
@@ -96,7 +87,12 @@ export default {
       }
       var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
       treeObj.checkNode(treeNode, !treeNode.checked, true);
-      this.obj = treeNode;
+       var treeObj = $.fn.zTree.getZTreeObj("treeDemo"),
+      nodes = treeObj.getCheckedNodes(true);
+      this.array=[]
+      for (let i = 0; i < nodes.length; i++) {
+         this.array.push(nodes[i]);
+      }
     }
   }
 };
@@ -110,5 +106,11 @@ export default {
 }
 /deep/.yd-navbar-center-title {
   color: white !important;
+}
+/deep/.node_name {
+  display: inline-block;
+  width: 5rem;
+  text-overflow: ellipsis;
+  color: red !important;
 }
 </style>

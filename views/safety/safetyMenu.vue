@@ -5,10 +5,10 @@
     </headerTop>
     <div class="checkList">
       <ul>
-        <li @click="selfList">
+        <!-- <li @click="selfList">
           <span class="icon-alizhenggaijiancha"></span>
           <span>计检</span>
-        </li>
+        </li> -->
         <li @click="selfCheck">
           <span class="icon-aligerenxinxiicon-"></span>
           <span>自检</span>
@@ -45,7 +45,7 @@ export default {
   },
   data() {
     return {
-      title: "安全"
+      title: "安全自主巡检"
     };
   },
   created() {},
@@ -76,7 +76,7 @@ export default {
     },
     //新增
     addSafety() {
-      this.$router.push({ path: "/safetySelfAdd" });
+      this.$router.push({ path: "safetySelfAdd" });
     }
   }
 };

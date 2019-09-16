@@ -14,6 +14,7 @@
           <li>检查人：{{dataObj.spCheckUserName}}</li>
           <li>检查时间：{{dataObj.spCreateDateTime}}</li>
           <li>通知人：{{dataObj.spNotifierName}}</li>
+          <li style="color:red;">有隐患项：{{dataObj.youhd}}</li>
         </ul>
       </div>
       <div class="detailFoot">
@@ -103,7 +104,7 @@ export default {
     getInit() {
       selfCheck({ id: this.$route.query.id }).then(res => {
         if (res.success == 0) {
-          this.dataObj = res.attributes;
+          this.dataObj = res.obj;
           this.dataList = res.rows;
          
         }
@@ -155,6 +156,7 @@ export default {
         border: 1px solid #ccc;
         height: 100%;
         position: relative;
+        margin-bottom: .2rem;
         h3 {
           position: absolute;
           width: 0.6rem;

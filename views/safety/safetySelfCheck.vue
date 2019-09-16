@@ -1,13 +1,28 @@
 <template>
   <div class="safetySelfCheck">
     <headerTop :title="title">
-      <span slot="topLeft" class="icon-aliarrow-left- iconBack" @click="routerBack"></span>
-      <!-- <span slot="topRight" class="icon-alixinzeng iconBack" @click="addSafetySelf"></span> -->
+      <span
+        slot="topLeft"
+        class="icon-aliarrow-left- iconBack"
+        v-if="isHow"
+        @click="$router.push({ path: '/safetyMenu' })"
+      ></span>
+      <span
+        slot="topLeft"
+        class="icon-aliarrow-left- iconBack"
+        v-if="!isHow"
+        @click="$router.push({ path: '/safetyPlanMenu' })"
+      ></span>
     </headerTop>
-    <search @search="searchCheck"></search>
+    <search @search="searchCheck" v-if="isHow"></search>
+    <Plansearch @search="searchCheck" v-if="!isHow"></Plansearch>
     <div class="safetySelfConent">
       <scroller :on-refresh="refresh" :on-infinite="infinite" ref="myscroller">
-        <ul v-for="(item,index) in formList" :key="index" @click="safetyDetail(item.id,item.RectificationState)">
+        <ul
+          v-for="(item,index) in formList"
+          :key="index"
+          @click="safetyDetail(item.id,item.RectificationState)"
+        >
           <li>{{index+1}}</li>
           <li>
             <span style="text-overflow: ellipsis;">巡检名称：{{item.spxjname}}</span>
@@ -33,13 +48,15 @@
 <script>
 import headerTop from "@/components/headerTop.vue";
 import search from "@/components/search.vue";
+import Plansearch from "@/components/Plansearch.vue";
 import { safetySelfList } from "@/api/request.js";
 import { mapGetters } from "vuex";
 export default {
   name: "safetySelfCheck",
   components: {
     headerTop,
-    search
+    search,
+    Plansearch
   },
   data() {
     return {
@@ -55,7 +72,8 @@ export default {
         spBeginDate: "", // 开始时间
         spEndDate: "" // 结束时间
       },
-      noDate: false
+      noDate: false,
+      isHow: true
     };
   },
   created() {
@@ -63,9 +81,25 @@ export default {
     if (Object.keys(this.filterData).length > 0) {
       this.formData.spCreateDateTime = this.filterData.spCreateDateTime;
       this.formData.sprRectificationState = this.filterData.sprRectificationState;
-      this.formData.spBeginDate=this.filterData.spBeginDate
-      this.formData.spEndDate=this.filterData.spEndDate
+      this.formData.spBeginDate = this.filterData.spBeginDate;
+      this.formData.spEndDate = this.filterData.spEndDate;
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      // console.log(from) // 上一页面的路由信息
+      // vm 指的是当前的vue实例
+      if (
+        from.path == "/safetyPlanMenu" ||
+        from.path == "/safetyPlanAdd" ||
+        from.path == "/safetyjhxf" ||
+        from.path == "/Planfilter"
+      ) {
+        vm.isHow = false;
+      } else {
+        vm.isHow = true;
+      }
+    });
   },
   computed: {
     ...mapGetters(["filterData"])
@@ -77,8 +111,18 @@ export default {
     addSafetySelf() {
       this.$router.push({ path: "/safetySelfAdd" });
     },
-    safetyDetail(id,ste) {
-      this.$router.push({ path: "/safetyzgxf", query: { id: id ,state: ste} });
+    safetyDetail(id, ste) {
+      if (!this.isHow) {
+        this.$router.push({
+          path: "/safetyjhxf",
+          query: { id: id, state: ste }
+        });
+      } else {
+        this.$router.push({
+          path: "/safetyzgxf",
+          query: { id: id, state: ste }
+        });
+      }
     },
     //初始化数据
     getInit() {
@@ -145,7 +189,7 @@ export default {
   background-color: #efeff4;
   .safetySelfConent {
     margin: 0.2rem;
-    margin-top: 1.2rem;
+    margin-top: 1rem;
     position: relative;
     height: 100%;
     ul {
@@ -169,7 +213,6 @@ export default {
           text-align: center;
           background: #ccc;
           position: absolute;
-          // left: 0.1rem;
           justify-content: center; //子元素水平居中
           align-items: center; //子元素垂直居中
           display: -webkit-flex;

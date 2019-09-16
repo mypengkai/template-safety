@@ -12,8 +12,10 @@ import contacts from '@/views/home/contacts/index'
 import information from '@/views/home/information/index'
 //消息
 import schedule from "@/views/home/schedule/index"
-//安全主页面
+//安全自主巡检页面
 import safetyMenu from "@/views/safety/safetyMenu"
+//安全计划巡检页面
+import safetyPlanMenu from "@/views/safety/safetyPlanMenu"
 //安全自主检查
 import safetySelfCheck from "@/views/safety/safetySelfCheck"
 //整改列表
@@ -22,20 +24,32 @@ import safetySelfZG from "@/views/safety/safetySelfZG"
 import safetySelfFH from "@/views/safety/safetySelfFH"
 //自检整改单下发
 import safetyzgxf from "@/views/safety/safetyzgxf"
+//计划整改单下发
+import safetyjhxf from "@/views/safety/safetyjhxf"
 // 新增自主检查
 import safetySelfAdd from "@/views/safety/safetySelfAdd"
+// 新增计划检查
+import safetyPlanAdd from "@/views/safety/safetyPlanAdd"
 //整改
 import safetySelfYhzg from "@/views/safety/safetySelfYhzg"
+//计划整改
+import safetySelfJHzg from "@/views/safety/safetySelfJHzg"
 //复核
 import safetySelfZgfh from "@/views/safety/safetySelfZgfh"
+//计划复核
+import safetySelfJhfh from "@/views/safety/safetySelfJhfh"
 //过程查看
 import safetySelfDetail from "@/views/safety/safetySelfDetail"
 // 整改明细页面
 import safetyDetailSee from "@/views/safety/safetyDetailSee"
+// 计划整改明细页面
+import safetyDetailSeeJH from "@/views/safety/safetyDetailSeeJH"
 //隐患
 import danger from "@/views/common/danger"
 //自检筛选
 import filter from "@/views/common/filter"
+//自检筛选
+import Planfilter from "@/views/common/Planfilter"
 //联系人列表
 import CheckPerson from "@/views/common/CheckPerson"
 //联系人列表
@@ -46,10 +60,22 @@ import safetyDoneList from "@/views/safety/safetyDoneList"
 import safetyList from "@/views/safety/safetyList"
 //新增安全计划列表
 import addPlan from "@/views/safety/addPlan"
+// 分部分项
+import branch from "@/views/safety/branch"
 // 通知人列表
 import ZGren from "@/views/common/ZGren"
+// 巡检性质
+import CheckXz from "@/views/safety/CheckXz"
+// 隐患条目
+import CheckItem from "@/views/safety/CheckItem"
+// 计划详情
+import PlanDetail from "@/views/safety/PlanDetail"
+// 
 Vue.use(Router)
 const router = new Router({
+  scrollBehavior: () => ({
+    y: 0
+  }),
   routes: [
     //登录页
     {
@@ -70,7 +96,7 @@ const router = new Router({
       },
       //组织机构
       {
-        path: 'contacts',
+        path: '/contacts',
         name: 'contacts',
         component: contacts
       },
@@ -93,12 +119,23 @@ const router = new Router({
       name:"safetyMenu",
       component:safetyMenu
     },
+    {
+      path:"/safetyPlanMenu",
+      name:'safetyPlanMenu',
+      component:safetyPlanMenu
+    },
     // 安全自主检查列表
     {
       path: '/safetySelfCheck',
       name: 'safetySelfCheck',
       component: safetySelfCheck
     },
+        // 安全计划检查列表
+        {
+          path: '/safetyPlanAdd',
+          name: 'safetyPlanAdd',
+          component: safetyPlanAdd
+        },
     //整改列表
     {
       path: '/safetySelfZG',
@@ -120,6 +157,15 @@ const router = new Router({
         keepAlive: true
       }
     },
+        //计划整改下发
+        {
+          path: '/safetyjhxf',
+          name: 'safetyjhxf',
+          component: safetyjhxf,
+          meta: {
+            keepAlive: true
+          }
+        },
     // 新增自主检查
     {
       path: '/safetySelfAdd',
@@ -132,12 +178,23 @@ const router = new Router({
       name: 'safetySelfYhzg',
       component: safetySelfYhzg
     },
+    {
+      path:'/safetySelfJHzg',
+      name:'safetySelfJHzg',
+      component:safetySelfJHzg
+    },
     // 下发复核页面
     {
       path: '/safetySelfZgfh',
       name: 'safetySelfZgfh',
       component: safetySelfZgfh
     },
+        // 下发计划复核页面
+        {
+          path: '/safetySelfJhfh',
+          name: 'safetySelfJhfh',
+          component: safetySelfJhfh
+        },
     //过程查看
     {
       path: '/safetySelfDetail',
@@ -149,6 +206,11 @@ const router = new Router({
       path: '/safetyDetailSee',
       name: "safetyDetailSee",
       component: safetyDetailSee
+    },
+    {
+      path:'/safetyDetailSeeJH',
+      name:'safetyDetailSeeJH',
+      component:safetyDetailSeeJH
     },
     //隐患条目页面
     {
@@ -162,6 +224,12 @@ const router = new Router({
       name: "filter",
       component: filter
     },
+        //计检筛选
+        {
+          path: '/Planfilter',
+          name: "Planfilter",
+          component: Planfilter
+        },
     //联系人页面
     {
       path: '/CheckPerson',
@@ -192,11 +260,34 @@ const router = new Router({
       name:'addPlan',
       component:addPlan
     },
+
+    // 整改人列表
     {
       path:'/ZGren',
       name:'ZGren',
       component:ZGren
+    },
+    {
+      path:'/branch',
+      name:'branch',
+      component:branch
+    },
+    {
+      path:'/CheckXz',
+      name:'CheckXz',
+      component:CheckXz
+    },
+    {
+      path:'/CheckItem',
+      name:'CheckItem',
+      component:CheckItem
+    },
+    {
+      path:'/PlanDetail',
+      name:'PlanDetail',
+      component:PlanDetail
     }
+
   ]
 })
 

@@ -12,6 +12,12 @@
         <p>{{item.hdContent}}</p>
       </li>
       <li>
+        <p>
+          整改人部门:&nbsp;
+        </p>
+        <p style="color:#1d953f;">{{item.sprState == 1?(item.srUserdepartment||"尚未下发整改"):"无须整改"}}</p>
+      </li>
+      <li>
         <p>整改要求:</p>
         <p>{{item.ZGmethod}}</p>
       </li>
@@ -40,13 +46,7 @@
       >
         <yd-cell-item arrow>
           <span slot="left">整改完成时间：</span>
-          <yd-datetime
-            start-date="2019-01-01 00:00"
-            v-model="params.srFinishDate"
-            :init-emit="false"
-            placeholder="请选择"
-            slot="right"
-          ></yd-datetime>
+          <yd-datetime type="date" v-model="params.srFinishDate" slot="right"></yd-datetime>
         </yd-cell-item>
       </yd-cell-group>
       <yd-cell-group
@@ -65,6 +65,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { Person } from "@/api/request.js";
+
 export default {
   props: ["itData", "BasicData", "xuhao"],
   computed: {
@@ -72,7 +73,6 @@ export default {
   },
   data() {
     return {
-      show4: false,
       nodeData: [], //树列表数据
       active: null,
       formData: {
@@ -95,6 +95,7 @@ export default {
     //如果时间格式是正确的，那下面这一步转化时间格式就可以不用了
     var dateBegin = new Date(this.getNowFormatDate().replace(/-/g, "/")); //将-转化为/，使用new Date
     var dateEnd = new Date(this.params.srFinishDate.replace(/-/g, "/")); //获取当前时间
+
     var dateDiff = dateEnd.getTime() - dateBegin.getTime(); //时间差的毫秒数
     if (dateDiff < 0) {
       this.$dialog.toast({
@@ -118,6 +119,8 @@ export default {
       var year = date.getFullYear();
       var month = date.getMonth() + 1;
       var strDate = date.getDate();
+      var hours = date.getHours();
+      var Minutes = date.getMinutes();
       if (month >= 1 && month <= 9) {
         month = "0" + month;
       }
@@ -125,10 +128,13 @@ export default {
         strDate = "0" + strDate;
       }
       var currentdate = year + seperator1 + month + seperator1 + strDate;
+
       return currentdate;
     }
   },
   created() {
+    console.log(this.CheckPerson);
+    this.params.srFinishDate = this.getNowFormatDate();
     this.CheckState = this.itData[0].sprState;
     this.getInit();
     let userinfo = localStorage.getItem("userinfo");
@@ -148,7 +154,6 @@ export default {
   margin-bottom: 0.2rem;
   li {
     display: flex;
-
     &:first-child {
       width: 0.6rem;
       height: 100%;
@@ -175,7 +180,7 @@ export default {
         flex: 0 0 68%;
       }
     }
-    &:nth-child(2) {
+    &:nth-child(3) {
       position: relative;
       span {
         position: absolute;

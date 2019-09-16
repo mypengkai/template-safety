@@ -32,6 +32,45 @@ tool.isEmptyStr = function (str) {
     }
   }
   //清空store里面的参数
+// 防抖
+tool._debounce = function(fn, delay) {
+
+  var delay = delay || 200;
+  var timer;
+  return function () {
+      var th = this;
+      var args = arguments;
+      if (timer) {
+          clearTimeout(timer);
+      }
+      timer = setTimeout(function () {
+          timer = null;
+          fn.apply(th, args);
+      }, delay);
+  };
+}
+
+// 节流
+tool._throttle = function(fn, interval) {
+  var last;
+  var timer;
+  var interval = interval || 200;
+  return function () {
+      var th = this;
+      var args = arguments;
+      var now = +new Date();
+      if (last && now - last < interval) {
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+              last = now;
+              fn.apply(th, args);
+          }, interval);
+      } else {
+          last = now;
+          fn.apply(th, args);
+      }
+  }
+}
 
 Vue.prototype.$tool = tool
 export default  tool 

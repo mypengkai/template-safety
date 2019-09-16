@@ -50,7 +50,6 @@ export default {
     },
     getMessage() {
       pushmessage().then(res => {
-        console.log(res.data.rows);
         this.msgList = res.data.rows;
       });
     },
