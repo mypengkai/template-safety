@@ -7,8 +7,9 @@
       <div class="addTop">
         <p class="icon-aliwocanyude">&nbsp;&nbsp;基础信息</p>
         <ul>
-          <li>所属部门: {{userinfo.departname}}</li>
-          <li>巡检位置：{{userinfo.projectName}}</li>
+          <li>所属机构: {{userinfo.departname}}</li>
+           <li>所属部门: {{userinfo.department}}</li>
+          <li @click="display" >巡检位置: <span style="border-bottom: 2px dashed #f58220;color:blue;">{{array?array[0].name:userinfo.projectName}}</span> </li>
           <li>检查性质：自检</li>
           <li>检查人：{{userinfo.realname}}</li>
           <!-- <li>检查时间：2019-08-08 10:10:20</li> -->
@@ -22,6 +23,7 @@
             <li>安全巡检内容</li>
             <li>安全等级</li>
             <li>巡检结果</li>
+            
           </ul>
           <!-- 动态组件 -->
           <div ref="mychild" class="comChild">
@@ -47,11 +49,28 @@
             <i class="icon-alitouxiang"></i>&nbsp;&nbsp;通知人
           </span>
           <span slot="right" v-if="!this.notifier">请选择</span>
-          <span slot="right" v-if="this.notifier">{{notifierPersons}}</span>
+          <span slot="right" v-if="this.notifier">{{notifier.names[0]}}</span>
         </yd-cell-item>
       </yd-cell-group>
-      <yd-button size="large" type="primary" @click.native="addInspection">保存</yd-button>
+      <yd-button
+        size="large"
+        type="primary"
+        @click.native="addInspection"
+        :loading="isLoading"
+        loading-txt="提交保存中..."
+      >保存</yd-button>
     </div>
+              <yd-popup v-model="show1" position="center" width="90%">
+            <div style="background-color:#fff;">
+                <p>
+                    <ul id="treeDemo" class="ztree"></ul>
+                </p>
+          
+                <p style="text-align: center;">
+                    <yd-button @click.native="show1 = false">关闭</yd-button>
+                </p>
+            </div>
+        </yd-popup>
   </div>
 </template>
 <script>
@@ -60,7 +79,12 @@ import resultCopy from "@/components/resultCopy.vue";
 import Attach from "@/components/Attach.vue";
 import radio from "@/components/radio.vue";
 import { mapGetters } from "vuex";
-import { addSafety } from "@/api/request.js";
+import {
+  addSafety,
+  safetyjhxiangqing,
+  DetailDepart,
+  getDanger
+} from "@/api/request.js";
 export default {
   name: "safetySelfAdd",
   components: {
@@ -82,34 +106,78 @@ export default {
         files: [],
         type: "SafetyPatrol" // 安全
       },
+      id: this.$route.query.id,
       form: {
         departId: "", // 部门id
         projectId: "", // 分部分项id
         spCheckUserId: "", // 检查人id
         spNotifier: "", // 通知人id
-        result: [] // list数据
-      }
+        result: [], // list数据
+        sppId: "",
+        sppName: ""
+      },
+      isLoading: false,
+      setting: {
+        view: {
+          showLine: false,
+          showIcon: false,
+          selectedMulti: true
+        },
+        check: {
+          enable: true,
+          autoCheckTrigger: false,
+          chkStyle: "radio",
+          radioType:"all",
+          chkboxType: { Y: "", N: "" }
+        },
+        data: {
+          key: {
+            name: "name"
+          },
+        },
+        callback: {
+          onClick: this.nodeClick
+        }
+      },
+       show1: false,
+       array:''  //巡检位置数组
     };
   },
   computed: {
     ...mapGetters(["dangerItems", "notifier"])
   },
-  updated() {
-    if (JSON.stringify(this.notifier) != "{}") {
-      this.notifierPersons = this.notifier.names.join(",");
-    }
-  },
-
   created() {
-    console.log(this.dangerItems);
-    //console.log(JSON.stringify(this.notifier))
-    let user = localStorage.getItem("userinfo");
-    this.userinfo = JSON.parse(user);
+    this.getDangerInit();
+    this.userinfo = JSON.parse(localStorage.getItem("userinfo"));
   },
-  mounted() {
-    this.$nextTick(() => {});
+  activated(){
+    
   },
   methods: {
+    display(){
+      this.show1=true
+    },
+       nodeClick: function(event, treeId, treeNode) {
+      if (treeNode.children&&treeNode.children.length > 0) {
+        this.$dialog.toast({
+          mes: "请选择最下级隐患条目",
+          timeout: 1000
+        });
+        return false;
+      }
+      var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+      treeObj.checkNode(treeNode, !treeNode.checked, true);
+       var treeObj = $.fn.zTree.getZTreeObj("treeDemo"),
+      nodes = treeObj.getCheckedNodes(true);
+         this.array=nodes;
+         console.log(this.array)
+    },
+    // 初始化隐患
+    getDangerInit() {
+      DetailDepart().then(res => {
+        $.fn.zTree.init($("#treeDemo"), this.setting, res.obj);
+      });
+    },
     routerBack() {
       this.$router.push({ path: "/safetySelfCheck" });
     },
@@ -118,10 +186,10 @@ export default {
     },
     //点击添加检查
     AddCheck() {
-      this.$router.push({ path: "/danger" });
+      let id=this.array?this.array[0].zid:this.userinfo.projectId
+      this.$router.push({ path: "/danger" ,query:{id:id}});
     },
-    // 子组件传递的数据
-    getValue(data, currentIndex) {},
+
     // 保存
     async addInspection() {
       if (this.$refs.childUpload.length > 0) {
@@ -137,14 +205,21 @@ export default {
         // 获取组件数据（每一个组件数据都是一组obj）
         let arr = this.$refs.mychild.children;
         for (var i = 0; i < arr.length; i++) {
+          if (arr[i].__vue__.conentObj.sprState == "") {
+            this.$dialog.toast({
+              mes: "请勾选状态",
+              timeout: 800
+            });
+            return false;
+          }
           list.push(arr[i].__vue__.conentObj);
         }
       }
       this.form.result = list;
       this.form.departId = this.userinfo.departid;
-      this.form.projectId = this.userinfo.projectId;
+      this.form.projectId =this.array?this.array[0].zid:this.userinfo.projectId;
       this.form.spCheckUserId = this.userinfo.id;
-      if (JSON.stringify(this.notifier) != "{}") {
+      if (JSON.stringify(this.notifier) != "") {
         this.form.spNotifier = this.notifier.ids.join(",");
       } else {
         this.$dialog.toast({
@@ -153,13 +228,15 @@ export default {
         });
         return false;
       }
+      this.isLoading = true;
       addSafety(this.form).then(res => {
         if (res.success == 0) {
           this.$dialog.toast({
             mes: "新增成功",
             timeout: 2000
           });
-           this.$destroy(true);
+          this.isLoading = false;
+          
           // 清楚vuex 数据以及输入框数据
           this.$store.commit("getDangerItems", ""); // 隐患
           this.$store.commit("setNotifier", ""); // 通知人
@@ -174,7 +251,6 @@ export default {
       });
     }
   }
-
 };
 </script>
 <style lang="less" scoped>
@@ -184,6 +260,7 @@ export default {
   padding-top: 1rem;
   .addConent {
     padding: 0.2rem;
+    
     .addTop {
       line-height: 0.6rem;
       margin-bottom: 0.2rem;
@@ -338,6 +415,9 @@ export default {
     padding-left: 0.24rem;
     overflow: hidden;
     border-bottom: 1px solid #ccc;
+  }
+  /deep/.ztree li {
+    line-height: 30px;
   }
 }
 </style>

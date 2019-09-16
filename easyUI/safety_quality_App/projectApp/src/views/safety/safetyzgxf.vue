@@ -13,8 +13,12 @@
           <span>{{BasicData.spxjname}}</span>
         </p>
         <p>
-          <span>所属部门:</span>
+          <span>所属机构:</span>
           <span>{{BasicData.departname}}</span>
+        </p>
+        <p>
+          <span>所属部门:</span>
+          <span>{{BasicData.CheckUserdepartment}}</span>
         </p>
         <p>
           <span>巡检位置:</span>
@@ -45,9 +49,9 @@
           :xuhao="index"
           :BasicData="BasicData"
           ref="childUpload"
+          @show="choose"
         ></zgxf>
       </div>
-
       <!-- <h3> -->
       <yd-cell-group>
         <yd-cell-item>
@@ -62,8 +66,13 @@
         type="primary"
         style="background:#2A82E4"
         @click.native="DownCheck"
+        :loading="isLoading"
+        loading-txt="提交保存中..."
       >保存并下发</yd-button>
+   
+     
     </div>
+   
   </div>
 </template>
 <script>
@@ -71,12 +80,13 @@ import headerTop from "@/components/headerTop";
 import zgxf from "@/components/zgxf";
 import { CheckSelfListDetail, DownCheck } from "@/api/request.js";
 import { mapGetters } from "vuex";
+import ZGren from "@/views/common/ZGren";
 export default {
+  name:"safetyzgxf",
   components: {
     headerTop,
     zgxf
   },
-
   data() {
     return {
       title: "自检整改单下发",
@@ -89,7 +99,9 @@ export default {
       paramsArr: [],
       flag: true,
       states: [], // 状态
-      state: ""
+      state: "",
+      isLoading: false
+    
     };
   },
   created() {
@@ -156,7 +168,11 @@ export default {
           });
           return false;
         }
-        if (this.paramsArr[key].srUserName == "") {
+        if (
+          this.paramsArr[key].srUserName == "" ||
+          this.paramsArr[key].srUserName == undefined ||
+          this.paramsArr[key].srUserName == null
+        ) {
           this.$dialog.toast({
             mes: "请选择整改人",
             timeout: 2000
@@ -164,12 +180,14 @@ export default {
           return false;
         }
       }
+      this.isLoading = true;
       DownCheck(this.paramsArr).then(res => {
         if (res.success == 0) {
           this.$dialog.toast({
             mes: "下发整改成功",
             timeout: 2000
           });
+          this.isLoading = false;
           this.flag = false;
           this.$router.push({ path: "/safetySelfZG" });
         } else {
@@ -190,6 +208,7 @@ export default {
 }
 .content {
   padding: 0.2rem 0;
+  position: relative;
   h3 {
     padding-left: 0.4rem;
     font-size: 0.28rem;

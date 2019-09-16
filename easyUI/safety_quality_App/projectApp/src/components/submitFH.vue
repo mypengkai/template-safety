@@ -20,7 +20,11 @@
           :ConData="[con]"
           :xjID="BasicData.spid"
         ></xunhuanFH>
-        <div class="dialogue" v-show="item.sprState===1">
+        <!-- 没有隐患或者是复核通过了应该隐藏提交复核对话框 -->
+        <div
+          class="dialogue"
+          v-show="item.sprState===1&&item.Reply[item.Reply.length-1].replayState==='0'"
+        >
           <li style="margin-top:.2rem;margin-bottom:.2rem;">
             <p>
               <button @click="subParams.replayState=1" :class="{border:subParams.replayState==1}">通过</button>
@@ -51,11 +55,13 @@
           ></Attach>
           <!-- 复核成功之后需要将保存提交按钮隐藏,再次之前提交得数据也需要隐藏此按钮 -->
           <yd-button
-            v-show="flag"
+            v-show="BasicData.spCheckUserName===userinfo.realname&&flag"
             size="large"
             type="primary"
             style="width:97%;margin-bottom:.2rem;"
             @click.native="submit(item)"
+            :loading="isLoading"
+            loading-txt="提交保存中..."
           >保存并提交</yd-button>
         </div>
       </ul>
@@ -90,20 +96,23 @@ export default {
         replayState: "", //回复状态
         replayContent: "", //回复内容
         filesId: "" //上传文件id
-      }
+      },
+      isLoading: false,
+      userinfo: ""
     };
   },
   created() {
-    console.log(this.contentData);
     this.subParams.id = this.BasicData.spid;
-    let userinfo = localStorage.getItem("userinfo");
-    this.subParams.replayUserName = JSON.parse(userinfo).realname;
-    this.username = JSON.parse(userinfo).realname;
-    this.subParams.replayUserId = JSON.parse(userinfo).id;
+    this.userinfo= JSON.parse(localStorage.getItem("userinfo"));
+
+    this.subParams.replayUserName = JSON.parse(localStorage.getItem("userinfo")).realname;
+    this.username = this.userinfo.realname;
+    this.subParams.replayUserId = JSON.parse(localStorage.getItem("userinfo")).id;
+    console.log(this.BasicData.spid,this.userinfo.id)
   },
+  
   methods: {
     async submit(item) {
-      console.log(item.srId);
       this.subParams.srId = item.srid;
       if (!this.subParams.replayState) {
         this.$dialog.toast({
@@ -123,24 +132,27 @@ export default {
       await safetyAddResult(formData).then(res => {
         if (res.success == 0) {
           this.subParams.filesId = res.obj;
-          this.$dialog.toast({
-            mes: "上传成功",
-            timeout: 2000
-          });
+          // this.$dialog.toast({
+          //   mes: "上传成功",
+          //   timeout: 2000
+          // });
         } else {
           this.$dialog.toast({
             mes: res.msg,
             timeout: 2000
           });
+          return false;
         }
       });
+      this.isLoading = true;
       submitResult(this.subParams).then(res => {
         if (res.success == 0) {
           this.$dialog.toast({
             mes: "复核成功",
             timeout: 3000
           });
-          this.flag=false
+          this.isLoading = false;
+          this.flag = false;
         } else {
           this.$dialog.toast({
             mes: res.msg,

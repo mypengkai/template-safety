@@ -5,19 +5,9 @@
       <span slot="topRight" class="padd" @click="isHowCheck(formData)">确定</span>
     </headerTop>
     <div class="filterConter">
-      <h3>检查日期</h3>
-      <yd-cell-group v-if="isHowCH">
-        <!-- <yd-cell-item arrow>
-          <span slot="left">检查时间：</span>
-          <yd-datetime
-            type="date"
-            start-date="2019-01-01"
-            v-model="formData.spCreateDateTime"
-            slot="right"
-            :init-emit="false"
-            placeholder="请选择检查时间"
-          ></yd-datetime>
-        </yd-cell-item>-->
+      
+      <yd-cell-group v-if="isHowCH||plan">
+        <h3>检查日期</h3>
         <yd-cell-item arrow>
           <span slot="left">开始时间：</span>
           <yd-datetime
@@ -64,8 +54,9 @@
       </yd-cell-group>
 
       <!-- ====================================================================================== -->
-      <h3>选择状态</h3>
+      <h3 v-if="isHowCH">选择状态</h3>
       <ul v-if="isHowCH">
+        
         <li
           v-for="(item,index) in options"
           :key="index"
@@ -102,6 +93,7 @@ export default {
       title: "筛选",
       isHowZG: false,
       isHowCH: false,
+      plan:false,
       spCreateDateTime: "",
       options: ["未发整改", "通过", "整改中"],
       stateYQ: ["未逾期", "逾期"], //(0-1)
@@ -135,6 +127,8 @@ export default {
       } else if (from.path == "/safetySelfCheck") {
         vm.isHowZG = false;
         vm.isHowCH = true;
+      } else{
+        vm.plan = true;
       }
     });
   },
@@ -174,7 +168,6 @@ export default {
     },
     rectification(data){
       this.formData.rectificationState=data
-      console.log(this.formData.rectificationState)
     },
     getNowFormatDate() {
       var date = new Date();

@@ -12,8 +12,12 @@
         <span>{{BasicData.spxjname}}</span>
       </li>
       <li>
-        <span>所属部门:</span>&nbsp;&nbsp;&nbsp;
+        <span>所属机构:</span>&nbsp;&nbsp;&nbsp;
         <span>{{BasicData.departname}}</span>
+      </li>
+      <li>
+        <span>所属部门:</span>&nbsp;&nbsp;&nbsp;
+        <span>{{BasicData.CheckUserdepartment}}</span>
       </li>
       <li>
         <span>巡检位置:</span>&nbsp;&nbsp;&nbsp;
@@ -36,7 +40,7 @@
       <i class="icon-alishapes-"></i>&nbsp;&nbsp;整改内容
     </h3>
     <submitCheck
-    style="margin: 0 .1rem;"
+      style="margin: 0 .1rem;"
       v-for="(item,index) in CheckContent"
       :key="index"
       :contentData="[item]"
@@ -69,21 +73,21 @@ export default {
       title: "自检隐患整改",
       id: "", //整改列表页携带过来的ID
       BasicData: {},
-      CheckContent: [],
+      CheckContent: []
     };
   },
 
   methods: {
     routerBack() {
       // this.$router.go(-1);
-      this.$router.push({path:"/safetySelfZG"})
+      this.$router.push({ path: "/safetySelfZG" });
     },
     getData() {
       selfCheck({ id: this.id }).then(res => {
-        this.BasicData = res.attributes;
+        this.BasicData = res.obj;
         this.CheckContent = res.rows;
       });
-    },
+    }
   },
   created() {
     this.id = this.$route.query.id;

@@ -9,10 +9,18 @@
           @touchend="touchEnd(item)"
         >
           <li>{{currentIndex+1}}</li>
-          <li>{{item.hdName}}</li>
+          <li>{{item.hdContent||item.hdName}}</li>
           <li>{{item.hdGrade}}</li>
           <li>
-            <radio @setValue="getValue"></radio>
+            <!-- <radio @setValue="getValue"></radio> -->
+            <yd-radio-group v-model="conentObj.sprState" size="15">
+              <yd-radio val="0">
+                <span style="font-size: 12px;">安全</span>
+              </yd-radio>
+              <yd-radio val="1">
+                <span style="font-size: 12px;">隐患</span>
+              </yd-radio>
+            </yd-radio-group>
           </li>
         </ol>
         <div class="del" @click="deleteItem(currentIndex)" v-if="ifFlag && checkId==item.id">删除</div>
@@ -32,7 +40,7 @@
 import Attach from "@/components/Attach.vue";
 import radio from "@/components/radio.vue";
 import { mapGetters } from "vuex";
-import {safetyAddResult} from "@/api/request.js"
+import { safetyAddResult } from "@/api/request.js";
 export default {
   props: ["currentIndex", "formData"],
   components: { Attach, radio },
@@ -53,28 +61,25 @@ export default {
         hdGrade: "", // 隐患等级
         sprState: "", // 状态（0安全，1有隐患）
         fileId: "" // 文件成功返回id
-      }
+      },
+      radio5: ""
     };
   },
   computed: {
     ...mapGetters(["dangerItems"])
   },
   created() {
-    
-  },
-  mounted() {
-    this.$nextTick(() => {
-      this.dangerItems.forEach(element => {
-        this.conentObj.sphdid = element.id;
-        this.conentObj.spContent = element.hdName;
-        this.conentObj.hdGrade = element.hdGrade;
-      });
+    this.formData.forEach(element => {
+      this.conentObj.sphdid = element.id;
+      this.conentObj.spContent = element.hdName;
+      this.conentObj.hdGrade = element.hdGrade;
     });
   },
+  mounted() {},
   methods: {
     deleteItem(currentIndex) {
       //触发父组件时间删除数据
-      this.$emit("del",currentIndex);
+      this.$emit("del", currentIndex);
     },
     touchStart(item) {
       let touchs = event.changedTouches[0];

@@ -44,17 +44,17 @@
         </li>-->
         <li @click="safetyPage">
           <p class="icon-alianquanfanghu"></p>
-          <span style="font-size:10px">安全巡检</span>
+          <span style="font-size:10px">自主巡检</span>
         </li>
-        <!-- <li>
+        <li @click="$router.push({path:'/safetyPlanMenu'})">
           <p class="icon-alicebianlanxunjianjilu"></p>
-          <span style="font-size:10px">巡检</span>
-        </li>-->
+          <span style="font-size:10px">计划巡检</span>
+        </li>
       </ul>
     </div>
     <div class="conent">
       <p>
-        <span class="icon-alirenwu"></span>&nbsp;&nbsp;我的任务
+        <span class="icon-alirenwu"></span>&nbsp;&nbsp;隐患数量
       </p>
       <yd-tab horizontal-scroll>
         <div class="contation">
@@ -103,7 +103,7 @@
     <div class="safety">
       <div class="safetyTop">
         <p style="float: left;">
-          <span class="icon-alianquanfanghu"></span>&nbsp;&nbsp;安全隐患
+          <span class="icon-alianquanfanghu"></span>&nbsp;&nbsp;发现隐患等级对比
         </p>
       </div>
       <div class="safetyConent">
@@ -194,14 +194,12 @@ export default {
     // 获取整改复核数量
     getNum(){
       getNum({monthDate:''}).then(res => {
-        console.log(res)
         this.ZGFH=res.rows[0]
       })
     },
     //统计隐患数
     getYinhuan(){
       getYinhuan({monthDate:''}).then(res => {
-        console.log(res)
         this.yinhuan=res.rows[0]
       })
     },
@@ -224,7 +222,6 @@ export default {
     // },
     getNumber(data){
          this.hideenList = data;
-         console.log(this.hideenList)
     },
     safetyPage() {
       // 安全页面跳转
@@ -355,7 +352,7 @@ export default {
       overflow: hidden;
       li {
         float: left;
-        width: 100% !important;
+        width: 50% !important;
         &:nth-child(1) {
           p {
             margin: 0 auto;
@@ -457,7 +454,7 @@ export default {
               border-radius: 0.2rem;
               width:1.5rem;
               margin: 0 auto;
-             background: -webkit-gradient(linear,0 0,0 100%,from(#2a5caa),to(#2a82e4));
+             background: #00CC99;
               color: white;
               p {
                 height: 0.5rem;
@@ -473,7 +470,7 @@ export default {
                width:1.5rem;
               border-radius: 0.2rem;
               margin: 0 auto;
-              background: -webkit-gradient(linear,0 0,0 100%,from(#2a5caa),to(#2a82e4));
+              background:#00CC99;
               color: white;
               p {
                 height: 0.5rem;
@@ -505,7 +502,7 @@ export default {
                width:1.5rem;
               border-radius: 0.2rem;
               margin: 0 auto;
-              background-color: yellowgreen;
+              background-color: #FFCC32;
               color: white;
               p {
                 height: 0.5rem;
@@ -553,10 +550,10 @@ export default {
         border-radius: 0.2rem;
         font-size: 0.3rem;
         &:nth-child(1) {
-           background-color: yellowgreen;
+           background-color: #FFCC32;
         }
         &:nth-child(2) {
-            background:   #FF6600;;
+            background:   #00CC99;
         }
       }
     }
@@ -607,6 +604,7 @@ export default {
                span{
                   color: #2a82e4;
                }
+               margin-left:0.8rem;
             }
              &:nth-child(2){
                span{

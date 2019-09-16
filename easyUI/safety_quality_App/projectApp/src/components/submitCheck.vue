@@ -1,18 +1,24 @@
 <template>
   <div>
     <div class="zgList" v-for="(item,index) in contentData" :key="index">
-      <p v-show="item.srUserName" style="color:white;">{{xuhao+1}}</p>
-      <ul v-show="item.srUserName">
+      <p style="color:white;">{{xuhao+1}}</p>
+      <ul>
         <li style="border-bottom: 1px dashed #ccc;">
           <span>
             安全隐患&nbsp;
-            <i style="background:#ffc300;padding:.04rem;color:white;font-size:.1rem;border-radius:.1rem;">{{item.hdGrade}}</i>:
+            <i
+              style="background:#ffc300;padding:.04rem;color:white;font-size:.1rem;border-radius:.1rem;"
+            >{{item.hdGrade}}</i>:
           </span>&nbsp;&nbsp;&nbsp;
           <span>{{item.spContent}}</span>
         </li>
         <li style="border-bottom: 1px dashed #ccc;">
           <span>整改要求:</span>&nbsp;&nbsp;&nbsp;
           <span>{{item.srContent}}</span>
+        </li>
+        <li style="border-bottom: 1px dashed #ccc;">
+          <span>整改人部门:</span>&nbsp;&nbsp;&nbsp;
+          <span style="color:#1d953f;">{{item.srUserdepartment||"无须整改"}}</span>
         </li>
         <xunhuanZG
           v-for="(con,lis) in item.Reply"
@@ -22,7 +28,8 @@
           :leng="(item.Reply.length-1)==lis"
           @hasbutton="hasSubmit"
         ></xunhuanZG>
-        <div class="dialogue" v-show="hasButton">
+        <!-- 没有指定的整改人(该条是安全的)或者复核通过了隐藏提交整改对话框 -->
+        <div class="dialogue" v-show="item.srUserName&&hasButton">
           <li>
             <span>整改完成时间:</span>&nbsp;&nbsp;&nbsp;
             <span>{{item.srFinishDate}}</span>
@@ -49,6 +56,8 @@
             type="primary"
             style="width:97%;"
             @click.native="submit(item)"
+            :loading="isLoading"
+            loading-txt="提交保存中..."
           >保存并提交</yd-button>
         </div>
       </ul>
@@ -84,11 +93,11 @@ export default {
         replayState: 0, //回复状态
         replayContent: "", //回复内容
         filesId: "" //上传文件id
-      }
+      },
+      isLoading: false
     };
   },
   created() {
-    console.log(this.contentData);
     let userinfo = localStorage.getItem("userinfo");
     this.subParams.replayUserName = JSON.parse(userinfo).realname;
     this.username = JSON.parse(userinfo).realname;
@@ -121,24 +130,26 @@ export default {
       await safetyAddResult(formData).then(res => {
         if (res.success == 0) {
           this.subParams.filesId = res.obj;
-          this.$dialog.toast({
-            mes: "上传成功",
-            timeout: 2000
-          });
+          // this.$dialog.toast({
+          //   mes: "上传成功",
+          //   timeout: 2000
+          // });
         } else {
           this.$dialog.toast({
             mes: res.msg,
             timeout: 2000
           });
+          return false;
         }
       });
-
+      this.isLoading = true;
       submitResult(this.subParams).then(res => {
         if (res.success == 0) {
           this.$dialog.toast({
             mes: "整改成功",
             timeout: 3000
           });
+          this.isLoading = false;
           this.flag = false;
         } else {
           this.$dialog.toast({

@@ -11,7 +11,7 @@
 </template>
 <script>
 import headerTop from "@/components/headerTop";
-import { getPerson } from "@/api/request.js";
+import { TongZr } from "@/api/request.js";
 export default {
   components: { headerTop },
   data() {
@@ -44,12 +44,12 @@ export default {
           key: {
             name: "name"
           },
-          simpleData: {
-            enable: true,
-            idKey: "id",
-            pIdKey: "pid",
-            rootPId: null
-          }
+          // simpleData: {
+          //   enable: true,
+          //   idKey: "id",
+          //   pIdKey: "pid",
+          //   rootPId: null
+          // }
         },
         callback: {
           onClick: this.nodeClick
@@ -64,7 +64,8 @@ export default {
   },
   methods: {
     nodeClick: function(event, treeId, treeNode) {
-      if (treeNode.childcount > 0) {
+      console.log(treeNode)
+      if (!treeNode.selected) {
         this.$dialog.toast({
           mes: "请选择最下级隐患条目",
           timeout: 1500
@@ -98,10 +99,10 @@ export default {
       this.$router.go(-1);
     },
     getListData() {
-      getPerson(this.formData).then(res => {
+      TongZr().then(res => {
         if (res.success == 0) {
           this.optionsList = res.rows;
-          $.fn.zTree.init($("#treeDemo"), this.setting, res.rows);
+          $.fn.zTree.init($("#treeDemo"), this.setting, res.obj);
         } else {
           this.$dialog.toast({
             mes: res.msg,

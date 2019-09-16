@@ -4,9 +4,17 @@
       <span slot="topLeft" class="icon-aliarrow-left- iconBack" @click="routerBack"></span>
       <span slot="topRight" class="padd" @click="addCheck">确定</span>
     </headerTop>
-    <div class="contation">
-      <ul id="treeDemo" class="ztree"></ul>
-    </div>
+
+    <!-- <yd-popup v-model="show1" position="center" width="90%"> -->
+      <div style="background-color:#fff;">
+        <div class="contation">
+          <ul id="treeDemo" class="ztree"></ul>
+        </div>
+        <!-- <p style="text-align: center;">
+          <yd-button @click.native="show1 = false">Close Center Popup</yd-button>
+        </p> -->
+      </div>
+    <!-- </yd-popup> -->
   </div>
 </template>
 <script>
@@ -17,6 +25,7 @@ export default {
   data() {
     return {
       title: "联系人",
+      show1:false,
       searchResult: "",
       value1: "",
       checkbox1: "",
@@ -57,7 +66,7 @@ export default {
       },
       ContentId: "",
       Contentname: "",
-      ZGren:{}
+      ZGren: {}
     };
   },
   created() {
@@ -74,8 +83,8 @@ export default {
       }
       var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
       treeObj.checkNode(treeNode, !treeNode.checked, true);
-      this.ZGren.id=treeNode.id
-      this.ZGren.name=treeNode.name
+      this.ZGren.id = treeNode.id;
+      this.ZGren.name = treeNode.name;
     },
     routerBack() {
       this.$router.go(-1);

@@ -1,7 +1,13 @@
 <template>
   <div class="contacts">
     <headerTop :title="title">
-      <!-- <span slot="topRight" class="padd">确定</span> -->
+      <span
+        slot="topLeft"
+        class="icon-aliarrow-left- iconBack"
+        @click="$router.go(-1)"
+        v-if="isHow"
+      ></span>
+      <span slot="topRight" class="padd" @click="addplancheck" v-if="isHow">确定</span>
     </headerTop>
     <div class="contation">
       <ul id="treeDemo" class="ztree"></ul>
@@ -10,7 +16,7 @@
 </template>
 <script>
 import headerTop from "@/components/headerTop";
-import { getDepart } from "@/api/request.js";
+import { organAll } from "@/api/request.js";
 export default {
   components: {
     headerTop
@@ -41,25 +47,25 @@ export default {
       }
     };
   },
-  // beforeRouteEnter(to, from, next) {
-  //   next(vm => {
-  //     // console.log(from) // 上一页面的路由信息
-  //     // vm 指的是当前的vue实例
-  //     if (from.path == "/addPlan" || from.path == "/QaddPlan") {
-  //       vm.isHow = true;
-  //     } else {
-  //       vm.isHow = false;
-  //     }
-  //   });
-  // },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      // console.log(from) // 上一页面的路由信息
+      // vm 指的是当前的vue实例
+      if (from.path == "/addPlan" || from.path == "/QaddPlan") {
+        vm.isHow = true;
+      } else {
+        vm.isHow = false;
+      }
+    });
+  },
   created() {
     this.getListData();
   },
   methods: {
     getListData() {
-      getDepart().then(res => {
+      organAll().then(res => {
         if (res.success == 0) {
-          $.fn.zTree.init($("#treeDemo"), this.setting, res.rows);
+          $.fn.zTree.init($("#treeDemo"), this.setting, res.obj);
           var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
           var nodes = treeObj.getNodes();
           for (var i = 0; i < nodes.length; i++) {
@@ -75,14 +81,13 @@ export default {
       });
     },
     nodeClick: function(event, treeId, treeNode) {
-      console.log(treeNode);
-    
       this.departObj = treeNode;
     },
-    // routerGo() {
-    //   this.$store.dispatch("setdepartAll", this.departObj);
-    //   this.$router.go(-1);
-    // }
+    addplancheck() {
+      console.log(this.departObj)
+      this.$store.commit("setCheckDepart", this.departObj);
+      this.$router.go(-1);
+    }
   }
 };
 </script>
@@ -93,7 +98,6 @@ export default {
   width: 100%;
   height: 100%;
   padding-top: 1rem;
- 
 }
 /deep/ul.ztree {
   margin-bottom: 1.2rem;

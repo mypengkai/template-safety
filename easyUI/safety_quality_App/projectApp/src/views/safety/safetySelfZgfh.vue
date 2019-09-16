@@ -89,7 +89,7 @@ export default {
     },
     getData() {
       selfCheck({ id: this.id }).then(res => {
-        this.BasicData = res.attributes;
+        this.BasicData = res.obj;
         this.CheckContent = res.rows;
       });
     }

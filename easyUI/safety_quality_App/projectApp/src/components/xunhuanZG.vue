@@ -63,9 +63,6 @@ export default {
     this.subParams.replayUserId = JSON.parse(userinfo).id;
   },
   methods: {
-    childMethod() {
-      this.$emit("hasbutton");
-    },
     async submit(item) {
       this.subParams.srId = item.srId;
       if (!this.subParams.replayState) {

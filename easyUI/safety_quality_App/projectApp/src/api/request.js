@@ -6,11 +6,13 @@ import router from '@/router'
 //axios.defaults.baseURL = 'http://192.168.1.134:8080/SafetyQuality/rest' // 徐浩  
 
 Vue.prototype.fileURL = 'http://192.168.10.42:8080/CATDPS/img/server/'
-// Vue.prototype.fileURL = 'http://192.168.1.110:8080/CATDPS/img/server/'
 axios.defaults.baseURL = 'http://192.168.10.42:8080/CATDPS/rest' // 任健'
+// Vue.prototype.fileURL = 'http://192.168.1.110:8080/CATDPS/img/server/'
 //axios.defaults.baseURL = 'http://192.168.1.110:8080/CATDPS/rest' // 任健'
-//axios.defaults.baseURL = 'http://192.168.1.134:8080/SafetyQuality/rest' // 徐浩'
-//axios.defaults.baseURL = 'http://192.168.1.102:8080/SafetyQuality/rest' // 徐浩'
+// axios.defaults.baseURL = 'http://192.168.1.134:8080/SafetyQuality/rest' // 徐浩'
+// axios.defaults.baseURL = 'http://192.168.1.134:8080/SafetyQuality/rest' // 徐浩'
+// Vue.prototype.fileURL =`http://114.55.94.198:8084/SafetyQualityPatrolNew/img/server/` //线上地址
+// axios.defaults.baseURL =`http://114.55.94.198:8084/SafetyQualityPatrolNew/rest`
 Vue.prototype.axios = axios
 // // 请求拦截
 // // axios.defaults.headers.get['content-type'] = 'application/json;charset=UTF-8'
@@ -103,8 +105,8 @@ export const addSafety = (params) => {
 	return axios.post("/NewSafetyPatrolController/add", params).then(res => res.data)
 }
 //安全隐患条目
-export const getDanger = () => {
-	return axios.get(`/Sq_jc_HiddenDangerController/getListTree1`).then(res => res.data)
+export const getDanger = (id) => {
+	return axios.get(`/Sq_jc_HiddenDangerController/getListTree1?projectId=${id}`).then(res => res.data)
 }
 //获取通知人人列表
 export const Person = (data) => {
@@ -132,7 +134,7 @@ export const submitResult=(data)=>{
 }
 // 获取用户信息
 export const getUserobj = () => {
-	return axios.get("/main/getUserMessage", { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(res => res.data)
+	return axios.get("/main/getUserMessage").then(res => res.data)
 }
 //整改列表查询
 export const getZGlist = (params)=>{
@@ -153,4 +155,40 @@ export const getHiddens=(params)=>{
 // 组织机构
 export const getDepart=()=>{
 	return axios.get("main/getUserByDepart").then(res=>res.data)
+}
+//获取分部分项列表
+export const getBranchList = () => {
+	return axios.get(`/ProjectController/getList`)
+  }
+  //获取巡检性质列表数据
+export const getInspectionPropertyList = (data) => {
+	return axios.get(`/Sq_jc_InspectionPropertyController/getInspectionPropertyList?offset=${data.offset}&limit=${data.limit}`).then(res => res.data)
+  }
+  //质量隐患接口
+export const getsafetyList = (data) => {
+	return axios.get(`/Sq_jc_QualityHiddenDangerController/getListTree`)
+  }
+//安全计划检查详情
+export const safetyjhxiangqing = id => {
+	return axios.get(`/Sq_SafetyPatrolPlanController/getEntity/${id}`).then(res => res.data)
+  }
+  // 新增安全计划
+export const addsafetyPlancheck = (params) => {
+	return axios.post("/Sq_SafetyPatrolPlanController/addSafetyPatrolPlan", params).then(res => res.data)
+  }
+  // 安全计划列表查询（无权限）
+export const safetywu = (params) => {
+	return axios.get(`/Sq_SafetyPatrolPlanController/getList1?offset=${params.offset}&limit=${params.limit}&sppName=${params.sppName}&sppBeginDate=${params.sppBeginDate}&sppEndDate=${params.sppEndDate}&auth=${params.auth}`).then(res => res.data)
+  }
+  // 组织机构
+export const organAll = () => {
+  return axios.get(`/main/getDepartment`).then(res => res.data)
+}
+//获取用户所属分部分项
+export const DetailDepart = () => {
+	return axios.get(`/ProjectController/getTreeList`).then(res => res.data)
+}
+//通知人列表徐浩
+export const TongZr = () => {
+	return axios.get(`/main/getname`).then(res=>res.data)
 }

@@ -47,7 +47,6 @@ export default {
       this.$router.go(-1);
     },
     addCheck() {
-      console.log(this.CheckPerson)
       // 通知人
       this.$store.commit("setCheckPerson", this.CheckPerson);
       this.$router.go(-1);
