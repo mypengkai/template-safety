@@ -98,7 +98,11 @@ export default {
     next(vm => {
       // console.log(from) // 上一页面的路由信息
       // vm 指的是当前的vue实例
-      if (from.path == "/safetyPlanMenu" || from.path == "/safetyDetailSeeJH"||from.path == "/Planfilter") {
+      if (
+        from.path == "/safetyPlanMenu" ||
+        from.path == "/safetyDetailSeeJH" ||
+        from.path == "/Planfilter"
+      ) {
         vm.isHow = false;
       } else {
         vm.isHow = true;
@@ -266,6 +270,9 @@ export default {
         border-radius: 0.1rem;
       }
     }
+  }
+  /deep/._v-container > ._v-content {
+    padding-top: 0.1rem;
   }
 }
 </style>

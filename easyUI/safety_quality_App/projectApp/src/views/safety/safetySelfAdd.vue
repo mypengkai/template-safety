@@ -2,14 +2,20 @@
   <div class="safetySelfAdd">
     <headerTop :title="title">
       <span slot="topLeft" class="icon-aliarrow-left- iconBack" @click="routerBack"></span>
+      <span slot="topRight" class="padd" @click="reset">重置</span>
     </headerTop>
     <div class="addConent">
       <div class="addTop">
         <p class="icon-aliwocanyude">&nbsp;&nbsp;基础信息</p>
         <ul>
           <li>所属机构: {{userinfo.departname}}</li>
-           <li>所属部门: {{userinfo.department}}</li>
-          <li @click="display" >巡检位置: <span style="border-bottom: 2px dashed #f58220;color:blue;">{{array?array[0].name:userinfo.projectName}}</span> </li>
+          <li>所属部门: {{userinfo.department}}</li>
+          <li @click="display(true)">
+            巡检位置:
+            <span
+              style="border-bottom: 2px dashed #f58220;color:blue;"
+            >{{array?array[0].name:userinfo.projectName}}</span>
+          </li>
           <li>检查性质：自检</li>
           <li>检查人：{{userinfo.realname}}</li>
           <!-- <li>检查时间：2019-08-08 10:10:20</li> -->
@@ -23,7 +29,6 @@
             <li>安全巡检内容</li>
             <li>安全等级</li>
             <li>巡检结果</li>
-            
           </ul>
           <!-- 动态组件 -->
           <div ref="mychild" class="comChild">
@@ -60,17 +65,9 @@
         loading-txt="提交保存中..."
       >保存</yd-button>
     </div>
-              <yd-popup v-model="show1" position="center" width="90%">
-            <div style="background-color:#fff;">
-                <p>
-                    <ul id="treeDemo" class="ztree"></ul>
-                </p>
-          
-                <p style="text-align: center;">
-                    <yd-button @click.native="show1 = false">关闭</yd-button>
-                </p>
-            </div>
-        </yd-popup>
+    <yd-popup v-model="show1" position="center" width="90%">
+      <position v-if="flag" @display="display" @fuzhi="fuzhi"></position>
+    </yd-popup>
   </div>
 </template>
 <script>
@@ -79,9 +76,10 @@ import resultCopy from "@/components/resultCopy.vue";
 import Attach from "@/components/Attach.vue";
 import radio from "@/components/radio.vue";
 import { mapGetters } from "vuex";
+import position from "@/views/common/position";
 import {
   addSafety,
-  safetyjhxiangqing,
+  // safetyjhxiangqing,
   DetailDepart,
   getDanger
 } from "@/api/request.js";
@@ -91,8 +89,10 @@ export default {
     headerTop,
     resultCopy,
     Attach,
-    radio
+    radio,
+    position
   },
+  inject: ["reload"],
   data() {
     return {
       title: "自主检查",
@@ -127,38 +127,48 @@ export default {
           enable: true,
           autoCheckTrigger: false,
           chkStyle: "radio",
-          radioType:"all",
+          radioType: "all",
           chkboxType: { Y: "", N: "" }
         },
         data: {
           key: {
             name: "name"
-          },
+          }
         },
         callback: {
           onClick: this.nodeClick
         }
       },
-       show1: false,
-       array:''  //巡检位置数组
+      show1: false,
+      array: "", //巡检位置数组
+      flag: false
     };
   },
   computed: {
     ...mapGetters(["dangerItems", "notifier"])
   },
+  updated() {
+    this.flag = this.show1;
+  },
   created() {
     this.getDangerInit();
     this.userinfo = JSON.parse(localStorage.getItem("userinfo"));
   },
-  activated(){
-    
-  },
+  activated() {},
   methods: {
-    display(){
-      this.show1=true
+    reset() {
+      this.$store.commit("getDangerItems", ""); // 隐患
+      this.$store.commit("setNotifier", ""); // 通知人
+      this.reload();
     },
-       nodeClick: function(event, treeId, treeNode) {
-      if (treeNode.children&&treeNode.children.length > 0) {
+    display(data) {
+      this.show1 = data;
+    },
+    fuzhi(data) {
+      this.array = data;
+    },
+    nodeClick: function(event, treeId, treeNode) {
+      if (treeNode.children && treeNode.children.length > 0) {
         this.$dialog.toast({
           mes: "请选择最下级隐患条目",
           timeout: 1000
@@ -167,10 +177,10 @@ export default {
       }
       var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
       treeObj.checkNode(treeNode, !treeNode.checked, true);
-       var treeObj = $.fn.zTree.getZTreeObj("treeDemo"),
-      nodes = treeObj.getCheckedNodes(true);
-         this.array=nodes;
-         console.log(this.array)
+      var treeObj = $.fn.zTree.getZTreeObj("treeDemo"),
+        nodes = treeObj.getCheckedNodes(true);
+      this.array = nodes;
+      console.log(this.array);
     },
     // 初始化隐患
     getDangerInit() {
@@ -186,8 +196,8 @@ export default {
     },
     //点击添加检查
     AddCheck() {
-      let id=this.array?this.array[0].zid:this.userinfo.projectId
-      this.$router.push({ path: "/danger" ,query:{id:id}});
+      let id = this.array ? this.array[0].zid : this.userinfo.projectId;
+      this.$router.push({ path: "/danger", query: { id: id } });
     },
 
     // 保存
@@ -217,7 +227,9 @@ export default {
       }
       this.form.result = list;
       this.form.departId = this.userinfo.departid;
-      this.form.projectId =this.array?this.array[0].zid:this.userinfo.projectId;
+      this.form.projectId = this.array
+        ? this.array[0].zid
+        : this.userinfo.projectId;
       this.form.spCheckUserId = this.userinfo.id;
       if (JSON.stringify(this.notifier) != "") {
         this.form.spNotifier = this.notifier.ids.join(",");
@@ -236,7 +248,7 @@ export default {
             timeout: 2000
           });
           this.isLoading = false;
-          
+
           // 清楚vuex 数据以及输入框数据
           this.$store.commit("getDangerItems", ""); // 隐患
           this.$store.commit("setNotifier", ""); // 通知人
@@ -260,7 +272,7 @@ export default {
   padding-top: 1rem;
   .addConent {
     padding: 0.2rem;
-    
+
     .addTop {
       line-height: 0.6rem;
       margin-bottom: 0.2rem;

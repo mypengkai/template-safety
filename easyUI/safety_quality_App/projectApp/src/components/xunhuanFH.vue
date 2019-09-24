@@ -11,16 +11,16 @@
           </h6>
         </div>
       </li>
-      <li style="border-bottom: 1px dashed #ccc;">
+      <li>
         <span>{{con.replayType==0?"整改结果:":"复核结果:"}}</span>&nbsp;&nbsp;&nbsp;
         <span style="color:#71ACED">{{con.replayContent}}</span>
       </li>
       <li>
-        <span>整改完成时间:</span>&nbsp;&nbsp;&nbsp;
+        <span>{{con.replayType==0?"整改完成时间:":"复核完成时间:"}}</span>&nbsp;&nbsp;&nbsp;
         <span>{{con.replayDateTime}}</span>
       </li>
-      <li>
-        <span style="text-align:left;">整改人:</span>&nbsp;&nbsp;&nbsp;
+      <li style="border-bottom: 1px dashed #ccc;">
+        <span style="text-align:left;">{{con.replayType==0?"整改人:":"复核人:"}}</span>&nbsp;&nbsp;&nbsp;
         <span>{{con.replayUserName}}</span>
       </li>
     </div>

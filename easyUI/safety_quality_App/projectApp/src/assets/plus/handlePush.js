@@ -2,6 +2,7 @@ import router from '../../router'
 import { messagePush } from './push.js'
 
 document.addEventListener("plusready", function () {
+  alert(123)
   plus.runtime.setBadgeNumber(0);
   plus.push.setAutoNotification(true);
   // 监听点击消息事件

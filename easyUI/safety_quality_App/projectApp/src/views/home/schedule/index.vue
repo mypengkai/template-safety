@@ -2,35 +2,26 @@
   <div class="schedule">
     <headerTop :title="title"></headerTop>
     <ul>
-      <li>
+      <router-link tag="li" to="/safetySelfZG" v-for="(item,index) in msgList" :key="index" @click.native="del(item)">
         <p>
-          <span><i class="icon-alialarm-clock" style=""></i> 安全列表</span>
-          <span>2019-08-27</span>
+          <span>
+            <i class="icon-alialarm-clock" style></i> 安全列表
+          </span>
+          <span>{{item.createTime}}</span>
         </p>
         <p>
-          <span>2019-08-27</span>&nbsp;&nbsp;
-          <span>关于阿里巴巴iconfont的使用方法 iconfont网址:http:
-            //www.iconfont.cn/...用户在iconfont.cn可以下载,多种格式的icon,平
-            台也可将图标转换为字体,便于...</span>
+          <!-- <span>2019-08-27</span>&nbsp;&nbsp; -->
+          <span>
+            {{item.sendMsg}}
+          </span>
         </p>
-      </li>
-            <li>
-        <p>
-          <span><i class="icon-alialarm-clock" style=""></i> 安全列表</span>
-          <span>2019-08-27</span>
-        </p>
-        <p>
-          <span>2019-08-27</span>&nbsp;&nbsp;
-          <span>关于阿里巴巴iconfont的使用方法 iconfont网址:http:
-            //www.iconfont.cn/...用户在iconfont.cn可以下载,多种格式的icon,平
-            台也可将图标转换为字体,便于...</span>
-        </p>
-      </li>
+      </router-link>
     </ul>
+    
   </div>
 </template>
 <script>
-//import { pushmessage } from "@/api/request.js";
+import { pushmessage,delMessage } from "@/api/request.js";
 import headerTop from "@/components/headerTop.vue";
 export default {
   components: { headerTop },
@@ -42,14 +33,21 @@ export default {
     };
   },
   created() {
-    //this.getMessage();
+    this.getMessage();
   },
   methods: {
     dothis(index) {
       this.active = index;
     },
+    del(item){
+      console.log(item.id)
+      delMessage({id:item.id}).then(res=>{
+        console.log(res)
+      })
+    },
     getMessage() {
       pushmessage().then(res => {
+        console.log(res.data.rows)
         this.msgList = res.data.rows;
       });
     },
@@ -81,37 +79,37 @@ export default {
 .schedule {
   padding-top: 1rem;
   height: 100%;
-  background: #EAEDF4;
+  background: #eaedf4;
   ul {
     padding: 0.2rem 0.2rem 0 0.2rem;
-    li { 
+    li {
       background-color: white;
-      border-radius: .2rem;
-      padding: .2rem;
-      font-size: .3rem;
-      margin-bottom: .2rem;
+      border-radius: 0.2rem;
+      padding: 0.2rem;
+      font-size: 0.3rem;
+      margin-bottom: 0.2rem;
       p {
         &:nth-child(1) {
           height: 0.5rem;
           border-bottom: 1px solid #ccc;
-          margin-bottom: .2rem;
+          margin-bottom: 0.2rem;
           span {
             &:nth-child(1) {
               float: left;
-              i{
-                color:#6ACCE3;
-                background-color: #DBF2FF;
+              i {
+                color: #6acce3;
+                background-color: #dbf2ff;
                 display: inline-block;
-                width: .4rem;
-                height: .4rem;
-                line-height: .4rem;
+                width: 0.4rem;
+                height: 0.4rem;
+                line-height: 0.4rem;
                 text-align: center;
-                border-radius: .1rem;
+                border-radius: 0.1rem;
               }
             }
             &:nth-child(2) {
               float: right;
-              color: #CACACA;
+              color: #cacaca;
             }
           }
         }

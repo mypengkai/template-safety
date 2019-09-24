@@ -204,6 +204,7 @@ export default {
       box-shadow: #666 0px 0px 10px;
       behavior: url(/PIE.htc);
       margin-bottom: 0.2rem;
+      
       li {
         height: 0.6rem;
         line-height: 0.6rem;
@@ -270,6 +271,9 @@ export default {
         }
       }
     }
+  }
+  /deep/._v-container>._v-content{
+    padding-top: .1rem;
   }
 }
 </style>

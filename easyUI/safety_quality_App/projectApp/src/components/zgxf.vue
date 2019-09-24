@@ -52,25 +52,30 @@
       <yd-cell-group
         v-if="item.sprState == 1"
         style="margin-left:.7rem;font-size:12px;margin-bottom:0;"
-        @click.native="$router.push({path:'/ZGren'})"
+        @click.native="show"
       >
         <yd-cell-item arrow close-on-masker="true">
           <span slot="left">选择整改人:</span>
-          <span slot="right">{{CheckPerson.name}}</span>
+          <span slot="right">{{ZGren.name}}</span>
         </yd-cell-item>
       </yd-cell-group>
     </ul>
+        <!-- 通知人弹框 -->
+    <yd-popup v-model="show1" position="right" width="65%" >
+      <jcr v-if="flag" @zgvalue="zgvalue" ></jcr>
+    </yd-popup>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
 import { Person } from "@/api/request.js";
-
+import jcr from "@/views/common/jiancharen";
 export default {
   props: ["itData", "BasicData", "xuhao"],
   computed: {
     ...mapGetters(["CheckPerson"])
   },
+  components: { jcr },
   data() {
     return {
       nodeData: [], //树列表数据
@@ -79,6 +84,8 @@ export default {
         limit: "1000",
         offset: "0"
       },
+      show1: false,
+      flag: false,
       CheckState: "", //父组件根据此属性来判别是否需要下发整改
       params: {
         id: "", //整改内容ID
@@ -87,10 +94,12 @@ export default {
         srFinishDate: "", //要求完成时间
         qpCreatePerson: "", //填报人名称
         spCreatePersonId: "" //填报人ID
-      }
+      },
+       ZGren: {}
     };
   },
   updated() {
+     this.flag=this.show1
     //di作为一个变量传进来
     //如果时间格式是正确的，那下面这一步转化时间格式就可以不用了
     var dateBegin = new Date(this.getNowFormatDate().replace(/-/g, "/")); //将-转化为/，使用new Date
@@ -106,6 +115,15 @@ export default {
     }
   },
   methods: {
+        zgvalue(data){
+      this.ZGren=data
+          this.params.srUserName = this.ZGren.name;
+    this.params.srUserId = this.ZGren.id;
+    },
+    //控制弹窗的显示与隐藏
+    show() {
+      this.show1 = true;
+    },
     getInit() {
       Person(this.formData).then(res => {
         if (res.success == 0) {

@@ -259,5 +259,8 @@ export default {
       }
     }
   }
+    /deep/._v-container>._v-content{
+    padding-top: .1rem;
+  }
 }
 </style>
