@@ -51,7 +51,7 @@
             style="border-bottom:1px dashed #ccc;border-top:1px dashed #ccc;padding-top:.2rem"
           ></Attach>
           <yd-button
-            v-show="flag"
+            v-show="item.srUserName==username&&flag"
             size="large"
             type="primary"
             style="width:97%;"

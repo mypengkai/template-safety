@@ -23,7 +23,7 @@
         <!-- 没有隐患或者是复核通过了应该隐藏提交复核对话框 -->
         <div
           class="dialogue"
-          v-show="item.sprState===1&&item.Reply[item.Reply.length-1].replayState==='0'"
+          v-show="item.sprState===1&&item.type===1"
         >
           <li style="margin-top:.2rem;margin-bottom:.2rem;">
             <p>

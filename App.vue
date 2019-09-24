@@ -33,4 +33,7 @@ export default {
 #app {
   height: 100%;
 }
+.g-fix-ios-prevent-scroll{
+  position: relative !important;
+}
 </style>

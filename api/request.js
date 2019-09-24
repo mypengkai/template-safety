@@ -82,7 +82,19 @@ export const xhrrequest = (method, url, params, callback) => {
 	xhr.open(method ? method : "GET", url);
 	xhr.send(JSON.stringify(params));
 }
+//个推向后台传递设备参数
+export const initGetui = (params) => {
+	return axios.post(`/igexinPush/initClientId`,params).then(res => res.data)
+  }
+  //获取推送消息列表
+export const pushmessage = () => {
+	return axios.post("/Sq_QualityPatrolPlanController/pushmessage",{ headers: { 'Content-Type': 'APPLICATION_JSON_VALUE' } })
+  }
 
+  //将已查看的消息移除列表
+export const delMessage = (data) => {
+	  return axios.post("/igexinPush/delmessage",data).then(res=>res.data)
+  }
 //查看安全检查列表详情
 export const CheckSelfListDetail = (data) => {
 	return axios.post(`/NewSafetyPatrolController/searchOne`, data).then(res => res.data)

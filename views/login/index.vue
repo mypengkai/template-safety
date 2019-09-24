@@ -24,9 +24,9 @@
 </template>
 
 <script>
-import { getToken, getUserobj } from "@/api/request.js";
+import { getToken, getUserobj,initGetui } from "@/api/request.js";
 
-// import { messagePush } from "../../assets/plus/push";
+import { messagePush } from "../../assets/plus/push";
 export default {
   data() {
     return {
@@ -68,6 +68,7 @@ export default {
             let token = res.obj.token;
             localStorage.setItem("token", token);
             this.getuser();
+            this.registerGetui();
             this.$router.push({ path: "/" });
           } else {
             this.$dislog.toast({
@@ -77,9 +78,7 @@ export default {
             return false;
           }
         })
-        .catch(err => {
- 
-        });
+        .catch(err => {});
     },
     // 获取用户信息
     getuser() {
@@ -88,25 +87,22 @@ export default {
           localStorage.setItem("userinfo", JSON.stringify(res.obj));
         }
       });
+    },
+    // 个推
+    registerGetui() {
+      messagePush("getClientId", null, null, null, res => {
+        alert(JSON.stringify(res))
+        initGetui({
+          clientId: res.clientid,
+          imei: res.imei,
+          imsi: res.imsi,
+          model: res.model,
+          vendor: res.vendor,
+          uuid: res.uuid,
+          phoneType: res.phoneType
+        }).then(res => {});
+      });
     }
-    //个推
-    // registerGetui() {
-    //   messagePush("getClientId", null, null, null, res => {
-    //     initGetui(
-    //       {
-    //         clientId: res.clientid,
-    //         imei: res.imei,
-    //         imsi: res.imsi,
-    //         model: res.model,
-    //         vendor: res.vendor,
-    //         uuid: res.uuid,
-    //         phoneType: res.phoneType
-    //       }
-    //     ).then(res=>{
-
-    //     });
-    //   });
-    // }
   }
 };
 </script>

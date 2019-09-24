@@ -1,17 +1,18 @@
 <template>
-  <div style="background:#fff;height:100vh;padding-top:1.2rem;">
+  <div style="background:#fff;height:100vh;">
     <headerTop :title="title">
       <span slot="topLeft" class="icon-aliarrow-left- iconBack" @click="goBack"></span>
       <span slot="topRight" class="padd" @click="routerGo">确定</span>
     </headerTop>
     <div class="dangerConent">
-      <ul id="treeDemo" class="ztree"></ul>
+      <ul id="treeDemo" class="ztree" style="margin-top: 1rem;"></ul>
     </div>
   </div>
 </template>
 <script>
 import headerTop from "@/components/headerTop";
 import { getDanger } from "@/api/request.js";
+import { mapGetters } from "vuex";
 export default {
   components: { headerTop },
   name: "danger",
@@ -44,22 +45,30 @@ export default {
           onClick: this.nodeClick
         }
       },
+      node: "", //暂存选中的隐患
       array: [], // 存储的隐患项
       obj: {}, // 选择的隐患项
       biaoji: "",
-      id:''
+      id: ""
     };
   },
   created() {
-    console.log(this.$route.query.id)
-    this.id=this.$route.query.id
+   
+    this.array = this.dangerItems || [];
+    this.id = this.$route.query.id;
     this.getDangerInit();
+  },
+  computed: {
+    ...mapGetters(["dangerItems"])
   },
   methods: {
     goBack() {
       this.$router.push({ path: "/safetySelfAdd" });
     },
     routerGo() {
+      for (let i = 0; i < this.node.length; i++) {
+        this.array.push(this.node[i]);
+      }
       if (JSON.stringify(this.array) == "[]") {
         this.$dialog.toast({
           mes: "请选择隐患条目",
@@ -78,21 +87,29 @@ export default {
       });
     },
     nodeClick: function(event, treeId, treeNode) {
-      if (treeNode.children&&treeNode.children.length > 0) {
+      if (treeNode.children && treeNode.children.length > 0) {
         this.$dialog.toast({
           mes: "请选择最下级隐患条目",
           timeout: 1000
         });
         return false;
       }
+      this.array.forEach(el => {
+        if (el.id === treeNode.id) {
+          this.$dialog.toast({
+            mes: "请勿重复添加",
+            timeout: 1000
+          });
+          treeObj.checkNode(treeNode, !treeNode.checked, false);
+          return false;
+        }
+      });
       var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
       treeObj.checkNode(treeNode, !treeNode.checked, true);
-       var treeObj = $.fn.zTree.getZTreeObj("treeDemo"),
-      nodes = treeObj.getCheckedNodes(true);
-      this.array=[]
-      for (let i = 0; i < nodes.length; i++) {
-         this.array.push(nodes[i]);
-      }
+      var treeObj = $.fn.zTree.getZTreeObj("treeDemo"),
+        nodes = treeObj.getCheckedNodes(true);
+//将选中的隐患暂存于this.node,防止重复添加的情况
+      this.node = nodes;
     }
   }
 };
@@ -102,6 +119,7 @@ export default {
   color: white !important;
   .dangerConent {
     width: 100%;
+    
   }
 }
 /deep/.yd-navbar-center-title {
