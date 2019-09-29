@@ -3,8 +3,8 @@
     <!-- 底部导航 -->
     <router-view></router-view>
     <footer>
-      <yd-tabbar>
-        <yd-tabbar-item title="消息" link="/schedule" :active="path=='#/schedule'">
+      <yd-tabbar active-color="#2a5caa">
+        <yd-tabbar-item title="消息" link="/schedule" :active="path=='#/schedule'" >
           <yd-icon name="weixin" slot="icon" size="0.54rem"></yd-icon>
           <yd-badge slot="badge" type="danger">{{leng}}</yd-badge>
         </yd-tabbar-item>
