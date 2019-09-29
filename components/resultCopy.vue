@@ -12,7 +12,6 @@
           <li>{{item.hdContent||item.hdName}}</li>
           <li>{{item.hdGrade}}</li>
           <li>
-            <!-- <radio @setValue="getValue"></radio> -->
             <yd-radio-group v-model="conentObj.sprState" size="15">
               <yd-radio val="0">
                 <span style="font-size: 12px;">安全</span>

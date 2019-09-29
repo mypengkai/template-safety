@@ -252,6 +252,6 @@ export default {
   }
 }
 /deep/._v-container > ._v-content > .pull-to-refresh-layer {
-  margin-top: -1rem;
+  margin-top: -1.1rem;
 }
 </style>

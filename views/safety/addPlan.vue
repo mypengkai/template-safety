@@ -82,11 +82,11 @@
         </yd-cell-item>
         <yd-cell-item arrow>
           <span slot="left">开始日期</span>
-          <yd-datetime type="date" v-model="formData.sppBeginDate" slot="right"></yd-datetime>
+          <yd-datetime type="date" v-model="formData.sppBeginDate" slot="right" :callback="callback()"></yd-datetime>
         </yd-cell-item>
         <yd-cell-item arrow>
           <span slot="left">结束日期</span>
-          <yd-datetime type="date" v-model="formData.sppEndDate" slot="right"></yd-datetime>
+          <yd-datetime type="date" v-model="formData.sppEndDate" slot="right" ></yd-datetime>
         </yd-cell-item>
 
         <yd-cell-item>
@@ -142,7 +142,7 @@ export default {
         filename: "", // 图片名称
         filepath: "", // 图片路径
         spCreatePersonId: "" // 创建人id
-      }
+      },
     };
   },
   computed: {
@@ -164,7 +164,7 @@ export default {
   updated() {
     //如果时间格式是正确的，那下面这一步转化时间格式就可以不用了
     var dateBegin = new Date(this.formData.sppBeginDate); //将-转化为/，使用new Date
-    var dateEnd = new Date(this.formData.sppEndDate); //获取当前时间
+    var dateEnd = new Date(this.formData.sppEndDate); //获取当前时间  
     var dateDiff = dateEnd.getTime() - dateBegin.getTime(); //时间差的毫秒数
     if (dateDiff < 0) {
       this.$dialog.toast({
@@ -176,6 +176,15 @@ export default {
     this.date = Math.floor(dateDiff / (24 * 3600 * 1000) + 1); //计算出相差天数
   },
   methods: {
+    // callback(){
+    //      var currentDate = new Date().toDateString();
+    //      console.log(currentDate);
+    //      var checkDate = new Date(this.formData.sppBeginDate).toDateString();
+    //      console.log(checkDate)
+         
+    // },
+
+
     getuserName() {
       let nowTime = new Date();
       this.formData.sppBeginDate = nowTime
@@ -185,8 +194,8 @@ export default {
         .toLocaleDateString()
         .replace(/\//g, "-");
       this.spCreatePersonName = JSON.parse(
-        localStorage.getItem("loginInfo")
-      ).username; // 创建人
+        localStorage.getItem("userinfo")
+      ).realname; // 创建人
       this.formData.spCreatePersonId = JSON.parse(
         localStorage.getItem("userinfo")
       ).id; // 创建人

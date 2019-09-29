@@ -1,16 +1,15 @@
 <template>
   <div class="schedule">
     <headerTop :title="title"></headerTop>
-    <ul>
+    <ul style="margin-bottom:1.3rem;">
       <router-link tag="li" to="/safetySelfZG" v-for="(item,index) in msgList" :key="index" @click.native="del(item)">
         <p>
           <span>
             <i class="icon-alialarm-clock" style></i> 安全列表
           </span>
-          <span>{{item.createTime}}</span>
+          <!-- <span>{{item.createTime}}</span> -->
         </p>
         <p>
-          <!-- <span>2019-08-27</span>&nbsp;&nbsp; -->
           <span>
             {{item.sendMsg}}
           </span>
@@ -78,10 +77,11 @@ export default {
 <style lang="less" scoped>
 .schedule {
   padding-top: 1rem;
-  height: 100%;
+  height: 100vh;
   background: #eaedf4;
   ul {
-    padding: 0.2rem 0.2rem 0 0.2rem;
+    padding: 0.2rem ;
+    background: #eaedf4;
     li {
       background-color: white;
       border-radius: 0.2rem;

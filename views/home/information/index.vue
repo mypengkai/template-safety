@@ -1,6 +1,9 @@
 <template>
   <div class="information">
     <headerTop :title="title"></headerTop>
+    <div class="imgBox">
+        <img src="@/assets/img/timg.jpg" alt />
+    </div>
     <yd-cell-group>
       <yd-cell-item>
         <span slot="left" class="font-span">姓名</span>
@@ -19,7 +22,7 @@
         <span slot="right">{{userinfo.email}}</span>
       </yd-cell-item>
       <yd-cell-item>
-        <span slot="left" class="font-span">部门</span>
+        <span slot="left" class="font-span">组织机构</span>
         <span slot="right">{{userinfo.departname}}</span>
       </yd-cell-item>
       <yd-cell-item>
@@ -27,6 +30,7 @@
         <span slot="right">{{userinfo.projectName}}</span>
       </yd-cell-item>
       <yd-cell-item @click.native="version">
+        <yd-icon slot="icon" name="download" color="#d71345" size="0.4rem"></yd-icon>
         <span slot="left">检查更新</span>
         <yd-badge type="danger" slot="right">{{currentVersion}}</yd-badge>
       </yd-cell-item>
@@ -94,6 +98,16 @@ export default {
   }
   .yd-btn {
     margin-bottom: 0.2rem;
+  }
+  .imgBox{
+      width:2rem;
+      height:2rem;
+      // background:pink;
+      margin:0 auto;
+      img{
+         width:100%;
+         height:100%;
+      }
   }
 }
 </style>
