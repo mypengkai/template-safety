@@ -91,7 +91,7 @@ export default {
     // 个推
     registerGetui() {
       messagePush("getClientId", null, null, null, res => {
-        alert(JSON.stringify(res))
+      
         initGetui({
           clientId: res.clientid,
           imei: res.imei,

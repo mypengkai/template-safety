@@ -3,21 +3,37 @@
     <!-- 底部导航 -->
     <router-view></router-view>
     <footer>
-      <yd-tabbar active-color="#2a5caa">
-        <yd-tabbar-item title="消息" link="/schedule" :active="path=='#/schedule'" >
-          <yd-icon name="weixin" slot="icon" size="0.54rem"></yd-icon>
-          <yd-badge slot="badge" type="danger">{{leng}}</yd-badge>
+      <!-- <yd-tabbar>
+        <yd-tabbar-item title="消息" link="/schedule" :active="path=='#/schedule'">
+          <yd-icon name="weixin" size="0.54rem" slot="icon"></yd-icon>
+          <yd-badge slot="badge" type="danger" v-if="leng">{{leng}}</yd-badge>
         </yd-tabbar-item>
-        <yd-tabbar-item title="工作台" link="/dashboard" :active="path=='#/dashboard'">
-          <yd-icon name="compose" slot="icon" size="0.54rem"></yd-icon>
-        </yd-tabbar-item>
-        <yd-tabbar-item title="组织机构" link="/contacts" :active="path=='#/contacts'">
-          <yd-icon name="share1" slot="icon" size="0.54rem"></yd-icon>
-        </yd-tabbar-item>
-        <yd-tabbar-item title="个人信息" link="/information" :active="path=='#/information'">
-          <yd-icon name="ucenter" slot="icon" size="0.54rem"></yd-icon>
-        </yd-tabbar-item>
-      </yd-tabbar>
+      </yd-tabbar>-->
+      <router-link id="routerCheck" :class="{selected:path=='#/schedule'}" to="/schedule">
+      <span style="background:red;color:white;position: absolute;border-radius: .1rem .1rem .1rem 0;padding:0 .05rem;left:1.1rem">{{leng}}</span>
+        <p>
+          <i class="icon-aliicon--"></i>
+        </p>
+        <p>消息</p>
+      </router-link>
+      <router-link id="routerCheck" :class="{selected:path=='#/dashboard'}" to="/dashboard">
+        <p>
+          <i class="icon-aligongzuotai"></i>
+        </p>
+        <p>工作台</p>
+      </router-link>
+      <router-link id="routerCheck" :class="{selected:path=='#/contacts'}" to="/contacts">
+        <p>
+          <i class="icon-alizuzhijigou"></i>
+        </p>
+        <p>组织机构</p>
+      </router-link>
+      <router-link id="routerCheck" :class="{selected:path=='#/information'}" to="/information">
+        <p>
+          <i class="icon-aligerenxinxiicon-"></i>
+        </p>
+        <p>个人信息</p>
+      </router-link>
     </footer>
   </div>
 </template>
@@ -27,20 +43,22 @@ export default {
   data() {
     return {
       index: 2,
-      leng:'',
-      path:''
+      leng: "",
+      path: "#/dashboard"
     };
   },
   created() {
-    this.getMessage()
+    this.getMessage();
   },
   updated() {
     // 路由切换时选中对应的导航栏高亮
-   this.path = window.location.hash;
+      this.path = window.location.hash;
+      sessionStorage.setItem("path", this.path);  
   },
   mounted() {
+
     // 保存选中的高亮状态，避免刷新时状态丢失
-    this.index = sessionStorage.getItem("active");
+    this.path = sessionStorage.getItem("path");
   },
   methods: {
     getMessage() {
@@ -60,8 +78,10 @@ export default {
   overflow-x: hidden;
   .top {
     height: 1rem;
+    
   }
   footer {
+    
     position: fixed;
     left: 0;
     right: 0;

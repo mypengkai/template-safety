@@ -136,7 +136,8 @@ export default {
           }
         },
         callback: {
-          onClick: this.nodeClick
+          onClick: this.nodeClick,
+           onCheck :this.zTreeOnCheck
         }
       },
       show1: false,

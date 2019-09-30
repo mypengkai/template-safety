@@ -67,6 +67,7 @@ export default {
   },
   methods: {
     goBack() {
+      location.reload() 
       this.$router.push({ path: "/login" });
       localStorage.removeItem("token");
     },
