@@ -5,14 +5,14 @@ import router from '@/router'
 //Vue.prototype.fileURL = 'http://192.168.1.134:8080/SafetyQualityPatrol/img/server/'
 //axios.defaults.baseURL = 'http://192.168.1.134:8080/SafetyQuality/rest' // 徐浩  
 
-//Vue.prototype.fileURL = 'http://192.168.10.42:8080/CATDPS/img/server/'
-//axios.defaults.baseURL = 'http://192.168.10.42:8080/CATDPS/rest' // 任健'
+// Vue.prototype.fileURL = 'http://192.168.10.42:8080/CATDPS/img/server/'
+// axios.defaults.baseURL = 'http://192.168.10.42:8080/CATDPS/rest' // 任健'
 // Vue.prototype.fileURL = 'http://192.168.1.110:8080/CATDPS/img/server/'
 //axios.defaults.baseURL = 'http://192.168.1.110:8080/CATDPS/rest' // 任健'
 // axios.defaults.baseURL = 'http://192.168.1.134:8080/SafetyQuality/rest' // 徐浩'
 // axios.defaults.baseURL = 'http://192.168.1.134:8080/SafetyQuality/rest' // 徐浩'
- Vue.prototype.fileURL =`http://114.55.94.198:8084/SafetyQualityPatrolNew/img/server/` //线上地址
- axios.defaults.baseURL =`http://114.55.94.198:8084/SafetyQualityPatrolNew/rest`
+Vue.prototype.fileURL =`http://114.55.94.198:8084/SafetyQualityPatrolNew/img/server/` //线上地址
+axios.defaults.baseURL =`http://114.55.94.198:8084/SafetyQualityPatrolNew/rest`
 Vue.prototype.axios = axios
 // // 请求拦截
 // // axios.defaults.headers.get['content-type'] = 'application/json;charset=UTF-8'
@@ -117,7 +117,7 @@ export const addSafety = (params) => {
 	return axios.post("/NewSafetyPatrolController/add", params).then(res => res.data)
 }
 //安全隐患条目
-export const getDanger = (id) => {
+export const getDanger = (id="") => {
 	return axios.get(`/Sq_jc_HiddenDangerController/getListTree1?projectId=${id}`).then(res => res.data)
 }
 //获取通知人人列表

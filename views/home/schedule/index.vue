@@ -77,7 +77,7 @@ export default {
 <style lang="less" scoped>
 .schedule {
   padding-top: 1rem;
-  height: 100vh;
+  // height: 100%;
   background: #eaedf4;
   ul {
     padding: 0.2rem ;

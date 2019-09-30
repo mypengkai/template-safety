@@ -42,7 +42,8 @@ export default {
           }
         },
         callback: {
-          onClick: this.nodeClick
+          onClick: this.nodeClick,
+          onCheck: this.zTreeOnCheck
         }
       },
       node: "", //暂存选中的隐患
@@ -53,7 +54,6 @@ export default {
     };
   },
   created() {
-   
     this.array = this.dangerItems || [];
     this.id = this.$route.query.id;
     this.getDangerInit();
@@ -62,6 +62,10 @@ export default {
     ...mapGetters(["dangerItems"])
   },
   methods: {
+    zTreeOnCheck: function(event, treeId, treeNode) {
+      var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+      treeObj.checkNode(treeNode, !treeNode.checked, false);
+    },
     goBack() {
       this.$router.push({ path: "/safetySelfAdd" });
     },
@@ -108,7 +112,7 @@ export default {
       treeObj.checkNode(treeNode, !treeNode.checked, true);
       var treeObj = $.fn.zTree.getZTreeObj("treeDemo"),
         nodes = treeObj.getCheckedNodes(true);
-//将选中的隐患暂存于this.node,防止重复添加的情况
+      //将选中的隐患暂存于this.node,防止重复添加的情况
       this.node = nodes;
     }
   }
@@ -119,7 +123,6 @@ export default {
   color: white !important;
   .dangerConent {
     width: 100%;
-    
   }
 }
 /deep/.yd-navbar-center-title {

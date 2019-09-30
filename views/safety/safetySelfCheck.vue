@@ -204,7 +204,7 @@ export default {
       box-shadow: #666 0px 0px 10px;
       behavior: url(/PIE.htc);
       margin-bottom: 0.2rem;
-      
+
       li {
         height: 0.6rem;
         line-height: 0.6rem;
@@ -243,6 +243,8 @@ export default {
           }
         }
         &:nth-child(7) {
+          display: flex;
+          justify-content: space-between;
           span:first-child {
             color: #5b9fea;
             font-weight: bold;
@@ -250,8 +252,7 @@ export default {
           span:nth-child(2) {
             background: #45b97c;
             color: #fff;
-            margin-left: 0.4rem;
-            padding: 0.1rem;
+            padding: 0 0.1rem;
             -webkit-border-radius: 3px;
             -moz-border-radius: 3px;
             border-radius: 3px;
@@ -259,8 +260,7 @@ export default {
           span:last-child {
             background: #ed1941;
             color: #fff;
-            margin-left: 0.4rem;
-            padding: 0.1rem;
+            padding: 0 0.1rem;
             -webkit-border-radius: 3px;
             -moz-border-radius: 3px;
             border-radius: 3px;
@@ -272,8 +272,8 @@ export default {
       }
     }
   }
-  /deep/._v-container>._v-content{
-    padding-top: .1rem;
+  /deep/._v-container > ._v-content {
+    padding-top: 0.1rem;
   }
 }
 </style>

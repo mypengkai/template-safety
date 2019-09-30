@@ -45,7 +45,7 @@
       </li>
       <li>
         工期(工日):
-        <span>{{parseInt(detailObj.sppTimeLimit+1)}}</span>
+        <span>{{parseInt(detailObj.sppTimeLimit)}}</span>
       </li>
     </ul>
     <ul class="planDate">
@@ -105,7 +105,7 @@ export default {
   methods: {
     getDetailList() {
       safetyjhxiangqing(this.id).then(res => {
-        console.log(res.obj)
+        
         this.detailObj = res.obj;
         this.detailRows = res.rows
       });
