@@ -99,7 +99,7 @@ export default {
       })
       var that = this;
       safetywu(that.formData).then(function(data) {
-        if (data.msg == "成功") {
+        if (data.success == "0") {
           //这一步是判断你当前请求的这一页数据是不是最后一页，如果是最后一页就不能请求了（这个根据后端给的接口判断，只要能判断出就行了，如果是最后一页给that.noDate=true）
           // 判断是下拉刷新还是上拉加载（这一步也是比较巧妙的，当然也很好理解）
           if (that.formData.offset == 0) {
@@ -115,7 +115,6 @@ export default {
 
         // 下拉刷新
     refresh() {
-
       this.formData.offset = 0; //重置页数刷新每次页数都是第一页
       this.noDate = false; //重置数据判断
       setTimeout(
