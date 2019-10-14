@@ -45,6 +45,7 @@
             class="text"
             v-model="subParams.replayContent"
           ></textarea>
+         
           <!-- 文件附件 -->
           <Attach
             :attachList="fileList.files"
@@ -54,6 +55,7 @@
             style="border-bottom:1px dashed #ccc;border-top:1px dashed #ccc;padding-top:.2rem;margin-top:.2rem;"
           ></Attach>
           <!-- 复核成功之后需要将保存提交按钮隐藏,再次之前提交得数据也需要隐藏此按钮 -->
+          
           <yd-button
             v-show="BasicData.spCheckUserName===userinfo.realname&&flag"
             size="large"
@@ -108,7 +110,7 @@ export default {
     this.subParams.replayUserName = JSON.parse(localStorage.getItem("userinfo")).realname;
     this.username = this.userinfo.realname;
     this.subParams.replayUserId = JSON.parse(localStorage.getItem("userinfo")).id;
-    console.log(this.BasicData.spid,this.userinfo.id)
+
   },
   
   methods: {

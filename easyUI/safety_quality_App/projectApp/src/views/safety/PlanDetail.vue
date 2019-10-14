@@ -105,7 +105,7 @@ export default {
   methods: {
     getDetailList() {
       safetyjhxiangqing(this.id).then(res => {
-        
+        console.log(res.obj)
         this.detailObj = res.obj;
         this.detailRows = res.rows
       });

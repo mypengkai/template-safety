@@ -5,7 +5,7 @@
       <router-link tag="li" to="/safetySelfZG" v-for="(item,index) in msgList" :key="index" @click.native="del(item)">
         <p>
           <span>
-            <i class="icon-alialarm-clock" style></i> 安全列表
+            <i class="icon-alialarm-clock" style></i> 安全提示
           </span>
           <!-- <span>{{item.createTime}}</span> -->
         </p>
@@ -39,9 +39,9 @@ export default {
       this.active = index;
     },
     del(item){
-      console.log(item.id)
+     
       delMessage({id:item.id}).then(res=>{
-        console.log(res)
+       
       })
     },
     getMessage() {
@@ -77,7 +77,7 @@ export default {
 <style lang="less" scoped>
 .schedule {
   padding-top: 1rem;
-  // height: 100%;
+  height: 100%;
   background: #eaedf4;
   ul {
     padding: 0.2rem ;

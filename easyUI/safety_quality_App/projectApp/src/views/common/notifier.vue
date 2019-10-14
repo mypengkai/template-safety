@@ -172,4 +172,12 @@ export default {
     color: #5959ff;
   }
 }
+/deep/.ztree *{
+  font-size: .3rem !important;
+}
+/deep/.ztree{
+  li{
+    margin: .1rem 0;
+  }
+}
 </style>
