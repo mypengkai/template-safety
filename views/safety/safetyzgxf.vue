@@ -1,7 +1,7 @@
 <template>
   <div class="safetyZgxf">
     <headerTop :title="title">
-      <span slot="topLeft" class="icon-aliarrow-left- iconBack" @click="routerBack"></span>
+      <span slot="topLeft" class="icon-aliarrow-left- iconBack" @click="openConfrim"></span>
     </headerTop>
     <div class="content">
       <h3>
@@ -69,10 +69,7 @@
         :loading="isLoading"
         loading-txt="提交保存中..."
       >保存并下发</yd-button>
-   
-     
     </div>
-   
   </div>
 </template>
 <script>
@@ -82,7 +79,7 @@ import { CheckSelfListDetail, DownCheck } from "@/api/request.js";
 import { mapGetters } from "vuex";
 import ZGren from "@/views/common/ZGren";
 export default {
-  name:"safetyzgxf",
+  name: "safetyzgxf",
   components: {
     headerTop,
     zgxf
@@ -101,31 +98,35 @@ export default {
       states: [], // 状态
       state: "",
       isLoading: false
-    
     };
   },
   created() {
-  
     this.id = this.$route.query.id;
     this.state = this.$route.query.state;
     this.getData();
     let userinfo = localStorage.getItem("userinfo");
     this.username = JSON.parse(userinfo).realname;
   },
-  // activated() {
-  //   // keep-alive组件 页面进入的时候设置滚动高度
-  //   document.getElementById("mychild").scrollTop = this.offsetTop;
-  // },
-  // deactivated() {
-  //   //keep-alive 组件停用时调用（简单理解为组件离开的时候）。
-  //   // 获取页面滚动高度，这个钩子有可能会拿不到数据，因为这个钩子执行的慢，可以用beforeRouteLeave代替
-  //   this.offsetTop = document.getElementById("mychild").scrollTop;
-  // },
+  activated() {
+    // keep-alive组件 页面进入的时候设置滚动高度
+    // document.getElementById("mychild").scrollTop = this.offsetTop;
+  },
+  deactivated() {
+    //keep-alive 组件停用时调用（简单理解为组件离开的时候）。
+    // 获取页面滚动高度，这个钩子有可能会拿不到数据，因为这个钩子执行的慢，可以用beforeRouteLeave代替
+    // this.offsetTop = document.getElementById("mychild").scrollTop;
+  },
   methods: {
-    choose(){},
+    choose() {},
     //页面回退
-    routerBack() {
-      this.$router.go(-1);
+    openConfrim() {
+      this.$dialog.confirm({
+        title: "提示",
+        mes: "退出将丢失未保存信息   !",
+        opts: () => {
+          this.$router.go(-1);
+        }
+      });
     },
     //获取页面数据
     getData() {
@@ -183,6 +184,7 @@ export default {
         }
       }
       this.isLoading = true;
+      console.log(this.paramsArr);
       DownCheck(this.paramsArr).then(res => {
         if (res.success == 0) {
           this.$dialog.toast({

@@ -82,7 +82,7 @@
         </yd-cell-item>
         <yd-cell-item arrow>
           <span slot="left">开始日期</span>
-          <yd-datetime type="date" v-model="formData.sppBeginDate" slot="right" :callback="callback()"></yd-datetime>
+          <yd-datetime type="date" v-model="formData.sppBeginDate" slot="right" ></yd-datetime>
         </yd-cell-item>
         <yd-cell-item arrow>
           <span slot="left">结束日期</span>

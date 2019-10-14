@@ -28,8 +28,9 @@
           :leng="(item.Reply.length-1)==lis"
           @hasbutton="hasSubmit"
         ></xunhuanZG>
+   
         <!-- 没有指定的整改人(该条是安全的)或者复核通过了隐藏提交整改对话框 -->
-        <div class="dialogue" v-show="item.srUserName&&hasButton">
+        <div class="dialogue" v-show="item.sprState===1&&item.type===0">
           <li>
             <span>整改完成时间:</span>&nbsp;&nbsp;&nbsp;
             <span>{{item.srFinishDate}}</span>
@@ -98,6 +99,7 @@ export default {
     };
   },
   created() {
+    
     let userinfo = localStorage.getItem("userinfo");
     this.subParams.replayUserName = JSON.parse(userinfo).realname;
     this.username = JSON.parse(userinfo).realname;

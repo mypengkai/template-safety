@@ -104,9 +104,9 @@ export default {
     this.userinfo = JSON.parse(localStorage.getItem("userinfo"));
     this.dangerItems = (this.PlanDetail.sppContent || "").split(",");
   },
-  mounted() {
-    this.$nextTick(() => {});
-  },
+  // mounted() {
+  //   this.$nextTick(() => {});
+  // },
   methods: {
     routerBack() {
       this.$router.go(-1);

@@ -5,7 +5,7 @@
       <span slot="topRight" class="padd" @click="routerGo">确定</span>
     </headerTop>
     <div class="dangerConent">
-      <ul id="treeDemo" class="ztree" style="margin-top: 1rem;"></ul>
+      <ul id="treeDemo" class="ztree" style=""></ul>
     </div>
   </div>
 </template>
@@ -133,5 +133,14 @@ export default {
   width: 5rem;
   text-overflow: ellipsis;
   color: red !important;
+}
+/deep/.ztree *{
+  font-size: .3rem !important;
+}
+/deep/.ztree{
+  margin-top: 1rem;
+  li{
+    margin: .1rem 0;
+  }
 }
 </style>

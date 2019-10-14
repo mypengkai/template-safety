@@ -158,6 +158,7 @@ export default {
   activated() {},
   methods: {
     reset() {
+      this.array=""
       this.$store.commit("getDangerItems", ""); // 隐患
       this.$store.commit("setNotifier", ""); // 通知人
       this.reload();
