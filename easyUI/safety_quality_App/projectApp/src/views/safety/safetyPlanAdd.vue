@@ -172,12 +172,7 @@ export default {
           this.$store.commit("setPlanDetail", ""); // 隐患
           this.$store.commit("setNotifier", ""); // 通知人
           this.$router.push({ path: "/safetySelfCheck" }); // 计划检查
-        } else {
-          this.$dialog.toast({
-            mes: res.msg,
-            timeout: 1000
-          });
-        }
+        } 
       });
     },
     // 获取详情数据

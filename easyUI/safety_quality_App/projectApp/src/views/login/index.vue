@@ -70,13 +70,7 @@ export default {
             this.getuser();
             this.registerGetui();
             this.$router.push({ path: "/" });
-          } else {
-            this.$dislog.toast({
-              mes: res.msg,
-              timeout: 2000
-            });
-            return false;
-          }
+          } 
         })
         .catch(err => {});
     },

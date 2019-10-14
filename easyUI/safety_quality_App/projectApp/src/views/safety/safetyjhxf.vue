@@ -132,12 +132,7 @@ export default {
           } else {
             this.flag = false;
           }
-        } else {
-          this.$dialog.toast({
-            mes: res.msg,
-            timeout: 2000
-          });
-        }
+        } 
       });
     },
     DownCheck() {
@@ -181,12 +176,7 @@ export default {
           this.isLoading=false
           this.flag = false;
           this.$router.push({ path: "/safetySelfZG" });
-        } else {
-          this.$dialog.toast({
-            mes: res.msg,
-            timeout: 2000
-          });
-        }
+        } 
       });
     }
   }

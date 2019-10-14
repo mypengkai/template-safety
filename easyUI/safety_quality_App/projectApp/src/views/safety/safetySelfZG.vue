@@ -121,13 +121,7 @@ export default {
           }
           //这一步是判断你当前请求的这一页数据是不是最后一页，如果是最后一页就不能请求了（这个根据后端给的接口判断，只要能判断出就行了，如果是最后一页给that.noDate=true）
           that.noDate = that.formList.length == res.total;
-        } else {
-          this.$dialog.toast({
-            mes: res.msg,
-            timeout: 2000
-          });
-          return false;
-        }
+        } 
       });
     },
     // 下拉刷新

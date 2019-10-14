@@ -98,12 +98,7 @@ export default {
       getInspectionPropertyList(this.formData).then(res => {
         if (res.success == 0) {
           $.fn.zTree.init($("#treeDemo"), this.setting, res.rows);
-        } else {
-          this.$dialog.toast({
-            mes: res.msg,
-            timeout: 1500
-          });
-        }
+        } 
       });
     }
   }

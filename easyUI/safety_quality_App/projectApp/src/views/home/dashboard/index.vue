@@ -251,12 +251,7 @@ export default {
               this.safetyjxzjd = 0;
             }
           }
-        } else {
-          this.$dialog.toast({
-            mes: res.msg,
-            timeout: 1500
-          });
-        }
+        } 
       });
     },
     qualityInit() {
@@ -275,12 +270,7 @@ export default {
               this.qualityjxzjd = 0;
             }
           }
-        } else {
-          this.$dialog.toast({
-            mes: res.msg,
-            timeout: 1500
-          });
-        }
+        } 
       });
     },
     // 计划
@@ -290,12 +280,7 @@ export default {
           if (res.rows && res.rows.length >= 0) {
             this.data = res.rows[0];
           }
-        } else {
-          this.$dialog.toast({
-            mes: res.msg,
-            timeout: 1500
-          });
-        }
+        } 
       });
     }
   }

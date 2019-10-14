@@ -256,12 +256,7 @@ export default {
           this.$store.commit("setNotifier", ""); // 通知人
           // location.reload();
           this.$router.push({ path: "/safetySelfCheck" }); // 计划检查
-        } else {
-          this.$dialog.toast({
-            mes: res.msg,
-            timeout: 1000
-          });
-        }
+        } 
       });
     }
   }

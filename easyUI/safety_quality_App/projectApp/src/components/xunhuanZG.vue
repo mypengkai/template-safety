@@ -87,12 +87,7 @@ export default {
             mes: "上传成功",
             timeout: 2000
           });
-        } else {
-          this.$dialog.toast({
-            mes: res.msg,
-            timeout: 2000
-          });
-        }
+        } 
       });
       submitResult(this.subParams).then(res => {
         if (res.success == 0) {
@@ -101,12 +96,7 @@ export default {
             timeout: 3000
           });
           this.flag = false;
-        } else {
-          this.$dialog.toast({
-            mes: res.msg,
-            timeout: 3000
-          });
-        }
+        } 
       });
     }
   }
