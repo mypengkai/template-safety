@@ -103,12 +103,7 @@ export default {
         if (res.success == 0) {
           this.optionsList = res.rows;
           $.fn.zTree.init($("#treeDemo"), this.setting, res.obj);
-        } else {
-          this.$dialog.toast({
-            mes: res.msg,
-            timeout: 1500
-          });
-        }
+        } 
       });
     },
     checkStateList(item) {

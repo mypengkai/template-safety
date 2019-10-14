@@ -138,13 +138,7 @@ export default {
           //   mes: "上传成功",
           //   timeout: 2000
           // });
-        } else {
-          this.$dialog.toast({
-            mes: res.msg,
-            timeout: 2000
-          });
-          return false;
-        }
+        } 
       });
       this.isLoading = true;
       submitResult(this.subParams).then(res => {
@@ -155,12 +149,7 @@ export default {
           });
           this.isLoading = false;
           this.flag = false;
-        } else {
-          this.$dialog.toast({
-            mes: res.msg,
-            timeout: 3000
-          });
-        }
+        } 
       });
     }
   }

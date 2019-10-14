@@ -72,12 +72,7 @@ export default {
             //设置节点展开
             treeObj.expandNode(nodes[i], true, true, true);
           }
-        } else {
-          this.$dialog.toast({
-            mes: res.msg,
-            timeout: 1500
-          });
-        }
+        } 
       });
     },
     nodeClick: function(event, treeId, treeNode) {

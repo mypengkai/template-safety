@@ -66,12 +66,7 @@ export default {
         if (res.success == 0) {
           this.optionsList = res.rows;
           $.fn.zTree.init($("#treeDemo"), this.setting, res.rows);
-        } else {
-          this.$dialog.toast({
-            mes: res.msg,
-            timeout: 1500
-          });
-        }
+        } 
       });
     },
   },

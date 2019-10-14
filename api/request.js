@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 import router from '@/router'
-//import { Toast } from 'vue-ydui/dist/lib.rem/dialog';
+import { Confirm } from 'vue-ydui/dist/lib.rem/dialog';
 //Vue.prototype.fileURL = 'http://192.168.1.134:8080/SafetyQualityPatrol/img/server/'
 //axios.defaults.baseURL = 'http://192.168.1.134:8080/SafetyQuality/rest' // 徐浩  
 

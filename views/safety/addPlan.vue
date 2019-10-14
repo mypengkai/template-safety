@@ -219,12 +219,7 @@ export default {
             mes: "上传成功",
             timeout: 1500
           });
-        } else {
-          this.$dialog.toast({
-            mes: res.msg,
-            timeout: 1500
-          });
-        }
+        } 
       });
       var arr = [];
       for (let item of this.PlanDanger) {
@@ -303,12 +298,7 @@ export default {
           this.$store.commit("setNotifier", "");
           this.$destroy(true);
           this.$router.push({ path: "/safetyList" });
-        } else {
-          this.$dialog.toast({
-            mes: res.msg,
-            timeout: 2000
-          });
-        }
+        } 
       });
     }
   }
