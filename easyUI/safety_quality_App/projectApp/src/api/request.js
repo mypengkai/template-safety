@@ -1,17 +1,22 @@
 import Vue from 'vue'
 import axios from 'axios'
 import router from '@/router'
-import { Confirm,Toast} from 'vue-ydui/dist/lib.rem/dialog';
+import {
+  Confirm,
+  Toast,
+  Loading
+} from 'vue-ydui/dist/lib.rem/dialog';
 
-
+// 超时时间
+axios.defaults.timeout = 5000
 // Vue.prototype.fileURL = 'http://192.168.10.42:8080/CATDPS/img/server/'
 // axios.defaults.baseURL = 'http://192.168.10.42:8080/CATDPS/rest' // 任健'
 // axios.defaults.baseURL = 'http://192.168.1.134:8080/SafetyQuality/rest' // 徐浩'
 // axios.defaults.baseURL = 'http://192.168.1.134:8080/SafetyQuality/rest' // 徐浩'
-Vue.prototype.fileURL =`http://114.55.94.198:8084/SafetyQualityPatrolNew/img/server/` //线上地址
-axios.defaults.baseURL =`http://114.55.94.198:8084/SafetyQualityPatrolNew/rest`
+Vue.prototype.fileURL = `http://114.55.94.198:8084/SafetyQualityPatrolNew/img/server/` //线上地址
+axios.defaults.baseURL = `http://114.55.94.198:8084/SafetyQualityPatrolNew/rest`
 Vue.prototype.axios = axios
-// // 请求拦截
+// 请求拦截
 axios.interceptors.request.use(config => {
   let token = localStorage.getItem("token")
   if (token) {
@@ -25,13 +30,21 @@ axios.interceptors.request.use(config => {
       ...config.params
     }
   }
+  Loading.open('数据正在加载中。。。');
   return config;
 }, error => {
+  Loading.close();
+  Toast({
+    mes: '请求超时',
+  })
   return Promise.reject(error);
 });
 //  响应拦截
 axios.interceptors.response.use(function (response) {
-  // 对响应数据做点什么
+  // 对响应数据做点什么 
+  setTimeout(() => {
+    Loading.close();
+  }, 800);
   let form = localStorage.getItem('loginInfo');
   let info = JSON.parse(form)
   const data = response.data;
@@ -64,19 +77,21 @@ axios.interceptors.response.use(function (response) {
           }
         ]
       })
-    } else if(data.success == 0){
-
-	}else{
-		Toast({
-			mes:data.msg,
-			timeout:2000
-		})
-	}
+    } else if (data.success == 0) {
+       
+    } else {
+      Toast({
+        mes: data.msg,
+      })
+    }
   }
-
   return response;
 }, function (error) {
   // 对响应错误做点什么
+  Loading.close();
+  Toast({
+    mes: '请求失败',
+  })
   return Promise.reject(error);
 });
 
