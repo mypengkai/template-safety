@@ -63,6 +63,7 @@ export default {
       this.$router.push({ path: "/addPlan" });
     },
     routerGo() {
+      console.log(this.array)
       if (JSON.stringify(this.array) == "[]") {
         this.$dialog.toast({
           mes: "请选择隐患条目",

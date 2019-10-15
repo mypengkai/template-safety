@@ -39,12 +39,11 @@
     </div>
     <div class="addCoentFoot">
       <yd-cell-group>
-        <yd-cell-item arrow type="link" href="/notifier">
+        <yd-cell-item >
           <span slot="left">
             <i class="icon-alitouxiang"></i>&nbsp;&nbsp;通知人
           </span>
-          <span slot="right" v-if="!notifier">请选择</span>
-          <span slot="right" v-if="notifier">{{notifier.names[0]}}</span>
+          <span slot="right" >{{this.$route.query.notifier}}</span>
         </yd-cell-item>
       </yd-cell-group>
       <yd-button size="large"  @click.native="addInspection" :loading="isLoading" loading-txt="保存中">保存</yd-button>
@@ -94,11 +93,8 @@ export default {
   computed: {
     ...mapGetters(["notifier", "PlanDetail"])
   },
-  updated() {
-    console.log(this.notifier);
-  },
-
   created() {
+    console.log(this.$route.query.notifier)
     this.form.sppId = this.$route.query.id || "";
     this.form.sppName = this.$route.query.name || "";
     this.userinfo = JSON.parse(localStorage.getItem("userinfo"));
@@ -170,7 +166,7 @@ export default {
           this.$destroy(true);
           // 清楚vuex 数据以及输入框数据
           this.$store.commit("setPlanDetail", ""); // 隐患
-          this.$store.commit("setNotifier", ""); // 通知人
+    
           this.$router.push({ path: "/safetySelfCheck" }); // 计划检查
         } 
       });
