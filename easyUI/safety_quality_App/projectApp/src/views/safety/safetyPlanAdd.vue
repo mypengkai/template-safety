@@ -97,6 +97,7 @@ export default {
     console.log(this.$route.query.notifier)
     this.form.sppId = this.$route.query.id || "";
     this.form.sppName = this.$route.query.name || "";
+    this.form.spNotifier = this.$route.query.sppNotifier
     this.userinfo = JSON.parse(localStorage.getItem("userinfo"));
     this.dangerItems = (this.PlanDetail.sppContent || "").split(",");
   },
@@ -146,15 +147,15 @@ export default {
       this.form.departId = this.userinfo.departid;
       this.form.projectId = this.userinfo.projectId;
       this.form.spCheckUserId = this.userinfo.id;
-      if (JSON.stringify(this.notifier) != "{}") {
-        this.form.spNotifier = this.notifier.ids.join(",");
-      } else {
-        this.$dialog.toast({
-          mes: "请选择通知人",
-          timeout: 2000
-        });
-        return false;
-      }
+      // if (JSON.stringify(this.notifier) != "{}") {
+      //   this.form.spNotifier = this.notifier.ids.join(",");
+      // } else {
+      //   this.$dialog.toast({
+      //     mes: "请选择通知人",
+      //     timeout: 2000
+      //   });
+      //   return false;
+      // }
       this.isLoading=true
       addSafety(this.form).then(res => {
         if (res.success == 0) {

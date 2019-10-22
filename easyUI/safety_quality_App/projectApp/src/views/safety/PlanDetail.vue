@@ -112,7 +112,7 @@ export default {
     },
     addMore() {
       this.$store.commit("setPlanDetail", this.detailRows);
-      this.$router.push({ path: "/safetyPlanAdd", query: { id: this.id,name:this.detailObj.sppName,notifier:this.detailObj.sppNotifierName } });
+      this.$router.push({ path: "/safetyPlanAdd", query: { id: this.id,name:this.detailObj.sppName,notifier:this.detailObj.sppNotifierName,sppNotifier:this.detailObj.sppNotifier } });
     }
   }
 };
