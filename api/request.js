@@ -11,8 +11,7 @@ import {
 axios.defaults.timeout = 5000
 // Vue.prototype.fileURL = 'http://192.168.10.42:8080/CATDPS/img/server/'
 // axios.defaults.baseURL = 'http://192.168.10.42:8080/CATDPS/rest' // 任健'
-// axios.defaults.baseURL = 'http://192.168.1.134:8080/SafetyQuality/rest' // 徐浩'
-// axios.defaults.baseURL = 'http://192.168.1.134:8080/SafetyQuality/rest' // 徐浩'
+
 Vue.prototype.fileURL = `http://114.55.94.198:8084/SafetyQualityPatrolNew/img/server/` //线上地址
 axios.defaults.baseURL = `http://114.55.94.198:8084/SafetyQualityPatrolNew/rest`
 Vue.prototype.axios = axios
@@ -30,7 +29,7 @@ axios.interceptors.request.use(config => {
       ...config.params
     }
   }
-  Loading.open('数据正在加载中。。。');
+  Loading.open('数据加载中。。。');
   return config;
 }, error => {
   Loading.close();

@@ -5,7 +5,7 @@
       <ul>
         <li style="border-bottom: 1px dashed #ccc;">
           <span>
-            安全隐患&nbsp;
+            安全隐患
             <i
               style="background:#ffc300;padding:.04rem;color:white;font-size:.1rem;border-radius:.1rem;"
             >{{item.hdGrade}}</i>:
@@ -28,7 +28,7 @@
           :leng="(item.Reply.length-1)==lis"
           @hasbutton="hasSubmit"
         ></xunhuanZG>
-   
+
         <!-- 没有指定的整改人(该条是安全的)或者复核通过了隐藏提交整改对话框 -->
         <div class="dialogue" v-show="item.sprState===1&&item.type===0">
           <li>
@@ -99,7 +99,6 @@ export default {
     };
   },
   created() {
-    
     let userinfo = localStorage.getItem("userinfo");
     this.subParams.replayUserName = JSON.parse(userinfo).realname;
     this.username = JSON.parse(userinfo).realname;
@@ -136,7 +135,7 @@ export default {
           //   mes: "上传成功",
           //   timeout: 2000
           // });
-        } 
+        }
       });
       this.isLoading = true;
       submitResult(this.subParams).then(res => {
@@ -147,7 +146,7 @@ export default {
           });
           this.isLoading = false;
           this.flag = false;
-        } 
+        }
       });
     }
   }
@@ -161,7 +160,7 @@ export default {
   align-items: center;
   margin-top: 0.2rem;
   p {
-    width: 0.8rem;
+    width: 0.6rem;
     //   background-color: #ffc300;
     height: 100%;
     float: left;
@@ -169,7 +168,7 @@ export default {
   }
   ul {
     background-color: #fff;
-    width: 92%;
+    width: calc(100% - 0.6rem);
     padding-left: 0.2rem;
     li {
       display: flex;
@@ -178,13 +177,12 @@ export default {
       align-items: center; //子元素垂直居中
       span {
         display: inline-block;
-
         &:nth-child(1) {
-          flex: 0 0 28%;
+          flex: 0 0 32%;
           text-align: left;
         }
         &:nth-child(2) {
-          flex: 0 0 72%;
+          flex: 0 0 68%;
           padding: 0.1rem;
         }
       }
@@ -222,13 +220,12 @@ export default {
         }
         span {
           display: inline-block;
-
           &:nth-child(1) {
-            flex: 0 0 28%;
+            flex: 0 0 32%;
             text-align: left;
           }
           &:nth-child(2) {
-            flex: 0 0 72%;
+            flex: 0 0 68%;
             padding: 0.1rem;
           }
         }

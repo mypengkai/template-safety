@@ -79,6 +79,8 @@ export default {
       getUserobj().then(res => {
         if (res.success == 0) {
           localStorage.setItem("userinfo", JSON.stringify(res.obj));
+
+         
         }
       });
     },

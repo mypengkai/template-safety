@@ -54,6 +54,9 @@ export default {
     };
   },
   created() {
+   
+
+
     let user = localStorage.getItem("userinfo");
     this.userinfo = JSON.parse(user);
     if (this.$store.state.argument.updateTip) {
@@ -65,6 +68,7 @@ export default {
       document.addEventListener("plusready", this.getCurrentVersion, false);
     }
   },
+  
   methods: {
     goBack() {
       location.reload() 
