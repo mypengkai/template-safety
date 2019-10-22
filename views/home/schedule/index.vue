@@ -28,7 +28,11 @@ export default {
     return {
       title: "消息列表",
       msgList: [],
-      active: -1
+      active: -1,
+      form:{
+        limit:10,
+        offset:0
+      }
     };
   },
   created() {
@@ -45,7 +49,7 @@ export default {
       })
     },
     getMessage() {
-      pushmessage().then(res => {
+      pushmessage(this.form).then(res => {
         console.log(res.data.rows)
         this.msgList = res.data.rows;
       });

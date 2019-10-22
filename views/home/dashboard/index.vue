@@ -25,11 +25,15 @@
         <span>{{weaterList.date | formDate}}</span>
         <span>{{weaterList.wea}}</span>
         <span>{{weaterList.tem2}}~{{weaterList.tem1}}</span>
-        <span>{{win}}&nbsp;{{weaterList.win_speed}}</span> -->
-       <iframe width="280" scrolling="no" height="25" frameborder="0" allowtransparency="true" src="http://i.tianqi.com/index.php?c=code&id=34&icon=1&num=3"></iframe>
- 
- 
- 
+        <span>{{win}}&nbsp;{{weaterList.win_speed}}</span>-->
+        <iframe
+          width="280"
+          scrolling="no"
+          height="25"
+          frameborder="0"
+          allowtransparency="true"
+          src="http://i.tianqi.com/index.php?c=code&id=34&icon=1&num=3"
+        ></iframe>
       </div>
     </div>
     <div class="tabBar">
@@ -38,10 +42,7 @@
           <p class="icon-alirenwu"></p>
           <span style="font-size:10px">任务</span>
         </li>-->
-        <!-- <li @click="qualityPage">
-          <p class="icon-alicaozuozhiliang"></p>
-          <span style="font-size:10px">质量</span>
-        </li>-->
+
         <li @click="safetyPage">
           <p class="icon-alianquanfanghu"></p>
           <span style="font-size:10px">自主巡检</span>
@@ -49,6 +50,10 @@
         <li @click="$router.push({path:'/safetyPlanMenu'})">
           <p class="icon-alicebianlanxunjianjilu"></p>
           <span style="font-size:10px">计划巡检</span>
+        </li>
+        <li @click="qualityPage">
+          <p class="icon-alicaozuozhiliang"></p>
+          <span style="font-size:10px">会议签到</span>
         </li>
       </ul>
     </div>
@@ -113,19 +118,19 @@
         <div class="safetyConentRight">
           <ul>
             <li>
-                <span>总数&nbsp;&nbsp;：({{hideenList.zong}})</span>
+              <span>总数&nbsp;&nbsp;：({{hideenList.zong}})</span>
             </li>
             <li>
-                 <span>Ⅰ级：&nbsp;&nbsp;({{hideenList.one}})</span>
+              <span>Ⅰ级：&nbsp;&nbsp;({{hideenList.one}})</span>
             </li>
             <li>
-                 <span>Ⅱ级：&nbsp;&nbsp;({{hideenList.tow}})</span>
+              <span>Ⅱ级：&nbsp;&nbsp;({{hideenList.tow}})</span>
             </li>
             <li>
-                 <span>Ⅲ级：&nbsp;&nbsp;({{hideenList.three}})</span>
+              <span>Ⅲ级：&nbsp;&nbsp;({{hideenList.three}})</span>
             </li>
             <li>
-                 <span>Ⅳ级：&nbsp;&nbsp;({{hideenList.four}})</span>
+              <span>Ⅳ级：&nbsp;&nbsp;({{hideenList.four}})</span>
             </li>
           </ul>
         </div>
@@ -164,9 +169,9 @@ export default {
       cityid: "",
       win: "", // 风向
       weaterList: {}, // 天气
-      yinhuan:{}, // 统计隐患数
-      ZGFH:{}, // 整改复核的数量
-      hideenList:{},   // 隐患
+      yinhuan: {}, // 统计隐患数
+      ZGFH: {}, // 整改复核的数量
+      hideenList: {} // 隐患
     };
   },
   filters: {
@@ -187,21 +192,21 @@ export default {
     this.cityid = localStorage.getItem("cid");
     this.cityname = localStorage.getItem("cname");
     // this.initweater();
-    this.getNum()
-    this.getYinhuan()
+    this.getNum();
+    this.getYinhuan();
   },
   methods: {
     // 获取整改复核数量
-    getNum(){
-      getNum({monthDate:''}).then(res => {
-        this.ZGFH=res.rows[0]
-      })
+    getNum() {
+      getNum({ monthDate: "" }).then(res => {
+        this.ZGFH = res.rows[0];
+      });
     },
     //统计隐患数
-    getYinhuan(){
-      getYinhuan({monthDate:''}).then(res => {
-        this.yinhuan=res.rows[0]
-      })
+    getYinhuan() {
+      getYinhuan({ monthDate: "" }).then(res => {
+        this.yinhuan = res.rows[0];
+      });
     },
     // 城市天气
     // initweater() {
@@ -220,8 +225,8 @@ export default {
     //     }
     //   });
     // },
-    getNumber(data){
-         this.hideenList = data;
+    getNumber(data) {
+      this.hideenList = data;
     },
     safetyPage() {
       // 安全页面跳转
@@ -251,7 +256,7 @@ export default {
               this.safetyjxzjd = 0;
             }
           }
-        } 
+        }
       });
     },
     qualityInit() {
@@ -270,7 +275,7 @@ export default {
               this.qualityjxzjd = 0;
             }
           }
-        } 
+        }
       });
     },
     // 计划
@@ -280,7 +285,7 @@ export default {
           if (res.rows && res.rows.length >= 0) {
             this.data = res.rows[0];
           }
-        } 
+        }
       });
     }
   }
@@ -337,7 +342,7 @@ export default {
       overflow: hidden;
       li {
         float: left;
-        width: 50% !important;
+        width: 33.33% !important;
         &:nth-child(1) {
           p {
             margin: 0 auto;
@@ -348,17 +353,35 @@ export default {
             font-size: 0.6rem;
             padding: 0.1rem;
             color: white;
-            background: -webkit-gradient(linear,0 0,0 100%,from(#2a5caa),to(#2a82e4));
-            // background: -webkit-gradient(
-            //   linear,
-            //   0 0,
-            //   0 100%,
-            //   from(#dec674),
-            //   to(#fcaf17)
-            // );
+            background: -webkit-gradient(
+              linear,
+              0 0,
+              0 100%,
+              from(#2a5caa),
+              to(#2a82e4)
+            );
           }
         }
         &:nth-child(2) {
+          p {
+            margin: 0 auto;
+            width: 1rem;
+            height: 1rem;
+            line-height: 0.8rem;
+            border-radius: 40%;
+            font-size: 0.6rem;
+            padding: 0.1rem;
+            color: white;
+            background: -webkit-gradient(
+              linear,
+              0 0,
+              0 100%,
+              from(#6a6da9),
+              to(#426ab3)
+            );
+          }
+        }
+        &:nth-child(3) {
           p {
             margin: 0 auto;
             width: 1rem;
@@ -437,64 +460,60 @@ export default {
             div {
               height: 1rem;
               border-radius: 0.2rem;
-              width:1.5rem;
+              width: 1.5rem;
               margin: 0 auto;
-             background: #00CC99;
+              background: #00cc99;
               color: white;
               p {
                 height: 0.5rem;
                 line-height: 0.5rem;
                 font-size: 0.36rem;
               }
-             
             }
           }
           &:nth-child(2) {
             div {
               height: 1rem;
-               width:1.5rem;
+              width: 1.5rem;
               border-radius: 0.2rem;
               margin: 0 auto;
-              background:#00CC99;
+              background: #00cc99;
               color: white;
               p {
                 height: 0.5rem;
                 line-height: 0.5rem;
                 font-size: 0.36rem;
               }
-           
             }
           }
           &:nth-child(3) {
             div {
               height: 1rem;
-               width:1.5rem;
+              width: 1.5rem;
               border-radius: 0.2rem;
               margin: 0 auto;
-              background:   #FF6600;;
-              color: white;
-             p {
-                height: 0.5rem;
-                line-height: 0.5rem;
-                font-size: 0.36rem;
-              }
-             
-            }
-          }
-          &:nth-child(4) {
-            div {
-              height: 1rem;
-               width:1.5rem;
-              border-radius: 0.2rem;
-              margin: 0 auto;
-              background-color: #FFCC32;
+              background: #ff6600;
               color: white;
               p {
                 height: 0.5rem;
                 line-height: 0.5rem;
                 font-size: 0.36rem;
               }
-            
+            }
+          }
+          &:nth-child(4) {
+            div {
+              height: 1rem;
+              width: 1.5rem;
+              border-radius: 0.2rem;
+              margin: 0 auto;
+              background-color: #ffcc32;
+              color: white;
+              p {
+                height: 0.5rem;
+                line-height: 0.5rem;
+                font-size: 0.36rem;
+              }
             }
           }
         }
@@ -508,18 +527,18 @@ export default {
     padding: 0.1rem 0.2rem;
     overflow: hidden;
     border-radius: 0.2rem;
-    .safetyTop{
-       border-bottom: 1px solid #ccc;
-      
-       p{
-          font-size: 14px;
-         span{
-            background-color: yellowgreen;
-            color: #fff;
-            font-size: 0.38rem;
-            border-radius: 0.1rem;
-         }
-       }
+    .safetyTop {
+      border-bottom: 1px solid #ccc;
+
+      p {
+        font-size: 14px;
+        span {
+          background-color: yellowgreen;
+          color: #fff;
+          font-size: 0.38rem;
+          border-radius: 0.1rem;
+        }
+      }
     }
     .commission {
       margin-top: 0.2rem;
@@ -535,10 +554,10 @@ export default {
         border-radius: 0.2rem;
         font-size: 0.3rem;
         &:nth-child(1) {
-           background-color: #FFCC32;
+          background-color: #ffcc32;
         }
         &:nth-child(2) {
-            background:   #00CC99;
+          background: #00cc99;
         }
       }
     }
@@ -585,36 +604,36 @@ export default {
           li {
             font-size: 0.3rem;
             height: 0.45rem;
-            &:nth-child(1){
-               span{
-                  color: #2a82e4;
-               }
-               margin-left:0.8rem;
+            &:nth-child(1) {
+              span {
+                color: #2a82e4;
+              }
+              margin-left: 0.8rem;
             }
-             &:nth-child(2){
-               span{
-                  color: #00ae9d;
-               }
-               margin-left:0.8rem;
+            &:nth-child(2) {
+              span {
+                color: #00ae9d;
+              }
+              margin-left: 0.8rem;
             }
-             &:nth-child(3){
-               span{
-                  color: #b2d235;
-               }
-               margin-left:0.8rem;
+            &:nth-child(3) {
+              span {
+                color: #b2d235;
+              }
+              margin-left: 0.8rem;
             }
-             &:nth-child(4){
-               span{
-                  color: #f47920;
-               }
-               margin-left:0.8rem;
+            &:nth-child(4) {
+              span {
+                color: #f47920;
+              }
+              margin-left: 0.8rem;
             }
-             &:nth-child(5){
-               span{
-                  color: #d71345;
-               }
-               margin-left:0.8rem;
-            } 
+            &:nth-child(5) {
+              span {
+                color: #d71345;
+              }
+              margin-left: 0.8rem;
+            }
           }
         }
       }

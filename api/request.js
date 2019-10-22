@@ -131,12 +131,8 @@ export const initGetui = (params) => {
   return axios.post(`/igexinPush/initClientId`, params).then(res => res.data)
 }
 //获取推送消息列表
-export const pushmessage = () => {
-  return axios.post("/Sq_QualityPatrolPlanController/pushmessage", {
-    headers: {
-      'Content-Type': 'APPLICATION_JSON_VALUE'
-    }
-  })
+export const pushmessage = (params) => {
+  return axios.post("/Sq_QualityPatrolPlanController/pushmessage",params)
 }
 
 //将已查看的消息移除列表

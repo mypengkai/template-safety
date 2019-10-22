@@ -137,7 +137,7 @@ export default {
         },
         callback: {
           onClick: this.nodeClick,
-           onCheck :this.zTreeOnCheck
+          onCheck: this.zTreeOnCheck
         }
       },
       show1: false,
@@ -158,7 +158,7 @@ export default {
   activated() {},
   methods: {
     reset() {
-      this.array=""
+      this.array = "";
       this.$store.commit("getDangerItems", ""); // 隐患
       this.$store.commit("setNotifier", ""); // 通知人
       this.reload();
@@ -256,7 +256,7 @@ export default {
           this.$store.commit("setNotifier", ""); // 通知人
           // location.reload();
           this.$router.push({ path: "/safetySelfCheck" }); // 计划检查
-        } 
+        }
       });
     }
   }
