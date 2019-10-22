@@ -13,9 +13,16 @@ const argument = {
         ContentId:'',           //隐患条目ID
         Contentname:'',          //隐患条目名称
         PlanDetail:'',            //新增计划详情         
-        PlanDanger:''       //计划隐患条目信息 
+        PlanDanger:'',       //计划隐患条目信息 
+
+
+       
      },
     mutations: {
+       
+        
+
+
         changeUpdateTip: (state, updateTip) => {
             state.updateTip = updateTip
         },

@@ -13,7 +13,8 @@ const getters={
     ContentId:state=>state.argument.ContentId,
     Contentname:state=>state.argument.Contentname,
     PlanDetail:state=>state.argument.PlanDetail,
-    PlanDanger:state=>state.argument.PlanDanger
+    PlanDanger:state=>state.argument.PlanDanger,
     // ZGren:state=>state.argument.ZGren
+  
 }
 export default getters
