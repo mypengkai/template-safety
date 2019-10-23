@@ -9,11 +9,11 @@ import {
 
 // 超时时间
 axios.defaults.timeout = 5000
-// Vue.prototype.fileURL = 'http://192.168.10.42:8080/CATDPS/img/server/'
-// axios.defaults.baseURL = 'http://192.168.10.42:8080/CATDPS/rest' // 任健'
+Vue.prototype.fileURL = 'http://192.168.10.42:8080/CATDPS/img/server/'
+axios.defaults.baseURL = 'http://192.168.10.42:8080/CATDPS/rest' // 任健'
 
-Vue.prototype.fileURL = `http://114.55.94.198:8084/SafetyQualityPatrolNew/img/server/` //线上地址
-axios.defaults.baseURL = `http://114.55.94.198:8084/SafetyQualityPatrolNew/rest`
+// Vue.prototype.fileURL = `http://114.55.94.198:8084/SafetyQualityPatrolNew/img/server/` //线上地址
+// axios.defaults.baseURL = `http://114.55.94.198:8084/SafetyQualityPatrolNew/rest`
 Vue.prototype.axios = axios
 // 请求拦截
 axios.interceptors.request.use(config => {
@@ -124,6 +124,10 @@ export const xhrrequest = (method, url, params, callback) => {
   }
   xhr.open(method ? method : "GET", url);
   xhr.send(JSON.stringify(params));
+}
+//人员会议签到
+export const signIn = (params) => {
+  return axios.post(`/sq_SafetyMeetingController/Check`,params).then(res => res.data)
 }
 //个推向后台传递设备参数
 export const initGetui = (params) => {

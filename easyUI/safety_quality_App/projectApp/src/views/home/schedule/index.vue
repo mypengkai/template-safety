@@ -30,7 +30,7 @@ export default {
       msgList: [],
       active: -1,
       form:{
-        limit:10,
+        limit:1000,
         offset:0
       }
     };

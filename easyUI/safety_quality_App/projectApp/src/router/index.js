@@ -70,7 +70,12 @@ import CheckXz from "@/views/safety/CheckXz"
 import CheckItem from "@/views/safety/CheckItem"
 // 计划详情
 import PlanDetail from "@/views/safety/PlanDetail"
-// 
+// 扫描页面
+import Barcode from "@/views/safety/barcode"
+
+
+
+
 Vue.use(Router)
 const router = new Router({
   scrollBehavior: () => ({
@@ -286,7 +291,12 @@ const router = new Router({
       path: '/PlanDetail',
       name: 'PlanDetail',
       component: PlanDetail
-    }
+    },
+    {
+      path:'/Barcode',
+      name:'Barcode',
+      component:Barcode
+    },
 
   ]
 })
