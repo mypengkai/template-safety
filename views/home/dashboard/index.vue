@@ -21,11 +21,6 @@
       </yd-slider>
       <!-- 天气 -->
       <div class="weather">
-        <!-- <span>{{weaterList.week}}</span>
-        <span>{{weaterList.date | formDate}}</span>
-        <span>{{weaterList.wea}}</span>
-        <span>{{weaterList.tem2}}~{{weaterList.tem1}}</span>
-        <span>{{win}}&nbsp;{{weaterList.win_speed}}</span>-->
         <iframe
           width="280"
           scrolling="no"
@@ -38,11 +33,6 @@
     </div>
     <div class="tabBar">
       <ul>
-        <!-- <li @click="managerPage">
-          <p class="icon-alirenwu"></p>
-          <span style="font-size:10px">任务</span>
-        </li>-->
-
         <li @click="safetyPage">
           <p class="icon-alianquanfanghu"></p>
           <span style="font-size:10px">自主巡检</span>
@@ -51,7 +41,7 @@
           <p class="icon-alicebianlanxunjianjilu"></p>
           <span style="font-size:10px">计划巡检</span>
         </li>
-        <li @click="qualityPage">
+        <li @click="openConfrim()">
           <p class="icon-alicaozuozhiliang"></p>
           <span style="font-size:10px">会议签到</span>
         </li>
@@ -136,6 +126,7 @@
         </div>
       </div>
     </div>
+
     <div style="height:1.4rem; opacity: 0;"></div>
   </div>
 </template>
@@ -143,10 +134,11 @@
 import caky from "@/components/echarts/caky.vue";
 import qCaty from "@/components/echarts/qCaty.vue";
 import headerTop from "@/components/headerTop";
+
 import axios from "axios";
 import $ from "jquery";
-import { getNum, getYinhuan } from "@/api/request.js";
-//import { safeExchart, qualityExchart, renwuAll } from "@/api/request.js";
+import { getNum, getYinhuan, signIn } from "@/api/request.js";
+
 export default {
   components: {
     headerTop,
@@ -171,7 +163,11 @@ export default {
       weaterList: {}, // 天气
       yinhuan: {}, // 统计隐患数
       ZGFH: {}, // 整改复核的数量
-      hideenList: {} // 隐患
+      hideenList: {}, // 隐患
+      sign: {
+        userid: "",
+        meetingid: ""
+      }
     };
   },
   filters: {
@@ -189,13 +185,57 @@ export default {
     }
   },
   created() {
+    this.sign.userid = JSON.parse(localStorage.getItem("userinfo")).id;
+    this.sign.meetingid = this.$route.query.meetId;
     this.cityid = localStorage.getItem("cid");
     this.cityname = localStorage.getItem("cname");
-    // this.initweater();
     this.getNum();
     this.getYinhuan();
   },
+  mounted() {
+    if (this.sign.meetingid) {
+      this.openCustomConfrim();
+    }
+  },
   methods: {
+    openConfrim() {
+      this.$dialog.confirm({
+        mes: "即将调用设备摄像头！",
+        opts: () => {
+          this.$router.push({ path: "/Barcode" });
+        }
+      });
+    },
+    openCustomConfrim() {
+      this.$dialog.confirm({
+        title: "签到",
+        mes: "会议签到！",
+        opts: [
+          {
+            txt: "取消",
+            color: false,
+            callback: () => {
+              this.sign.meetingid = "";
+            }
+          },
+          {
+            txt: "确定",
+            color: true,
+            callback: () => {
+              signIn(this.sign).then(res => {
+                if (res.success == 0) {
+                  this.$dialog.toast({
+                    mes: "签到成功",
+                    timeout: 1000
+                  });
+                }
+              });
+            }
+          }
+        ]
+      });
+    },
+
     // 获取整改复核数量
     getNum() {
       getNum({ monthDate: "" }).then(res => {
@@ -208,23 +248,7 @@ export default {
         this.yinhuan = res.rows[0];
       });
     },
-    // 城市天气
-    // initweater() {
-    //   var that = this;
-    //   $.ajax({
-    //     type: "get",
-    //     url: "http://wthrcdn.etouch.cn/weather_mini?city=武汉市",
-    //     dataType: "jsonp",
-    //     success: function(res) {
-    //       if (res.data && res.data.length >= 0) {
-    //         that.weaterList = res.data[0];
-    //         if (that.weaterList.win && that.weaterList.win.length >= 0) {
-    //           that.win = that.weaterList.win[0];
-    //         }
-    //       }
-    //     }
-    //   });
-    // },
+
     getNumber(data) {
       this.hideenList = data;
     },

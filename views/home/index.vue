@@ -10,7 +10,9 @@
         </yd-tabbar-item>
       </yd-tabbar>-->
       <router-link id="routerCheck" :class="{selected:path=='#/schedule'}" to="/schedule">
-      <span style="background:red;color:white;position: absolute;border-radius: .1rem .1rem .1rem 0;padding:0 .05rem;left:1.1rem">{{leng}}</span>
+        <span
+          style="background:red;color:white;position: absolute;border-radius: .1rem .1rem .1rem 0;padding:0 .05rem;left:1.1rem"
+        >{{leng}}</span>
         <p>
           <i class="icon-aliicon--"></i>
         </p>
@@ -44,7 +46,11 @@ export default {
     return {
       index: 2,
       leng: "",
-      path: "#/dashboard"
+      path: "#/dashboard",
+      form: {
+        limit: 1000,
+        offset: 0
+      }
     };
   },
   created() {
@@ -52,17 +58,16 @@ export default {
   },
   updated() {
     // 路由切换时选中对应的导航栏高亮
-      this.path = window.location.hash;
-      sessionStorage.setItem("path", this.path);  
+    this.path = window.location.hash;
+    sessionStorage.setItem("path", this.path);
   },
   mounted() {
-
     // 保存选中的高亮状态，避免刷新时状态丢失
     this.path = sessionStorage.getItem("path");
   },
   methods: {
     getMessage() {
-      pushmessage().then(res => {
+      pushmessage(this.form).then(res => {
         this.leng = res.data.rows.length;
       });
     }
@@ -78,10 +83,8 @@ export default {
   overflow-x: hidden;
   .top {
     height: 1rem;
-    
   }
   footer {
-    
     position: fixed;
     left: 0;
     right: 0;
