@@ -3,12 +3,6 @@
     <!-- 底部导航 -->
     <router-view></router-view>
     <footer>
-      <!-- <yd-tabbar>
-        <yd-tabbar-item title="消息" link="/schedule" :active="path=='#/schedule'">
-          <yd-icon name="weixin" size="0.54rem" slot="icon"></yd-icon>
-          <yd-badge slot="badge" type="danger" v-if="leng">{{leng}}</yd-badge>
-        </yd-tabbar-item>
-      </yd-tabbar>-->
       <router-link id="routerCheck" :class="{selected:path=='#/schedule'}" to="/schedule">
         <span
           style="background:red;color:white;position: absolute;border-radius: .1rem .1rem .1rem 0;padding:0 .05rem;left:1.1rem"

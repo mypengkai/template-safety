@@ -134,9 +134,6 @@
 import caky from "@/components/echarts/caky.vue";
 import qCaty from "@/components/echarts/qCaty.vue";
 import headerTop from "@/components/headerTop";
-
-import axios from "axios";
-import $ from "jquery";
 import { getNum, getYinhuan, signIn } from "@/api/request.js";
 
 export default {
@@ -157,10 +154,6 @@ export default {
       qualityyuqijd: 0,
       qualityjxzjd: 0,
       data: {}, // 计划
-      cityname: "",
-      cityid: "",
-      win: "", // 风向
-      weaterList: {}, // 天气
       yinhuan: {}, // 统计隐患数
       ZGFH: {}, // 整改复核的数量
       hideenList: {}, // 隐患
@@ -170,25 +163,7 @@ export default {
       }
     };
   },
-  filters: {
-    // 过滤年份
-    formDate(val) {
-      var value = new Date(val);
-      var year = value.getFullYear();
-      var month =
-        value.getMonth() + 1 > 9
-          ? `${value.getMonth() + 1}`
-          : `0${value.getMonth() + 1}`;
-      var day =
-        value.getDate() > 9 ? `${value.getDate()}` : `0${value.getDate()}`;
-      return month + "-" + day;
-    }
-  },
   created() {
-    this.sign.userid = JSON.parse(localStorage.getItem("userinfo")).id;
-    this.sign.meetingid = this.$route.query.meetId;
-    this.cityid = localStorage.getItem("cid");
-    this.cityname = localStorage.getItem("cname");
     this.getNum();
     this.getYinhuan();
   },
@@ -248,7 +223,6 @@ export default {
         this.yinhuan = res.rows[0];
       });
     },
-
     getNumber(data) {
       this.hideenList = data;
     },
@@ -260,47 +234,9 @@ export default {
       // 任务页面
       this.$router.push({ path: "/manager" });
     },
-    // 质量
+    // 会议
     qualityPage() {
       this.$router.push({ path: "/menu" });
-    },
-    safetyInit() {
-      // 安全
-      safeExchart().then(res => {
-        if (res.success == 0) {
-          if (res.rows && res.rows.length >= 0) {
-            this.safetyList = res.rows[0];
-            if (Number(res.rows[0].zgzcount) > 0) {
-              this.safetyyuqijd =
-                Number(res.rows[0].yuqicount) / Number(res.rows[0].zgzcount);
-              this.safetyjxzjd =
-                Number(res.rows[0].zgjxzcount) / Number(res.rows[0].zgzcount);
-            } else {
-              this.safetyyuqijd = 0;
-              this.safetyjxzjd = 0;
-            }
-          }
-        }
-      });
-    },
-    qualityInit() {
-      // 质量
-      qualityExchart().then(res => {
-        if (res.success == 0) {
-          if (res.rows && res.rows.length >= 0) {
-            this.qualityList = res.rows[0];
-            if (Number(res.rows[0].zgzcount) > 0) {
-              this.qualityyuqijd =
-                Number(res.rows[0].yuqicount) / Number(res.rows[0].zgzcount);
-              this.qualityjxzjd =
-                Number(res.rows[0].zgjxzcount) / Number(res.rows[0].zgzcount);
-            } else {
-              this.qualityyuqijd = 0;
-              this.qualityjxzjd = 0;
-            }
-          }
-        }
-      });
     },
     // 计划
     renwuInit() {
