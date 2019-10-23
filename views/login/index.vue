@@ -66,7 +66,7 @@ export default {
         .then(res => {
           if (res.success == 0) {
             let token = res.obj.token;
-            localStorage.setItem("token", token);
+            sessionStorage.setItem("token", token);
             this.getuser();
             this.registerGetui();
             this.$router.push({ path: "/" });

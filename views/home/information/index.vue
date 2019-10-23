@@ -74,7 +74,7 @@ export default {
     goBack() {
       location.reload() 
       this.$router.push({ path: "/login" });
-      localStorage.removeItem("token");
+      sessionStorage.removeItem("token");
     },
     version() {
       checkVersion(() => {
