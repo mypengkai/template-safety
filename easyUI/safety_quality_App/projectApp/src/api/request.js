@@ -9,11 +9,11 @@ import {
 
 // 超时时间
 axios.defaults.timeout = 5000
-Vue.prototype.fileURL = 'http://192.168.10.42:8080/CATDPS/img/server/'
-axios.defaults.baseURL = 'http://192.168.10.42:8080/CATDPS/rest' // 任健'
+//Vue.prototype.fileURL = 'http://192.168.10.42:8080/CATDPS/img/server/'
+//axios.defaults.baseURL = 'http://192.168.10.42:8080/CATDPS/rest' // 任健'
 
-// Vue.prototype.fileURL = `http://114.55.94.198:8084/SafetyQualityPatrolNew/img/server/` //线上地址
-// axios.defaults.baseURL = `http://114.55.94.198:8084/SafetyQualityPatrolNew/rest`
+ Vue.prototype.fileURL = `http://114.55.94.198:8084/SafetyQualityPatrolNew/img/server/` //线上地址
+ axios.defaults.baseURL = `http://114.55.94.198:8084/SafetyQualityPatrolNew/rest`
 Vue.prototype.axios = axios
 // 请求拦截
 axios.interceptors.request.use(config => {
@@ -59,7 +59,7 @@ axios.interceptors.response.use(function (response) {
               router.push({
                 path: '/login'
               });
-              localStorage.removeItem('token');
+              sessionStorage.removeItem('token');
             }
           },
           {
@@ -68,7 +68,7 @@ axios.interceptors.response.use(function (response) {
             callback: () => {
               getToken(info).then(res => {
                 if (res.success == 0) {
-                  localStorage.setItem("token", res.obj.token);
+                  sessionStorage.setItem("token", res.obj.token);
                   window.location.reload();
                 }
               })

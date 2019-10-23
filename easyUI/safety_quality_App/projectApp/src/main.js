@@ -25,6 +25,8 @@ import VueScroller from 'vue-scroller'
 //处理app推送消息和跳转
 import './assets/plus/handlePush'
 
+import "./assets/plus/appBack"
+
 // 图片预览插件
 import Viewer from 'v-viewer'
 import 'viewerjs/dist/viewer.css'
