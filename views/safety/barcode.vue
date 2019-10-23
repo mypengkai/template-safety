@@ -39,7 +39,7 @@ export default {
     startRecognize() {
       let that = this;
       if (!window.plus) return;
-      plus.navigator.setStatusBarBackground("#2a5caa");
+      
       scan = new plus.barcode.Barcode(
         "bcid",
         [plus.barcode.QR, plus.barcode.EAN13, plus.barcode.EAN8],
