@@ -11,10 +11,6 @@ import YDUI from 'vue-ydui' /* 相当于import YDUI from 'vue-ydui/ydui.rem.js' 
 import 'vue-ydui/dist/ydui.rem.css'
 import 'vue-ydui/dist/ydui.flexible.js'
 import VueHtml5Plus from 'vue-html5plus'
-
-
-import Mui from "vue-awesome-mui"
-Vue.use(Mui)
 // import vueztree from 'vue-ztree-2.0/dist/vue-ztree-2.0.umd.min.js'
 // import 'vue-ztree-2.0/dist/vue-ztree-2.0.css'
 // 路由白屏(处理兼容)
