@@ -16,7 +16,6 @@ function versionready() {
 			+ '&appKey=' + properties.pgyKeys.androidAppKey               // appkey
 			+ '&buildVersion=' + buildVersion, {},
 			(res) => {
-				
 				if (res.data.buildHaveNewVersion && res.data.buildVersion != buildVersion) {
 					plus.nativeUI.confirm("发现新版本" + res.data.buildVersion + "，是否立即更新", function (i) {
 						if (0 == i.index) {

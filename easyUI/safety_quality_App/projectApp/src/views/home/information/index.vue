@@ -41,6 +41,7 @@
 <script>
 import headerTop from "@/components/headerTop";
 import { checkVersion } from "@/api/pgrApi.js";
+//import { checkVersion } from "@/api/sdk.js";
 import { mapGetters } from "vuex";
 export default {
   components: {
