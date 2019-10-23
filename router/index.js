@@ -90,39 +90,39 @@ const router = new Router({
       redirect: '/dashboard',
       component: home,
       children: [{
-        path: 'dashboard',
-        name: 'dashboard',
-        component: dashboard
-      },
-      //组织机构
-      {
-        path: '/contacts',
-        name: 'contacts',
-        component: contacts
-      },
-      //我(信息)
-      {
-        path: 'information',
-        name: 'information',
-        component: information
-      },
-      //消息
-      {
-        path: 'schedule',
-        name: 'schedule',
-        component: schedule
-      }
+          path: 'dashboard',
+          name: 'dashboard',
+          component: dashboard
+        },
+        //组织机构
+        {
+          path: '/contacts',
+          name: 'contacts',
+          component: contacts
+        },
+        //我(信息)
+        {
+          path: 'information',
+          name: 'information',
+          component: information
+        },
+        //消息
+        {
+          path: 'schedule',
+          name: 'schedule',
+          component: schedule
+        }
       ]
     },
     {
-      path:"/safetyMenu",
-      name:"safetyMenu",
-      component:safetyMenu
+      path: "/safetyMenu",
+      name: "safetyMenu",
+      component: safetyMenu
     },
     {
-      path:"/safetyPlanMenu",
-      name:'safetyPlanMenu',
-      component:safetyPlanMenu
+      path: "/safetyPlanMenu",
+      name: 'safetyPlanMenu',
+      component: safetyPlanMenu
     },
     // 安全自主检查列表
     {
@@ -130,12 +130,12 @@ const router = new Router({
       name: 'safetySelfCheck',
       component: safetySelfCheck
     },
-        // 安全计划检查列表
-        {
-          path: '/safetyPlanAdd',
-          name: 'safetyPlanAdd',
-          component: safetyPlanAdd
-        },
+    // 安全计划检查列表
+    {
+      path: '/safetyPlanAdd',
+      name: 'safetyPlanAdd',
+      component: safetyPlanAdd
+    },
     //整改列表
     {
       path: '/safetySelfZG',
@@ -157,15 +157,15 @@ const router = new Router({
         keepAlive: true
       }
     },
-        //计划整改下发
-        {
-          path: '/safetyjhxf',
-          name: 'safetyjhxf',
-          component: safetyjhxf,
-          meta: {
-            keepAlive: true
-          }
-        },
+    //计划整改下发
+    {
+      path: '/safetyjhxf',
+      name: 'safetyjhxf',
+      component: safetyjhxf,
+      meta: {
+        keepAlive: true
+      }
+    },
     // 新增自主检查
     {
       path: '/safetySelfAdd',
@@ -179,9 +179,9 @@ const router = new Router({
       component: safetySelfYhzg
     },
     {
-      path:'/safetySelfJHzg',
-      name:'safetySelfJHzg',
-      component:safetySelfJHzg
+      path: '/safetySelfJHzg',
+      name: 'safetySelfJHzg',
+      component: safetySelfJHzg
     },
     // 下发复核页面
     {
@@ -189,12 +189,12 @@ const router = new Router({
       name: 'safetySelfZgfh',
       component: safetySelfZgfh
     },
-        // 下发计划复核页面
-        {
-          path: '/safetySelfJhfh',
-          name: 'safetySelfJhfh',
-          component: safetySelfJhfh
-        },
+    // 下发计划复核页面
+    {
+      path: '/safetySelfJhfh',
+      name: 'safetySelfJhfh',
+      component: safetySelfJhfh
+    },
     //过程查看
     {
       path: '/safetySelfDetail',
@@ -208,9 +208,9 @@ const router = new Router({
       component: safetyDetailSee
     },
     {
-      path:'/safetyDetailSeeJH',
-      name:'safetyDetailSeeJH',
-      component:safetyDetailSeeJH
+      path: '/safetyDetailSeeJH',
+      name: 'safetyDetailSeeJH',
+      component: safetyDetailSeeJH
     },
     //隐患条目页面
     {
@@ -224,12 +224,12 @@ const router = new Router({
       name: "filter",
       component: filter
     },
-        //计检筛选
-        {
-          path: '/Planfilter',
-          name: "Planfilter",
-          component: Planfilter
-        },
+    //计检筛选
+    {
+      path: '/Planfilter',
+      name: "Planfilter",
+      component: Planfilter
+    },
     //联系人页面
     {
       path: '/CheckPerson',
@@ -250,42 +250,42 @@ const router = new Router({
     },
     //安全计划列表
     {
-      path:'/safetyList',
-      name:'safetyList',
-      component:safetyList
+      path: '/safetyList',
+      name: 'safetyList',
+      component: safetyList
     },
     //新增安全计划
     {
-      path:'/addPlan',
-      name:'addPlan',
-      component:addPlan
+      path: '/addPlan',
+      name: 'addPlan',
+      component: addPlan
     },
 
     // 整改人列表
     {
-      path:'/ZGren',
-      name:'ZGren',
-      component:ZGren
+      path: '/ZGren',
+      name: 'ZGren',
+      component: ZGren
     },
     {
-      path:'/branch',
-      name:'branch',
-      component:branch
+      path: '/branch',
+      name: 'branch',
+      component: branch
     },
     {
-      path:'/CheckXz',
-      name:'CheckXz',
-      component:CheckXz
+      path: '/CheckXz',
+      name: 'CheckXz',
+      component: CheckXz
     },
     {
-      path:'/CheckItem',
-      name:'CheckItem',
-      component:CheckItem
+      path: '/CheckItem',
+      name: 'CheckItem',
+      component: CheckItem
     },
     {
-      path:'/PlanDetail',
-      name:'PlanDetail',
-      component:PlanDetail
+      path: '/PlanDetail',
+      name: 'PlanDetail',
+      component: PlanDetail
     }
 
   ]

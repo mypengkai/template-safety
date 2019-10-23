@@ -18,7 +18,6 @@
           </li>
           <li>检查性质：自检</li>
           <li>检查人：{{userinfo.realname}}</li>
-          <!-- <li>检查时间：2019-08-08 10:10:20</li> -->
         </ul>
       </div>
       <div class="addFoot">
@@ -199,6 +198,13 @@ export default {
     //点击添加检查
     AddCheck() {
       let id = this.array ? this.array[0].zid : this.userinfo.projectId;
+      if(!id){
+         this.$dialog.toast({
+             mes:'请先选择巡检位置'
+         })
+         return false
+      }
+
       this.$router.push({ path: "/danger", query: { id: id } });
     },
 
