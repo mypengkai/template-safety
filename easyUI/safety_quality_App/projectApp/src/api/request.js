@@ -17,7 +17,7 @@ axios.defaults.baseURL = 'http://192.168.10.42:8080/CATDPS/rest' // 任健'
 Vue.prototype.axios = axios
 // 请求拦截
 axios.interceptors.request.use(config => {
-  let token = localStorage.getItem("token")
+  let token = sessionStorage.getItem("token")
   if (token) {
     config.headers['X-AUTH-TOKEN'] = token
   }

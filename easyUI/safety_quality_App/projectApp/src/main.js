@@ -47,7 +47,7 @@ Vue.use(VueHtml5Plus);
 Vue.config.productionTip = false
 //路由 拦截
 router.beforeEach((to, from, next) => {
-  let token = localStorage.getItem("token")
+  let token = sessionStorage.getItem("token")
   if (token) {
     next()
   }
