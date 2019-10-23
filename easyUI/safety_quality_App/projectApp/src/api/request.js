@@ -29,10 +29,10 @@ axios.interceptors.request.use(config => {
       ...config.params
     }
   }
-  Loading.open('数据加载中。。。');
+  // Loading.open('数据加载中。。。');
   return config;
 }, error => {
-  Loading.close();
+  // Loading.close();
   Toast({
     mes: '请求超时',
   })
@@ -41,9 +41,9 @@ axios.interceptors.request.use(config => {
 //  响应拦截
 axios.interceptors.response.use(function (response) {
   // 对响应数据做点什么 
-  setTimeout(() => {
-    Loading.close();
-  }, 800);
+  // setTimeout(() => {
+  //   Loading.close();
+  // }, 800);
   let form = localStorage.getItem('loginInfo');
   let info = JSON.parse(form)
   const data = response.data;
@@ -69,7 +69,10 @@ axios.interceptors.response.use(function (response) {
               getToken(info).then(res => {
                 if (res.success == 0) {
                   sessionStorage.setItem("token", res.obj.token);
-                  window.location.reload();
+                  // window.location.reload();
+                  let NewPage = '_empty' + '?time=' + new Date().getTime()/500;
+                  router.push(NewPage);
+                  router.go(-1);
                 }
               })
             }

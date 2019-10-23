@@ -40,7 +40,8 @@ import moment from 'moment'
 Vue.use(VueScroller)
 Vue.use(YDUI);
 Vue.use(VueHtml5Plus);
-
+// import Mui from "vue-awesome-mui"
+// Vue.use(Mui)
 // Vue.use(vueztree)
 Vue.config.productionTip = false
 //路由 拦截

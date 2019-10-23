@@ -200,7 +200,12 @@ export default {
               signIn(this.sign).then(res => {
                 if (res.success == 0) {
                   this.$dialog.toast({
-                    mes: "签到成功",
+                    mes: "签到成功!",
+                    timeout: 1000
+                  });
+                } else {
+                  this.$dialog.toast({
+                    mes: "签到失败!!!",
                     timeout: 1000
                   });
                 }

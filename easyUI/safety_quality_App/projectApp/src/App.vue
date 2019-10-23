@@ -7,6 +7,7 @@
 </template>
 
 <script>
+if(window.plus) plus.navigator.setStatusBarBackground("#2a5caa");
 export default {
   name: "App",
   provide() {
