@@ -129,8 +129,8 @@ export default {
   color: white !important;
 }
 .planDetail {
-  margin-top: 1rem;
-  margin-bottom: 0.2rem;
+  padding-top: 1rem;
+  padding-bottom: 0.2rem;
   background-color: white;
   li {
     color: #ccc;
@@ -143,7 +143,7 @@ export default {
   }
 }
 .planDate {
-  margin-bottom: 0.2rem;
+  //margin-bottom: 0.2rem;
   background-color: white;
   li {
     color: #ccc;

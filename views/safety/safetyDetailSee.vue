@@ -29,7 +29,7 @@
               </span>
               <span>
                 <em>{{item.spContent}}</em>
-                <p>
+                <p v-if="item.files.length>0">
                   <viewer :images="item.files">
                     <img v-for="(src,index) in item.files" :src="fileURL+src.FilePath" :key="index" />
                   </viewer>

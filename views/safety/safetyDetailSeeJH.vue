@@ -29,7 +29,7 @@
               </span>
               <span>
                 <em>{{item.spContent}}</em>
-                <p>
+                <p v-if="item.files.length>0">
                   <viewer :images="item.files">
                     <img v-for="(src,index) in item.files" :src="fileURL+src.FilePath" :key="index" />
                   </viewer>
@@ -47,7 +47,6 @@
                   <span>
                     <b>{{value.replayContent}}</b>
                     <b v-if="index==0">第{{index+1}}次</b>
-                    
                     <b v-else-if="index==2">第{{index}}次</b>
                     <b v-else>第{{index-1}}次</b>
                   </span>
