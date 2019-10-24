@@ -12,8 +12,8 @@ axios.defaults.timeout = 5000
 //Vue.prototype.fileURL = 'http://192.168.10.42:8080/CATDPS/img/server/'
 //axios.defaults.baseURL = 'http://192.168.10.42:8080/CATDPS/rest' // 任健'
 
- Vue.prototype.fileURL = `http://114.55.94.198:8084/SafetyQualityPatrolNew/img/server/` //线上地址
- axios.defaults.baseURL = `http://114.55.94.198:8084/SafetyQualityPatrolNew/rest`
+Vue.prototype.fileURL = `http://114.55.94.198:8084/SafetyQualityPatrolNew/img/server/` //线上地址
+axios.defaults.baseURL = `http://114.55.94.198:8084/SafetyQualityPatrolNew/rest`
 Vue.prototype.axios = axios
 // 请求拦截
 axios.interceptors.request.use(config => {
@@ -29,10 +29,8 @@ axios.interceptors.request.use(config => {
       ...config.params
     }
   }
-  // Loading.open('数据加载中。。。');
   return config;
 }, error => {
-  // Loading.close();
   Toast({
     mes: '请求超时',
   })
@@ -40,10 +38,6 @@ axios.interceptors.request.use(config => {
 });
 //  响应拦截
 axios.interceptors.response.use(function (response) {
-  // 对响应数据做点什么 
-  // setTimeout(() => {
-  //   Loading.close();
-  // }, 800);
   let form = localStorage.getItem('loginInfo');
   let info = JSON.parse(form)
   const data = response.data;
@@ -69,8 +63,7 @@ axios.interceptors.response.use(function (response) {
               getToken(info).then(res => {
                 if (res.success == 0) {
                   sessionStorage.setItem("token", res.obj.token);
-                  // window.location.reload();
-                  let NewPage = '_empty' + '?time=' + new Date().getTime()/500;
+                  let NewPage = '_empty' + '?time=' + new Date().getTime() / 500;
                   router.push(NewPage);
                   router.go(-1);
                 }
@@ -79,18 +72,11 @@ axios.interceptors.response.use(function (response) {
           }
         ]
       })
-    } else if (data.success == 0) {
-       
-    } else {
-      Toast({
-        mes: data.msg,
-      })
-    }
+    } 
   }
   return response;
 }, function (error) {
   // 对响应错误做点什么
-  Loading.close();
   Toast({
     mes: '请求失败',
   })
@@ -130,7 +116,7 @@ export const xhrrequest = (method, url, params, callback) => {
 }
 //人员会议签到
 export const signIn = (params) => {
-  return axios.post(`/sq_SafetyMeetingController/Check`,params).then(res => res.data)
+  return axios.post(`/sq_SafetyMeetingController/Check`, params).then(res => res.data)
 }
 //个推向后台传递设备参数
 export const initGetui = (params) => {
@@ -138,7 +124,7 @@ export const initGetui = (params) => {
 }
 //获取推送消息列表
 export const pushmessage = (params) => {
-  return axios.post("/Sq_QualityPatrolPlanController/pushmessage",params)
+  return axios.post("/Sq_QualityPatrolPlanController/pushmessage", params)
 }
 
 //将已查看的消息移除列表

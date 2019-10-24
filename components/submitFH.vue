@@ -5,7 +5,7 @@
       <ul>
         <li style="border-bottom: 1px dashed #ccc;">
           <span>
-            安全隐患&nbsp;
+            安全隐患
             <i style="background:#ffc300;padding:.02rem;">{{item.hdGrade}}</i>:
           </span>&nbsp;&nbsp;&nbsp;
           <span>{{item.spContent}}</span>
@@ -21,11 +21,8 @@
           :xjID="BasicData.spid"
         ></xunhuanFH>
         <!-- 没有隐患或者是复核通过了应该隐藏提交复核对话框 -->
-        <div
-          class="dialogue"
-          v-show="item.sprState===1&&item.type===1"
-        >
-          <li style="margin-top:.2rem;margin-bottom:.2rem;">
+        <div class="dialogue" v-show="item.sprState===1&&item.type===1">
+          <!-- <li style="margin-top:.2rem;margin-bottom:.2rem;">
             <p>
               <button @click="subParams.replayState=1" :class="{border:subParams.replayState==1}">通过</button>
             </p>
@@ -35,9 +32,10 @@
                 :class="{border:subParams.replayState==2}"
               >不通过</button>
             </p>
-          </li>
-          <li style="margin-bottom:.1rem;" v-show="subParams.replayState==2">不通过原因:</li>
-          <li style="margin-bottom:.1rem;" v-show="subParams.replayState==1">备注:</li>
+          </li>-->
+          <!-- <li style="margin-bottom:.1rem;" v-show="subParams.replayState==2">不通过原因:</li>
+          <li style="margin-bottom:.1rem;" v-show="subParams.replayState==1">备注:</li>-->
+          <li>备注说明：</li>
           <textarea
             cols="57"
             rows="5"
@@ -45,7 +43,7 @@
             class="text"
             v-model="subParams.replayContent"
           ></textarea>
-         
+
           <!-- 文件附件 -->
           <Attach
             :attachList="fileList.files"
@@ -55,8 +53,8 @@
             style="border-bottom:1px dashed #ccc;border-top:1px dashed #ccc;padding-top:.2rem;margin-top:.2rem;"
           ></Attach>
           <!-- 复核成功之后需要将保存提交按钮隐藏,再次之前提交得数据也需要隐藏此按钮 -->
-          
-          <yd-button
+
+          <!-- <yd-button
             v-show="BasicData.spCheckUserName===userinfo.realname&&flag"
             size="large"
             type="primary"
@@ -64,7 +62,13 @@
             @click.native="submit(item)"
             :loading="isLoading"
             loading-txt="提交保存中..."
-          >保存并提交</yd-button>
+          >保存并提交</yd-button>-->
+          <!-- :class="{border1:subParams.replayState==1}" -->
+          <div class="submitButton" v-show="BasicData.spCheckUserName===userinfo.realname&&flag">
+            <button @click="submit(item,'1')" >通过</button>
+            <!--  :class="{border2:subParams.replayState==2}" -->
+            <button @click="submit(item,'2')" >不通过</button>
+          </div>
         </div>
       </ul>
     </div>
@@ -76,6 +80,7 @@ import Attach from "./Attach.vue";
 import xunhuanFH from "./xunhuanFH.vue";
 import { selfCheck, submitResult, safetyAddResult } from "@/api/request.js";
 export default {
+  inject:["reload"],
   props: ["contentData", "xuhao", "BasicData"],
   components: {
     Attach,
@@ -105,24 +110,36 @@ export default {
   },
   created() {
     this.subParams.id = this.BasicData.spid;
-    this.userinfo= JSON.parse(localStorage.getItem("userinfo"));
+    this.userinfo = JSON.parse(localStorage.getItem("userinfo"));
 
-    this.subParams.replayUserName = JSON.parse(localStorage.getItem("userinfo")).realname;
+    this.subParams.replayUserName = JSON.parse(
+      localStorage.getItem("userinfo")
+    ).realname;
     this.username = this.userinfo.realname;
-    this.subParams.replayUserId = JSON.parse(localStorage.getItem("userinfo")).id;
-
+    this.subParams.replayUserId = JSON.parse(
+      localStorage.getItem("userinfo")
+    ).id;
   },
-  
+
   methods: {
-    async submit(item) {
+    async submit(item, val) {
+      this.subParams.replayState = val;
       this.subParams.srId = item.srid;
-      if (!this.subParams.replayState) {
+      if (this.subParams.replayContent == "") {
         this.$dialog.toast({
-          mes: "请选择复核状态",
+          mes: "请输入备注说明",
           timeout: 1000
         });
         return false;
       }
+
+      // if (!this.subParams.replayState) {
+      //   this.$dialog.toast({
+      //     mes: "请选择复核状态",
+      //     timeout: 1000
+      //   });
+      //   return false;
+      // }
       //文件上传
       let formData = new FormData();
       formData.append("type", this.fileList.type);
@@ -134,11 +151,7 @@ export default {
       await safetyAddResult(formData).then(res => {
         if (res.success == 0) {
           this.subParams.filesId = res.obj;
-          // this.$dialog.toast({
-          //   mes: "上传成功",
-          //   timeout: 2000
-          // });
-        } 
+        }
       });
       this.isLoading = true;
       submitResult(this.subParams).then(res => {
@@ -147,9 +160,10 @@ export default {
             mes: "复核成功",
             timeout: 3000
           });
+          this.reload();
           this.isLoading = false;
           this.flag = false;
-        } 
+        }
       });
     }
   }
@@ -182,11 +196,11 @@ export default {
         display: inline-block;
 
         &:nth-child(1) {
-          flex: 0 0 28%;
+          flex: 0 0 32%;
           text-align: left;
         }
         &:nth-child(2) {
-          flex: 0 0 72%;
+          flex: 0 0 68%;
           padding: 0.1rem;
         }
       }
@@ -258,7 +272,31 @@ export default {
     }
   }
 }
-.border {
-  border: 2px solid #525f42;
+// .border1 {
+//   background-color: green;
+//   color: white;
+// }
+// .border2 {
+//   background-color: red;
+//   color: white;
+// }
+.submitButton {
+  display: flex;
+  justify-content: space-around;
+  button {
+    width: 2rem;
+    height: 0.8rem;
+    color: white;
+    font-size: 0.28rem;
+    margin: 0.2rem 0;
+    border-radius: 0.2rem;
+    border: 1px solid #ccc;
+    &:nth-child(1) {
+      background-color: green;
+    }
+    &:nth-child(2) {
+      background-color: red;
+    }
+  }
 }
 </style>

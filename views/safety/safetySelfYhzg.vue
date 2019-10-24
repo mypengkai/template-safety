@@ -63,6 +63,7 @@ import Attach from "@/components/Attach.vue";
 import submitCheck from "@/components/submitCheck.vue";
 import { selfCheck, submitResult, safetyAddResult } from "@/api/request.js";
 export default {
+ 
   components: {
     headerTop,
     submitCheck,
