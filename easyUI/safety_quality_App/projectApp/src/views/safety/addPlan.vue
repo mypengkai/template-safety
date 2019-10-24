@@ -100,14 +100,6 @@
         </yd-cell-item>
       </yd-cell-group>
     </div>
-    <!-- 文件附件 -->
-    <!-- <Attach
-      style="padding-top:.2rem;"
-      :attachList="fileList.files"
-      :delAttachList="delProgressList"
-      :readonly="false"
-      :sourceType="3"
-    ></Attach> -->
   </div>
 </template>
 <script>
@@ -158,9 +150,9 @@ export default {
     ])
   },
   created() {
-    
     this.getuserName();
   },
+  
   updated() {
     //如果时间格式是正确的，那下面这一步转化时间格式就可以不用了
     var dateBegin = new Date(this.formData.sppBeginDate); //将-转化为/，使用new Date
@@ -176,15 +168,6 @@ export default {
     this.date = Math.floor(dateDiff / (24 * 3600 * 1000) + 1); //计算出相差天数
   },
   methods: {
-    // callback(){
-    //      var currentDate = new Date().toDateString();
-    //      console.log(currentDate);
-    //      var checkDate = new Date(this.formData.sppBeginDate).toDateString();
-    //      console.log(checkDate)
-         
-    // },
-
-
     getuserName() {
       let nowTime = new Date();
       this.formData.sppBeginDate = nowTime
@@ -201,26 +184,9 @@ export default {
       ).id; // 创建人
     },
     // 新增
-    async addplancheck() {
-      let formData = new FormData();
-      formData.append("type", this.fileList.type);
-      if (this.fileList.files.length > 0) {
-        for (let key in this.fileList.files) {
-          formData.append("file", this.fileList.files[key].file);
-        }
-      }
-      await safetyAddResult(formData).then(res => {
-        if (res.success == 0) {
-          res.obj.forEach(e => {
-            this.formData.filepath += e.filepath + ",";
-            this.formData.filename += e.filename + ",";
-          });
-          this.$dialog.toast({
-            mes: "上传成功",
-            timeout: 1500
-          });
-        } 
-      });
+    addplancheck() {
+      
+
       var arr = [];
       for (let item of this.PlanDanger) {
         arr.push(item.id);
