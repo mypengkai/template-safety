@@ -72,6 +72,7 @@ import xunhuanZG from "./xunhuanZG.vue";
 import { selfCheck, submitResult, safetyAddResult } from "@/api/request.js";
 export default {
   props: ["contentData", "xuhao", "BasicData"],
+   inject:['reload'],
   components: {
     Attach,
     xunhuanZG
@@ -131,10 +132,6 @@ export default {
       await safetyAddResult(formData).then(res => {
         if (res.success == 0) {
           this.subParams.filesId = res.obj;
-          // this.$dialog.toast({
-          //   mes: "上传成功",
-          //   timeout: 2000
-          // });
         }
       });
       this.isLoading = true;
@@ -144,6 +141,7 @@ export default {
             mes: "整改成功",
             timeout: 3000
           });
+          this.reload();
           this.isLoading = false;
           this.flag = false;
         }

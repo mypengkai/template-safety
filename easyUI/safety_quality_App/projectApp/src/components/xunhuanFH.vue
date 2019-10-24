@@ -86,11 +86,11 @@ export default {
       display: inline-block;
 
       &:nth-child(1) {
-        flex: 0 0 28%;
+        flex: 0 0 32%;
         text-align: center;
       }
       &:nth-child(2) {
-        flex: 0 0 72%;
+        flex: 0 0 68%;
         padding: 0.1rem;
       }
     }
