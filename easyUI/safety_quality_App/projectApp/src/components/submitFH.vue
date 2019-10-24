@@ -215,27 +215,27 @@ export default {
         padding: 0.2rem 0.1rem;
         padding-right: 0.3rem;
         align-items: center; //子元素垂直居中
-        &:nth-child(1) {
-          display: flex;
-          p {
-            flex: 0 0 50%;
-            button {
-              width: 2rem;
-              height: 0.8rem;
-              color: white;
-              font-size: 0.28rem;
-              border-radius: 0.2rem;
-              &:nth-child(1) {
-                background-color: green;
-              }
-            }
-          }
-          p:nth-child(2) {
-            button:nth-child(1) {
-              background-color: red;
-            }
-          }
-        }
+        // &:nth-child(1) {
+        //   display: flex;
+        //   p {
+        //     flex: 0 0 50%;
+        //     button {
+        //       width: 2rem;
+        //       height: 0.8rem;
+        //       color: white;
+        //       font-size: 0.28rem;
+        //       border-radius: 0.2rem;
+        //       &:nth-child(1) {
+        //         background-color: green;
+        //       }
+        //     }
+        //   }
+        //   p:nth-child(2) {
+        //     button:nth-child(1) {
+        //       background-color: red;
+        //     }
+        //   }
+        // }
         span {
           display: inline-block;
 

@@ -8,7 +8,7 @@ import {
 } from 'vue-ydui/dist/lib.rem/dialog';
 
 // 超时时间
-axios.defaults.timeout = 5000
+axios.defaults.timeout = 100000
 //Vue.prototype.fileURL = 'http://192.168.10.42:8080/CATDPS/img/server/'
 //axios.defaults.baseURL = 'http://192.168.10.42:8080/CATDPS/rest' // 任健'
 
